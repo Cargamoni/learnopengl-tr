@@ -29,7 +29,7 @@ entries:
     folderitems:
 
     - title: OpenGL
-      url: /pages/mydoc/opengl.html
+      url: /opengl.html
       output: web, pdf
 
     - title: Pencere Oluşturma
