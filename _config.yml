@@ -40,7 +40,7 @@ exclude:
 
 # same for all
 host: 127.0.0.1
-feedback_email: nezihe.sozen@gmail.com
+feedback_email: nezihe.sozen@gmail.com,bariscelikweb@gmail.com
 
 # these settings should work, but they don't seem to apply the right highlighting
 
