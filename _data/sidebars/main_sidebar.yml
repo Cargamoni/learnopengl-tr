@@ -1,0 +1,306 @@
+entries:
+- title: sidebar
+  product: Learn OpenGL Çeviri
+  folders:
+
+  - title:
+    output: pdf
+    type: frontmatter
+    folderitems:
+    - title:
+      url: /titlepage.html
+      output: pdf
+      type: frontmatter
+    - title:
+      url: /tocpage.html
+      output: pdf
+      type: frontmatter
+
+  - title: Giriş
+    output: web, pdf
+    folderitems:
+
+  - title: Başlarken
+    output: web, pdf
+    folderitems:
+
+    - title: OpenGL
+      url: /getting_started/opengl.html
+      output: web, pdf
+
+    - title: Pencere Oluşturma
+      url: /getting_started/creating_a_window.html
+      output: web, pdf
+
+    - title: Merhaba Pencere
+      url: /getting_started/hello_window.html
+      output: web, pdf
+
+    - title: Merhaba Üçgen
+      url: /getting_started/hello_triangle.html
+      output: web, pdf
+
+    - title: Gölgelendiriciler
+      url: /getting_started/shaders.html
+      output: web, pdf
+
+    - title: Dokular
+      url: /getting_started/textures.html
+      output: web, pdf
+
+    - title: Dönüşümler
+      url: /getting_started/transformations.html
+      output: web, pdf
+
+    - title: Koordinat Sistemleri
+      url: /getting_started/coordinate_systems.html
+      output: web, pdf
+
+    - title: Kamera
+      url: /getting_started/camera.html
+      output: web, pdf
+
+    - title: Gözden Geçirme
+      url: /getting_started/review.html
+      output: web, pdf
+
+  - title: Işıklandırma
+    output: web, pdf
+    folderitems:
+
+    - title: Renkler
+      url: /lighting/colors.html
+      output: web, pdf
+
+    - title: Basit Işıklandırma
+      url: /lighting/basic_lighting.html
+      output: web, pdf
+
+    - title: Materyaller
+      url: /lighting/materials.html
+      output: web, pdf
+
+    - title: Işıklandırma Eşlemeleri
+      url: /lighting/lighting_maps.html
+      output: web, pdf
+
+    - title: Işık Kaynakları
+      url: /lighting/light_casters.html
+      output: web, pdf
+
+    - title: Çoklu Işık
+      url: /lighting/multiple_lights.html
+      output: web, pdf
+
+    - title: Gözden Geçirme
+      url: /lighting/review.html
+      output: web, pdf
+
+  - title: Model Yükleme
+    output: web, pdf
+
+    folderitems:
+    - title: Assimp
+      url: /model_loading/assimp.html
+      output: web, pdf
+
+    - title: Örgü
+      url: /model_loading/mesh.html
+      output: web, pdf
+
+    - title: Model
+      url: /model_loading/model.html
+      output: web, pdf
+
+  - title: İleri Düzeyde OpenGL
+    output: web, pdf
+
+    folderitems:
+    - title: Derinlik Testi
+      url: /advanced_opengl/depth_testing.html
+      output: web, pdf
+
+    - title: Şablon Testi
+      url: /advanced_opengl/stencil_testing.html
+      output: web, pdf
+
+    - title: Harmanlama
+      url: /advanced_opengl/blending.html
+      output: web, pdf
+
+    - title: Yüzey Ayırma
+      url: /advanced_opengl/face_culling.html
+      output: web, pdf
+
+    - title: Çerçeve Tamponları
+      url: /advanced_opengl/framebuffers.html
+      output: web, pdf
+
+    - title: Küp Eşleme
+      url: /advanced_opengl/cubemaps.html
+      output: web, pdf
+
+    - title: İleri Düzeyde Veriler
+      url: /advanced_opengl/advanced_data.html
+      output: web, pdf
+
+    - title: İleri Düzeyde GLSL
+      url: /advanced_opengl/advanced_glsl.html
+      output: web, pdf
+
+    - title: Geometri Gölgelendiricisi
+      url: /advanced_opengl/geometry_shader.html
+      output: web, pdf
+
+    - title: Örnekleme
+      url: /advanced_opengl/instancing.html
+      output: web, pdf
+
+    - title: Kenar Yumuşatma
+      url: /advanced_opengl/anti_aliasing.html
+      output: web, pdf
+
+  - title: İleri Düzeyde Işıklandırma
+    output: web, pdf
+
+    folderitems:
+    - title: İleri Düzeyde Işıklandırma
+      url: /advanced_lighting/advanced_lighting.html
+      output: web, pdf
+
+    - title: Gama Düzeltmesi
+      url: /advanced_lighting/gamma_correction.html
+      output: web, pdf
+
+      subfolders:
+      - title: Gölgeler
+        output: web, pdf
+        subfolderitems:
+
+        - title: Gölge Eşleme
+          url: /advanced_lighting/shadows/shadow_mapping.html
+          output: web, pdf
+
+        - title: Noktasal Gölgeler
+          url: /advanced_lighting/shadows/point_shadows.html
+          output: web, pdf
+
+    - title: Normal Eşleme
+      url: /advanced_lighting/normal_mapping.html
+      output: web, pdf
+
+    - title: Iraklık Açısı Eşleme
+      url: /advanced_lighting/parallax_mapping.html
+      output: web, pdf
+
+    - title: HDR
+      url: /advanced_lighting/hdr.html
+      output: web, pdf
+
+    - title: Kamaşma
+      url: /advanced_lighting/bloom.html
+      output: web, pdf
+
+    - title: Ertelenmiş Gölgelendirme
+      url: /advanced_lighting/deferred_shading.html
+      output: web, pdf
+
+    - title: SSAO
+      url: /advanced_lighting/ssao.html
+      output: web, pdf
+
+  - title: PBR
+    output: web, pdf
+
+    folderitems:
+    - title: Teori
+      url: /pbr/theory.html
+      output: web, pdf
+
+    - title: Işıklandırma
+      url: /pbr/lighting.html
+      output: web, pdf
+
+      subfolders:
+      - title: IBL
+        output: web, pdf
+        subfolderitems:
+
+        - title: Dağınık Işık Yayılımı
+          url: /pbr/ibl/diffuse_irradiance.html
+          output: web, pdf
+
+        - title: Yansıtılmış IBL
+          url: /pbr/ibl/specular_ibl.html
+          output: web, pdf
+
+  - title: Uygulama
+    output: web, pdf
+
+    folderitems:
+    - title: Hata Ayıklama
+      url: /in_practice/debugging.html
+      output: web, pdf
+
+    - title: Metin Sahneleme
+      url: /in_practice/text_rendering.html
+      output: web, pdf
+
+      subfolders:
+      - title: 2B Oyun
+        output: web, pdf
+        subfolderitems:
+
+        - title: Çarpışmalar - Top
+          url: /in_practice/2d_game/collisions/ball.html
+          output: web, pdf
+
+        - title: Çarpışmalar - Çarpışma Algılama
+          url: /in_practice/2d_game/collisions/collision_detection.html
+          output: web, pdf
+
+        - title: Çarpışmalar - Çarpışma Çözünürlüğü
+          url: /in_practice/2d_game/collisions/collision_resolution.html
+          output: web, pdf
+
+        - title: Breakout
+          url: /in_practice/2d_game/breakout.html
+          output: web, pdf
+
+        - title: Ayarlama
+          url: /in_practice/2d_game/setting_up.html
+          output: web, pdf
+
+        - title: Hareketli Sahneleme
+          url: /in_practice/2d_game/rendering_sprites.html
+          output: web, pdf
+
+        - title: Seviyeler
+          url: /in_practice/2d_game/levels.html
+          output: web, pdf
+
+        - title: Parçacıklar
+          url: /in_practice/2d_game/particles.html
+          output: web, pdf
+
+        - title: Rötuş
+          url: /in_practice/2d_game/postprocessing.html
+          output: web, pdf
+
+        - title: Güçlendirmeler
+          url: /in_practice/2d_game/powerups.html
+          output: web, pdf
+
+        - title: Ses
+          url: /in_practice/2d_game/audio.html
+          output: web, pdf
+
+        - title: Metin Sahneleme
+          url: /in_practice/2d_game/render_text.html
+          output: web, pdf
+
+        - title: Son Görüşler
+          url: /in_practice/2d_game/final_thoughts.html
+          output: web, pdf
+
+
