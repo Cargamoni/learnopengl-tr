@@ -100,8 +100,9 @@ You now learned a bit about OpenGL as a specification and a library, how OpenGL 
 
 ### Ek Kaynaklar
 
-    [opengl.org](https://www.opengl.org/): OpenGL'in resmi web sitesi
-    [OpenGL registry](https://www.khronos.org/registry/OpenGL/index_gl.php): tüm OpenGL sürümleri için OpenGL özellikleri ve uzantıları barındırır.
+[opengl.org](https://www.opengl.org/): OpenGL'in resmi web sitesi
+
+[OpenGL registry](https://www.khronos.org/registry/OpenGL/): tüm OpenGL sürümleri için OpenGL özellikleri ve uzantıları barındırır.
 
 
 #### Kaynak
