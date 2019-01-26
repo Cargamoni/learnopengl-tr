@@ -108,4 +108,4 @@ Bir spesifikasyon ve kütüphane olarak OpenGL hakkında biraz şey öğrendiniz
 ##### Orijinal Kaynak
 https://learnopengl.com/Getting-started/OpenGL
 
-##### Çeviri: [Nezihe Sözen] (https://github.com/NeziheSozen)
+##### Çeviri: [Nezihe Sözen](https://github.com/NeziheSozen)
