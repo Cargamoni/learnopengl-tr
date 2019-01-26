@@ -19,8 +19,7 @@ entries:
   - title: Giriş
     url: /introduction.html
     output: web, pdf
-    folderitems:
-
+    
   - title: Başlarken
     output: web, pdf
     folderitems:
