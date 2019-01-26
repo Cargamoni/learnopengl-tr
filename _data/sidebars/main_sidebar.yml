@@ -17,6 +17,7 @@ entries:
       type: frontmatter
 
   - title: Giriş
+    url: /introduction.html
     output: web, pdf
     folderitems:
 
