@@ -4,16 +4,28 @@ keywords: sample homepage
 tags: [OpenGL'e Hoşgeldiniz]
 sidebar: main_sidebar
 permalink: index.html
-summary: These brief instructions will help you get started quickly with the theme. The other topics in this help provide additional information and detail about working with other aspects of this theme and Jekyll.
+
 ---
 
-{% include note.html content="If you're cloning this theme, you're probably writing documentation of some kind. I have a blog on technical writing here called <a alt='technical writing blog' href='http://idratherbewriting.com'>I'd Rather Be Writing</a>. If you'd like to stay updated with the latest trends, best practices, and other methods for writing documentation, consider <a href='https://tinyletter.com/tomjoht'>subscribing</a>. I also have a site on <a href='http://idratherbewriting.com/learnapidoc'>writing API documentation</a>." %}
 
-## Bu eğitselleri neden okumalıyız?
+# Welcome to OpenGL
 
+Welcome to my humble attempt to facilitate a well-developed teaching platform for the graphics API called OpenGL. Whether you are trying to learn OpenGL for academic purposes, to pursue a career or simply looking for a hobby, this site will teach you the basics, the intermediate and all the advanced knowledge using modern (core-profile) OpenGL. The aim of LearnOpenGL is to show you all there is to modern OpenGL in an easy-to-understand fashion with clear examples, while also providing a useful reference for later studies.
 
+## So why read these tutorials?
 
-## Neler öğreneceksiniz?
+Throughout the internet there are thousands of documents and resources on learning OpenGL, however, most of these resources are only focused on OpenGL's immediate mode (commonly referred to as the old OpenGL) or are incomplete, lack proper documentation or are not suited for your learning preferences. Therefore, my aim is to provide a platform that is both complete and easy to understand.
+Image of smiling textured containers in OpenGL
+
+If you enjoy reading tutorials that provide step-by-step instructions, clear examples and that won't throw you in the deep with millions of details, these tutorials are probably for you. The tutorials aim to be understandable for people without any graphics programming experience, but are still interesting to read for the more experienced users. The tutorials also discusses practical concepts that, with some added creativity, could turn your ideas into real 3D applications. If all of the previous sounds like someone that could be you, then by all means, please continue.
+What will you learn?
+
+The focus of the tutorials are on Modern OpenGL. Learning (and using) modern OpenGL requires a strong knowledge of graphics programming and how OpenGL operates under the hood to really get the best of your experience. So we will start by discussing core graphics aspects, how OpenGL actually draws pixels to your screen and how we can abuse that knowledge to create some funky looking effects.
+
+Aside from the core knowledge we will discuss many useful techniques that you can use for your applications like: traversing a scene, create beautiful lighting, load custom-made objects from a modelling program, do cool post-processing techniques and much more. We also feature a walkthrough tutorial where we actually create a small game based on our obtained OpenGL knowledge, so you will really get a feel of what it's like to actually do graphics programming.
+
+If you want to keep up to date on the site's progress and/or other LearnOpenGL news, please follow me on Twitter.
+
 
 
 
