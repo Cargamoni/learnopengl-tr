@@ -16,10 +16,7 @@ entries:
       output: pdf
       type: frontmatter
 
-  - title: Giriş
-    url: /introduction.html
-    output: web, pdf
-    
+
   - title: Başlarken
     output: web, pdf
     folderitems:
