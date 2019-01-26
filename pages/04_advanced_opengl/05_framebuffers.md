@@ -6,22 +6,22 @@ tags: []
 permalink: /advanced_opengl/framebuffers.html
 sidebar: main_sidebar
 ---
-# Framebuffers
+# Çerçeve Tamponları
 
-So far we've used several types of screen buffers: a color buffer for writing color values, a depth buffer to write depth information and finally a stencil buffer that allows us to discard certain fragments based on some condition. The combination of these buffers is called a framebuffer and is stored somewhere in memory. OpenGL gives us the flexibility to define our own framebuffers and thus define our own color and optionally a depth and stencil buffer.
+Şimdiye kadar birkaç çeşit ekran tamponu kullandık: Renk değerleri yazmak için bir renk tamponu (ing. collor buffer), derinlik bilgileri yazmak için bir derinlik tamponu(ing. depth buffer) ve nihayet bazı koşullara dayanarak belirli parçaları atmamıza izin veren bir şablon tamponu (ing. stencil buffer). Bu tamponların birleşimine çerçeve tamponu (ing. framebuffer) denir ve bellekte bir yere depolanır. OpenGL bize kendi çerçeve tamponumuzu tanımlama ve böylece kendi rengimizi, isteğe bağlı olarak bir derinlik ve şablon tamponu tanımlama esnekliği sağlar.
 
-The rendering operations we've done so far were all done on top of the render buffers attached to the default framebuffer. The default framebuffer is created and configured when you create your window (GLFW does this for us). By creating our own framebuffer we can get an additional means to render to.
+Şimdiye kadar yaptığımız sahneleme işlemlerinin tümü, varsayılan çerçeve tamponuna bağlı olan sahneleme tamponlarının (ing. render buffers) üzerinde yapıldı. Varsayılan çerçeve tamponu pencere oluşturulduğunda yaratılır ve yapılandırılır (GLFW bunu bizim için yapmaktadır). Kendi çerçeve tamponumuzu oluşturarak, sahnelemek için ek bir yol bulabiliriz.
 
-The application of framebuffers might not immediately make sense, but rendering your scene to a different framebuffer allows us to create mirrors in a scene or do cool post-processing effects for example. First we'll discuss how they actually work and then we'll use them by implementing those cool post-processing effects.
+Çerçeve tamponu uygulamaları hemen bir anlam ifade etmeyebilir,ancak sahnenizi farklı bir çerçeve tamponuna yansıtmak, bir sahnede aynalar oluşturmamızı ya da örneğin harika son-işlem (ing. post-processing) efektleri yapmamızı sağlar.İlk önce gerçekte nasıl çalıştıklarını tartışacağız ve sonra bu harika son-işlem efektlerini uygulayarak kullanacağız.
 
-## Creating a framebuffer
+## Çevçeve Tamponu Oluşturma
 
-Just like any other object in OpenGL we can create a framebuffer object (abbreviated to FBO) by using a function called glGenFramebuffers: 
+OpenGL'deki diğer nesneler gibi, **glGenFramebuffers** adlı bir işlevi kullanarak bir çerçeve tampon nesnesi (kısaca FBO) oluşturabiliriz:
 ```cpp
 unsigned int fbo;
 glGenFramebuffers(1, &fbo);
 ```
-This pattern of object creation and usage is something we've seen dozens of times now so their usage functions are similar to all the other object's we've seen; first we create a framebuffer object, bind it as the active framebuffer, do some operations and unbind the framebuffer. To bind the framebuffer we use glBindFramebuffer: 
+Bu nesne yaratma ve kullanma kalıbı, şimdiye kadar onlarca kez gördüğümüz bir şeydir. Bu yüzden kullanım işlevleri, gördüğümüz diğer tüm nesnelere benzer; ilk önce bir framebuffer nesnesi yaratır, onu aktif framebuffer olarak bağlar, bazı işlemleri yapar ve çerçeveyi çıkarırız. To bind the framebuffer we use glBindFramebuffer: 
 ```cpp
 glBindFramebuffer(GL_FRAMEBUFFER, fbo);
 ```
