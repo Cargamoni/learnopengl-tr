@@ -18,7 +18,10 @@ Throughout the internet there are thousands of documents and resources on learni
 Image of smiling textured containers in OpenGL
 
 If you enjoy reading tutorials that provide step-by-step instructions, clear examples and that won't throw you in the deep with millions of details, these tutorials are probably for you. The tutorials aim to be understandable for people without any graphics programming experience, but are still interesting to read for the more experienced users. The tutorials also discusses practical concepts that, with some added creativity, could turn your ideas into real 3D applications. If all of the previous sounds like someone that could be you, then by all means, please continue.
-What will you learn?
+
+<img src="https://learnopengl.com/img/index_image2.png">
+
+## What will you learn?
 
 The focus of the tutorials are on Modern OpenGL. Learning (and using) modern OpenGL requires a strong knowledge of graphics programming and how OpenGL operates under the hood to really get the best of your experience. So we will start by discussing core graphics aspects, how OpenGL actually draws pixels to your screen and how we can abuse that knowledge to create some funky looking effects.
 
