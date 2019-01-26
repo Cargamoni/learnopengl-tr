@@ -30,33 +30,33 @@ Bugünden itibaren, OpenGL'in çok daha yüksek sürümleri yayınlanırken (eğ
 Bazı derslerde bazen daha modern özellikler bulacaksınız.
 
 ### Uzantılar
- A great feature of OpenGL is its support of extensions. Whenever a graphics company comes up with a new technique or a new large optimization for rendering this is often found in an extension implemented in the drivers. If the hardware an application runs on supports such an extension the developer can use the functionality provided by the extension for more advanced or efficient graphics. This way, a graphics developer can still use these new rendering techniques without having to wait for OpenGL to include the functionality in its future versions, simply by checking if the extension is supported by the graphics card. Often, when an extension is popular or very useful it eventually becomes part of future OpenGL versions.
+ OpenGL'in harika bir özelliği, uzantıların desteklenmesidir. Bir grafik şirketi yeni bir teknik veya sahneleme için yeni bir optimizasyon sunduğunda bu genellikle sürücülerde uygulanan bir uzantıda bulunur. Uygulamanın çalıştığı donanım böyle bir uzantıyı destekliyorsa, geliştirici daha gelişmiş veya verimli grafikler için uzantı tarafından sağlanan işlevselliği kullanabilir. Bu şekilde, bir grafik uygulama geliştiricisi, OpenGL'nin gelecekteki sürümlerinin işlevselliği içermesini beklemeden, yalnızca uzantının grafik kartı tarafından desteklenip desteklenmediğini kontrol ederek bu yeni sahneleme tekniklerini kullanabilir. Genellikle bir uzantı popüler veya çok yararlı olduğunda, gelecekteki OpenGL sürümlerinin bir parçası haline gelmektedir.
 
-The developer then has to query whether any of these extensions are available (or use an OpenGL extension library). This allows the developer to do things better or more efficient, based on whether an extension is available: 
+Geliştirici daha sonra bu uzantıların herhangi birinin mevcut olup olmadığını sorgulamak zorundadır (veya bir OpenGL eklenti kütüphanesi kullanmalı). Bu, uzantının olup olmadığına bağlı olarak işleri daha iyi veya daha verimli yapmasını sağlar: 
 
 ```cpp
 if(GL_ARB_extension_name)
 {
-    // Do cool new and modern stuff supported by hardware
+    // Donanım tarafından desteklenen yeni ve modern şeyler yapın
 }
 else
 {
-    // Extension not supported: do it the old way
+    // Uzantı desteklenmiyor: Eski yöntemden yapın
 }
 ```
- With OpenGL version 3.3 we rarely need an extension for most techniques, but wherever it is necessary proper instructions are provided.
-###State machine
+ OpenGL sürüm 3.3 ile çoğu teknik için nadiren bir uzantıya ihtiyaç duyarız, ancak gerekli olan her yerde uygun talimatlar verilir.
+### Durum Makinesi
 
-OpenGL is by itself a large state machine: a collection of variables that define how OpenGL should currently operate. The state of OpenGL is commonly referred to as the OpenGL context. When using OpenGL, we often change its state by setting some options, manipulating some buffers and then render using the current context.
+OpenGL başlı başına büyük bir durum makinesidir(ing. state machine): Bu durum makinesi, OpenGL'nin şu anda nasıl çalışması gerektiğini tanımlayan bir değişkenler topluluğudur. OpenGL durumu genellikle OpenGL bağlamı(ing. context) olarak adlandırılır. OpenGL kullanırken, genellikle bazı seçenekleri ayarlayarak, bazı tamponları değiştirerek ve ardından mevcut içeriği kullanarak, sahneleyerek durumunu değiştiririz.
 
-Whenever we tell OpenGL that we now want to draw lines instead of triangles for example, we change the state of OpenGL by changing some context variable that sets how OpenGL should draw. As soon as we changed the state by telling OpenGL it should draw lines, the next drawing commands will now draw lines instead of triangles.
+OpenGL'e üçgen yerine çizgiler çizmek istediğimizi söylediğimizde, OpenGL çizimini ayarlayan bazı bağlam değişkenlerini değiştirerek aslında OpenGL durumunu değiştiririz. Opengl'e çizgiler çizmesi gerektiğini söyleyerek durumu değiştirdiğimizde, bir sonraki çizim komutları şimdi üçgen yerine çizgiler çizecektir.
 
 When working in OpenGL we will come across several state-changing functions that change the context and several state-using functions that perform some operations based on the current state of OpenGL. As long as you keep in mind that OpenGL is basically one large state machine, most of its functionality will make more sense.
-###Objects
+### Nesneler
 
-The OpenGL libraries are written in C and allows for many derivations in other languages, but in its core it remains a C-library. Since many of C's language-constructs do not translate that well to other higher-level languages, OpenGL was developed with several abstractions in mind. One of those abstractions are objects in OpenGL.
+OpenGL kütüphaneleri C dilinde yazılmıştır ve diğer dillerde birçok türetim için izin verir, fakat özünde bir C kütüphanesi olarak kalır. C'nin dil yapılarının çoğu, bunu diğer üst düzey dillere pek iyi çevirmediğinden, OpenGL birçok soyutlama düşünülerek geliştirilmiştir. Bu soyutlamalardan biri OpenGL'deki nesnelerdir (ing. objects).
 
-An object in OpenGL is a collection of options that represents a subset of OpenGL's state. For example, we could have an object that represents the settings of the drawing window; we could then set its size, how many colors it supports and so on. One could visualize an object as a C-like struct: 
+OpenGL'deki bir nesne, OpenGL'in durumunun bir alt kümesini temsil eden seçenekler topluluğudur. Örneğin, çizim penceresinin ayarlarını temsil eden bir nesneye sahip olabiliriz. Daha sonra boyutunu, kaç rengi desteklediğini vb. belirleyebiliriz. Bir nesne C-dili benzeri bir yapı(ing. struct) olarak görselleştirebilir:
 
 
 ```cpp
@@ -66,9 +66,9 @@ struct object_name {
     char[] name;
 };
 ```
-Whenever we want to use objects it generally looks something like this (with OpenGL's context visualized as a large struct): 
+Bir nesne kullanmak istediğimizde genellikle şöyle görünür(OpenGL bağlamı büyük bir yapı olarak görselleştirilmiştir): 
 ```cpp
-// The State of OpenGL
+// OpenGL'in durumu
 struct OpenGL_Context {
   	...
   	object* object_Window_Target;
@@ -76,10 +76,10 @@ struct OpenGL_Context {
 };
 ```
 ```cpp
-// create object
+// nesne oluştur
 unsigned int objectId = 0;
 glGenObject(1, &objectId);
-// bind object to context
+// nesneyi bağla
 glBindObject(GL_WINDOW_TARGET, objectId);
 // set options of object currently bound to GL_WINDOW_TARGET
 glSetObjectOption(GL_WINDOW_TARGET, GL_OPTION_WINDOW_WIDTH, 800);
@@ -88,15 +88,15 @@ glSetObjectOption(GL_WINDOW_TARGET, GL_OPTION_WINDOW_HEIGHT, 600);
 glBindObject(GL_WINDOW_TARGET, 0);
 ```
 
-This little piece of code is a workflow you'll frequently see when working in OpenGL. We first create an object and store a reference to it as an id (the real object data is stored behind the scenes). Then we bind the object to the target location of the context (the location of the example window object target is defined as GL_WINDOW_TARGET). Next we set the window options and finally we un-bind the object by setting the current object id of the window target to 0. The options we set are stored in the object referenced by objectId and restored as soon as we bind the object back to GL_WINDOW_TARGET. 
+Bu küçük kod parçası, OpenGL'de çalışırken sık sık göreceğiniz bir iş akışıdır. Önce bir nesne yaratır ve nesnenin referansını Id olarak saklarız (gerçek nesne verileri sahne arkasında saklanır). Daha sonra nesneyi bağlamın hedef konumuna bağlarız (örnek pencere nesnesi hedefinin konumu GL_WINDOW_TARGET olarak tanımlanır). Daha sonra pencere seçeneklerini belirler ve nihayet pencere hedefinin geçerli nesne kimliğini 0 olarak ayarlayarak nesneyi serbest bırakırız. Belirlediğimiz seçenekler objectId tarafından başvurulan nesnede saklanır ve nesneyi tekrar GL_WINDOW_TARGET'a bağladığımız anda geri yüklenir.
 
->The code samples provided so far are only approximations of how OpenGL operates; throughout the tutorial you will come across enough actual examples. 
+>Şimdiye kadar sağlanan kod örnekleri, OpenGL'in nasıl işlediğine dair sadece yaklaşımlar sunmaktadır. Eğitsel boyunca yeterli gerçek örneklerle karşılaşacaksınız. 
 
-The great thing about using these objects is that we can define more than one object in our application, set their options and whenever we start an operation that uses OpenGL's state, we bind the object with our preferred settings. There are objects for example that act as container objects for 3D model data (a house or a character) and whenever we want to draw one of them, we bind the object containing the model data that we want to draw (we first created and set options for these objects). Having several objects allows us to specify many models and whenever we want to draw a specific model, we simply bind the corresponding object before drawing without setting all their options again. 
+Bu nesneleri kullanmanın en iyi yanı, uygulamamızdaki birden fazla nesneyi tanımlayabilmemiz, seçeneklerini belirleyebilmemiz ve OpenGL'nin durumunu kullanan bir işleme başladığımızda, nesneyi tercih edilen ayarlarımıza bağlayabilmemizdir. Örneğin 3B model verileri için konteyner nesneleri görevi gören nesneler vardır (bir ev veya karakter gibi) ve bunlardan birini çizmek istediğimizde, çizmek istediğimiz model verilerini içeren nesneyi bağlarız (önce oluştururuz ve nesne seçeneklerini ayarlarız). Birkaç nesneye sahip olmak, birçok model belirlememize izin verir ve ne zaman belirli bir model çizmek istersek, çizimden önce tüm seçeneklerini tekrar ayarlamadan ilgili nesneyi basitçe bağlarız.
 
-###Let's get started
+### Hadi Başlayalım
 
-You now learned a bit about OpenGL as a specification and a library, how OpenGL approximately operates under the hood and a few custom tricks that OpenGL uses. Don't worry if you didn't get all of it; throughout the tutorial we'll walk through each step and you'll see enough examples to really get a grasp of OpenGL. If you're ready for the next step we can start creating an OpenGL context and our first window [here](https://cg-translators.github.io/learnopengl-tr/getting_started/creating_a_window.html). 
+Bir spesifikasyon ve kütüphane olarak OpenGL hakkında biraz şey öğrendiniz. OpenGL'in yaklaşık olarak  nasıl çalıştığını ve OpenGL'in kullandığı birkaç özel püf noktayı öğrendiniz. Hepsini anlamadıysanız endişelenmeyin; eğitsel boyunca adım adım işleyeceğiz ve OpenGL'i gerçekten kavramak için yeterli örnekler göreceğiz. Bir sonraki adıma hazırsanız, OpenGL bağlamını ve ilk penceremizi oluşturmaya başlayabiliriz [here](https://cg-translators.github.io/learnopengl-tr/getting_started/creating_a_window.html). 
 
 ### Ek Kaynaklar
 
@@ -105,5 +105,7 @@ You now learned a bit about OpenGL as a specification and a library, how OpenGL 
 [OpenGL registry](https://www.khronos.org/registry/OpenGL/): tüm OpenGL sürümleri için OpenGL özellikleri ve uzantıları barındırır.
 
 
-#### Kaynak
+##### Orijinal Kaynak
 https://learnopengl.com/Getting-started/OpenGL
+
+##### Çeviri: [Nezihe Sözen] (https://github.com/NeziheSozen)
