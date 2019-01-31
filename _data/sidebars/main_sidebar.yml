@@ -129,7 +129,7 @@ entries:
       url: /advanced_opengl/face_culling.html
       output: web, pdf
 
-    - title: Çerçeve Tamponları
+    - title: Framebuffer
       url: /advanced_opengl/framebuffers.html
       output: web, pdf
 
