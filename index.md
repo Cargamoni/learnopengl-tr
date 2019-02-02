@@ -52,7 +52,7 @@ Eğitsellerin takibini kolaylaştırmak ve onlara bir yapı kazandırmak için  
 Aşağıda gördüğünüz gibi, sözdizimi ile vurgulanmış kod içeren gri kutularda yer alan web sitesinde bol miktarda küçük kod parçaları bulacaksınız:
 
 ```cpp
-// This box contains code    
+// Bu kutu kod içermketedir.   
 ```
 Bunlar yalnızca kod parçacıklarını sağladığından, gerektiğinde belirli bir konu için gereken tüm kaynak koduna bir link vereceğim.
 
@@ -61,10 +61,12 @@ Bunlar yalnızca kod parçacıklarını sağladığından, gerektiğinde belirli
 Bazı kelimeler, bu kelimelerin özel bir anlam ifade ettiğini açıklığa kavuşturmak için farklı renklerle görüntülenir:
 
 Tanım:  Yeşil kelimeler bir tanımı yani, daha sık duyabileceğiniz bir şeyin önemli bir yönünü / adını belirtir.
+
 Program Mantığı: kırmızı kelimeler, işlev isimlerini veya sınıf isimlerini belirtir.
+
 Değişkenler: mavi kelimeler tüm OpenGL sabitlerini içeren değişkenleri belirtir.
 
-#### OpenGL İşlev Referansları
+### OpenGL İşlev Referansları
 
 LearnOpenGL'nin bilhassa takdir edilen bir özelliği, OpenGL'in fonksiyonlarının çoğunu, içeriğinde gösterdikleri yerde gözden geçirme yeteneğidir. Web sitesinde belgelenen içerikte bir işlev bulunduğunda, işlev biraz belirgin bir alt çizgi ile gösterilir. Fareyi fonksiyonun üzerine getirebilir ve sonra açılır pencere, fonksiyonun gerçekte ne yaptığına dair güzel bir genel bakış içeren ilgili bilgileri gösterecektir. Görmek için, farenizi hareket halindeyken  glEnable üzerine getirin.
 
