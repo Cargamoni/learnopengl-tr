@@ -10,9 +10,9 @@ sidebar: main_sidebar
 
 > **Çevirmen Notu:** "Framebuffer" sözcüğü tek kelimeden oluşmaktadır ve "çerçeve tamponu" olarak çevirisi uygun olmamaktadır. Framebuffer, RAM'in bir parçasıdır. Kendisi bir tampon değil, aslında tamponların birleşimine verilen isimdir. Türkçe karşılığı olmamakla birlikte, eğitsellerin çevirisi dahilinde "framebuffer" sözcüğü orijinal biçimi ile bırakılmıştır.
  
-Şimdiye kadar birkaç çeşit ekran tamponu kullandık: Renk değerleri yazmak için bir renk tamponu (ing. collor buffer), derinlik bilgileri yazmak için bir derinlik tamponu(ing. depth buffer) ve nihayet bazı koşullara dayanarak belirli parçaları atmamıza izin veren bir şablon tamponu (ing. stencil buffer). Bu tamponların birleşimine framebuffer denir ve bellekte bir yere depolanır. OpenGL bize kendi framebuffer'ımızı tanımlama ve böylece kendi rengimizi, isteğe bağlı olarak bir derinlik ve şablon tamponu tanımlama esnekliği sağlar.
+Şimdiye kadar birkaç çeşit ekran tamponu kullandık: Renk değerleri yazmak için bir renk tamponu (ing. collor buffer), derinlik bilgileri yazmak için bir derinlik tamponu(ing. depth buffer) ve nihayet bazı koşullara dayanarak belirli parçaları atmamıza izin veren bir şablon tamponu (ing. stencil buffer). Bu tamponların birleşimine <span style="color:green">framebuffer </span>  denir ve bellekte bir yere depolanır. OpenGL bize kendi framebuffer'ımızı tanımlama ve böylece kendi rengimizi, isteğe bağlı olarak bir derinlik ve şablon tamponu tanımlama esnekliği sağlar.
 
-Şimdiye kadar yaptığımız sahneleme işlemlerinin tümü, varsayılan framebuffer'a bağlı olan sahneleme tamponlarının (ing. render buffers) üzerinde yapıldı. Varsayılan framebuffer pencere oluşturulduğunda yaratılır ve yapılandırılır (GLFW bunu bizim için yapmaktadır). Kendimiz framebuffer oluşturarak, sahnelemek için ek bir yol bulabiliriz.
+Şimdiye kadar yaptığımız sahneleme işlemlerinin tümü, varsayılan framebuffer'a bağlı olan sahneleme tamponlarının (ing. render buffers) üzerinde yapıldı. <span style="color:green">Varsayılan framebuffer </span> pencere oluşturulduğunda yaratılır ve yapılandırılır (GLFW bunu bizim için yapmaktadır). Kendimiz framebuffer oluşturarak, sahnelemek için ek bir yol bulabiliriz.
 
 Framebuffer uygulamaları hemen bir anlam ifade etmeyebilir,ancak sahnenizi farklı bir framebuffer'a yansıtmak, bir sahnede aynalar oluşturmamızı ya da örneğin etkili son-işlem (ing. post-processing) efektleri yapmamızı sağlar.İlk önce gerçekte nasıl çalıştıklarını tartışacağız ve sonra bu harika son-işlem efektlerini uygulayarak kullanacağız.
 
@@ -30,7 +30,7 @@ glBindFramebuffer(GL_FRAMEBUFFER, fbo);
 Framebuffer nesnesi, GL_FRAMEBUFFER hedefi ile bağlandığında, işlemler o andaki bağlı framebuffer'ı etkileyecektir. Ayrıca, bir framebuffer'ı GL_READ_FRAMEBUFFER veya GL_DRAW_FRAMEBUFFER ile sırasıyla okuma veya yazma hedeflerine bağlamak da mümkündür. GL_READ_FRAMEBUFFER öğesine bağlanan framebuffer, glReadPixels gibi tüm okuma işlemleri için kullanılırken, GL_DRAW_FRAMEBUFFER'a bağlanan framebuffer sahenleme, temizleme ve diğer yazma işlemlerinde hedef olarak kullanılır.
 Çoğu zaman bu ayrımı yapmanıza gerek kalmayacak ve genellikle her ikisine de GL_FRAMEBUFFER ile bağlanacaksınız.
 
-Ne yazık ki, framebuffer'ımızı henüz kullanamıyoruz çünkü tamamlanmadı. Bir framebuffer'ın tamamlanabilmesi için aşağıdaki gereksinimler gerçekleşmelidir:
+Ne yazık ki, framebuffer'ımızı henüz kullanamıyoruz çünkü <span style="color:green">tamamlanmadı. </span> Bir framebuffer'ın tamamlanabilmesi için aşağıdaki gereksinimler gerçekleşmelidir:
 
 * En az bir tampon ile ilişkilendirmek zorundayız (renk, derinlik ya da şablon tamponu).
 * En az bir renk ilişkilendirilmiş olmalıdır.
@@ -45,16 +45,16 @@ Gereksinimlerden, framebuffer için bir tür bağlantı oluşturmamız ve bu ba�
 if(glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE)
   // zafer dansı başlasın
 ```
-All subsequent rendering operations will now render to the attachments of the currently bound framebuffer. Since our framebuffer is not the default framebuffer, the rendering commands will have no impact on the visual output of your window. For this reason it is called off-screen rendering while rendering to a different framebuffer. To make sure all rendering operations will have a visual impact on the main window we need to make the default framebuffer active again by binding to 0:
+Sonraki tüm sahneleme işlemleri, şu anda bağlı olan framebuffer eklerine işlenecektir. Framebuffer, bizim varsayılan frameebuffer'ımız olmadığı için sahneleme komutlarının pencerenin görsel çıktısı üzerinde bir etkisi olmaz. Bu sebeple, farklı bir framebuffer sahnelenmesi <span style="color:green">ekran dışı sahneleme (ing. off-screen rendering) </span> olarak adlandırılır. Tüm sahneleme işlemlerinin ana pencere üzerinde görsel bir etkisi olmasını sağlamak için, varsayılan framebuffer 0'a bağlanarak tekrar etkin hale getirilmelidir:
 
 ```cpp
 glBindFramebuffer(GL_FRAMEBUFFER, 0);
 ```
-When we're done with all framebuffer operations, do not forget to delete the framebuffer object: 
+Tüm framebuffer işlemleriyle işimiz bittiğinde, framebuffer nesnesini silmeyi unutmayın:
 ```cpp
 glDeleteFramebuffers(1, &fbo);
 ```
- Now before the completeness check is executed we need to attach one or more attachments to the framebuffer. An attachment is a memory location that can act as a buffer for the framebuffer, think of it as an image. When creating an attachment we have two options to take: textures or renderbuffer objects.
+Şimdi bütünlük kontrolü yapılmadan önce, framebuffer ile bir veya daha fazla <span style="color:green">bağ (ing. attachment) </span> kurmamız gerekir. Bir bağ, framebuffer için tampon görevi görebilen, onu imge olarak düşünebilen bir hafıza alanıdır. Bir bağ oluştururken iki seçeneğimiz var: Dokular veya <span style="color:green">renderbuffer </span>  nesneler.
 
 ## Texture attachments
 
