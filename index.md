@@ -7,7 +7,6 @@ permalink: index.html
 ---
 OpenGL grafik API'si için iyi geliştiirlmiş bu mütevazi öğretim platformuma hoşgeldiniz. OpenGL'i akademik amaçlar için öğrenmeye, kariyerine devam etmeye ya da sadece bir hobi bulmaya çalışıyor olsanız da, bu site size Modern (çekirdek-profili) OpenGL kullanarak temel, orta ve tüm gelişmiş bilgileri öğretecektir. LearnOpenGL’in amacı, Modern OpenGL’i anlaşılması kolay  açık örnekler ile göstermek ve aynı zamanda daha sonraki çalışmalar için faydalı bir referans sunmaktır.
 
-<span style="color:red">Tanım: </span>
 
 ## Bu Eğitselleri Neden Okumalıyız?
 
@@ -62,11 +61,11 @@ Bunlar yalnızca kod parçacıklarını sağladığından, gerektiğinde belirli
 
 Bazı kelimeler, bu kelimelerin özel bir anlam ifade ettiğini açıklığa kavuşturmak için farklı renklerle görüntülenir:
 
-Tanım:  Yeşil kelimeler bir tanımı yani, daha sık duyabileceğiniz bir şeyin önemli bir yönünü / adını belirtir.
+<span style="color:green">Tanım: </span>  Yeşil kelimeler bir tanımı yani, daha sık duyabileceğiniz bir şeyin önemli bir yönünü belirtir.
 
-Program Mantığı: kırmızı kelimeler, işlev isimlerini veya sınıf isimlerini belirtir.
+<span style="color:red">Program Mantığı: </span> kırmızı kelimeler, işlev isimlerini veya sınıf isimlerini belirtir.
 
-Değişkenler: mavi kelimeler tüm OpenGL sabitlerini içeren değişkenleri belirtir.
+<span style="color:blue">Değişkenler: </span> mavi kelimeler tüm OpenGL sabitlerini içeren değişkenleri belirtir.
 
 ### OpenGL İşlev Referansları
 
