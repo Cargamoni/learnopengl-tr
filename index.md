@@ -5,20 +5,20 @@ tags: [OpenGL'e Hoşgeldiniz]
 sidebar: main_sidebar
 permalink: index.html
 ---
-Welcome to my humble attempt to facilitate a well-developed teaching platform for the graphics API called OpenGL. Whether you are trying to learn OpenGL for academic purposes, to pursue a career or simply looking for a hobby, this site will teach you the basics, the intermediate and all the advanced knowledge using modern (core-profile) OpenGL. The aim of LearnOpenGL is to show you all there is to modern OpenGL in an easy-to-understand fashion with clear examples, while also providing a useful reference for later studies.
+OpenGL grafik API'si için iyi geliştiirlmiş bu mütevazi öğretim platformuma hoşgeldiniz. OpenGL'i akademik amaçlar için öğrenmeye, kariyerine devam etmeye ya da sadece bir hobi bulmaya çalışıyor olsanız da, bu site size Modern (çekirdek-profili) OpenGL kullanarak temel, orta ve tüm gelişmiş bilgileri öğretecektir. LearnOpenGL’in amacı, Modern OpenGL’i anlaşılması kolay  açık örnekler ile göstermek ve aynı zamanda daha sonraki çalışmalar için faydalı bir referans sunmaktır.
 
 ## Bu Eğitselleri Neden Okumalıyız?
 
-Throughout the internet there are thousands of documents and resources on learning OpenGL, however, most of these resources are only focused on OpenGL's immediate mode (commonly referred to as the old OpenGL) or are incomplete, lack proper documentation or are not suited for your learning preferences. Therefore, my aim is to provide a platform that is both complete and easy to understand.
-Image of smiling textured containers in OpenGL
-
-If you enjoy reading tutorials that provide step-by-step instructions, clear examples and that won't throw you in the deep with millions of details, these tutorials are probably for you. The tutorials aim to be understandable for people without any graphics programming experience, but are still interesting to read for the more experienced users. The tutorials also discusses practical concepts that, with some added creativity, could turn your ideas into real 3D applications. If all of the previous sounds like someone that could be you, then by all means, please continue.
+İnternette OpenGL öğrenmeye dair binlerce belge ve kaynak var, ancak bu kaynakların çoğu yalnızca OpenGL'in anlık durum moduna odaklanır (genellikle eski OpenGL olarak adlandırılır) veya eksiktir, uygun belgeler içermez, öğrenim tercihleriniz için uygun değildir. Bu nedenle amacım hem tam hem de anlaşılması kolay bir platform sağlamak.
 
 <img src="https://learnopengl.com/img/index_image2.png">
 
+Eğer adım adım talimatlar veren, açık örnekler sunan ve sizi milyonlarca ayrıntı ile derinlere atmayacak olan eğitseller okumaktan hoşlanıyorsanız, bu eğitseller muhtemelen sizin içindir. Eğitseller, grafik programlama deneyimi olmayan insanlar için anlaşılabilir olmayı amaçlamaktadır, ancak daha deneyimli kullanıcılar için hâlâ önemlidir. Eğitseller ayrıca, fikirlerinizi gerçek 3B uygulamalara dönüştürebilecek pratik kavramları da tartışıyor olacak.
+
+
 ## Neler Öğreneceksiniz?
 
-The focus of the tutorials are on Modern OpenGL. Learning (and using) modern OpenGL requires a strong knowledge of graphics programming and how OpenGL operates under the hood to really get the best of your experience. So we will start by discussing core graphics aspects, how OpenGL actually draws pixels to your screen and how we can abuse that knowledge to create some funky looking effects.
+Bu eğitsellerin odağında Modern OpenGL vardır. Learning (and using) modern OpenGL requires a strong knowledge of graphics programming and how OpenGL operates under the hood to really get the best of your experience. So we will start by discussing core graphics aspects, how OpenGL actually draws pixels to your screen and how we can abuse that knowledge to create some funky looking effects.
 
 Aside from the core knowledge we will discuss many useful techniques that you can use for your applications like: traversing a scene, create beautiful lighting, load custom-made objects from a modelling program, do cool post-processing techniques and much more. We also feature a walkthrough tutorial where we actually create a small game based on our obtained OpenGL knowledge, so you will really get a feel of what it's like to actually do graphics programming.
 
