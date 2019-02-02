@@ -70,6 +70,6 @@ LearnOpenGL'nin bilhassa takdir edilen bir özelliği, OpenGL'in fonksiyonların
 
 Artık sitenin yapısı hakkında biraz fikir sahibi olduğunuza göre, [Başlarken](https://cg-translators.github.io/learnopengl-tr/getting_started/opengl.html) bölümüne geçebilirsiniz.
 
-
+Çeviri:[Nezihe Sözen](https://github.com/NeziheSozen)
 
 
