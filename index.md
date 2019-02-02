@@ -18,11 +18,11 @@ Eğer adım adım talimatlar veren, açık örnekler sunan ve sizi milyonlarca a
 
 ## Neler Öğreneceksiniz?
 
-Bu eğitsellerin odağında Modern OpenGL vardır. Learning (and using) modern OpenGL requires a strong knowledge of graphics programming and how OpenGL operates under the hood to really get the best of your experience. So we will start by discussing core graphics aspects, how OpenGL actually draws pixels to your screen and how we can abuse that knowledge to create some funky looking effects.
+Bu eğitsellerin odağında Modern OpenGL vardır. Modern OpenGL'i öğrenmek (ve kullanmak), güçlü bir grafik programlama bilgisi ve OpenGL'in nasıl çalıştığını en iyi şekilde anlamanızı gerektirir. Bu yüzden temel grafik özelliklerini tartışarak başlayacağız, OpenGL'in ekranınıza gerçekte pikselleri nasıl çizdiği ve bazı efektler oluşturmak için bu bilgiyi nasıl kullanabileceğimizi tartışacağız.
 
-Aside from the core knowledge we will discuss many useful techniques that you can use for your applications like: traversing a scene, create beautiful lighting, load custom-made objects from a modelling program, do cool post-processing techniques and much more. We also feature a walkthrough tutorial where we actually create a small game based on our obtained OpenGL knowledge, so you will really get a feel of what it's like to actually do graphics programming.
+Temel bilgilerin yanı sıra, uygulamalarınız için kullanabileceğiniz bir çok faydalı tekniği tartışacağız: Bir sahneyi bir ucundan bir ucuna çizmek, güzel bir aydınlatma oluşturmak, bir modelleme programından özel yapılmış nesneler yüklemek, harika son-işlem yöntemler gerçekleştirmek ve çok daha fazlası. Ayrıca, OpenGL bilgisine dayanarak küçük bir oyun oluşturduğumuz adım adım eğitsel özelliğine de sahibiz. Bu yüzden gerçekten grafik programlamanın nasıl bir şey olduğunu hissedeceksiniz.
 
-If you want to keep up to date on the site's progress and/or other LearnOpenGL news, please follow me on Twitter.
+Sitenin ilerleyişi ve / veya diğer LearnOpenGL haberleri hakkında güncel bilgi almak istiyorsanız, lütfen beni [Twitter](https://twitter.com/JoeyDeVriez)'da takip edin.
 
 
 # Giriş
@@ -37,35 +37,38 @@ Ayrıca, bir miktar matematiği (doğrusal cebir, geometri ve trigonometri) kull
 
 ## Yapı
 
-LearnOpenGL is broken down into a number of general subjects. Each subject contains several sections that each explain different concepts in large detail. Each of the subjects can be found at the menu to your left. The subjects are taught in a linear fashion (so it is advised to start from the top to the bottom, unless otherwise instructed) where each page explains the background theory and the practical aspects.
+LearnOpenGL bir dizi genel konuya bölünmüştür.Her konu, her biri farklı kavramları ayrıntılı olarak açıklayan birkaç bölüm içerir. Konuların her biri soldaki menüde bulunabilir. Konular, arka plandaki teori ve pratik yönlerinin açıklandığı doğrusal bir şekilde(bu nedenle, aksi belirtilmedikçe, yukarıdan aşağıya doğru başlatılması önerilir) öğretilir.
 
-To make the tutorials easier to follow and give them some added structure the site contains boxes, code blocks, color hints and function references.
+Eğitsellerin takibini kolaylaştırmak ve onlara bir yapı kazandırmak için  kutular, kod blokları, renk ipuçları ve işlev referanslarından yararlanılmıştır.
+
 
 ### Kutular
-Green boxes encompasses some notes or useful features/hints about OpenGL or the subject at hand.
-Red boxes will contain warnings or other features you have to be extra careful with.
+>Yeşil kutular, OpenGL veya eldeki konu hakkında bazı notları veya faydalı özellikler / ipuçları içerir.
+
+>Kırmızı kutular, dikkatli olmanız gereken uyarıları veya diğer özellikleri içerecektir.
 
 ### Kod
 
-You will find plenty of small pieces of code in the website that are located in dark-gray boxes with syntax-highlighted code as you can see below:
+Aşağıda gördüğünüz gibi, sözdizimi ile vurgulanmış kod içeren gri kutularda yer alan web sitesinde bol miktarda küçük kod parçaları bulacaksınız:
 
-
+```cpp
 // This box contains code    
+```
+Bunlar yalnızca kod parçacıklarını sağladığından, gerektiğinde belirli bir konu için gereken tüm kaynak koduna bir link vereceğim.
 
-Since these provide only snippets of code, wherever necessary I will provide a link to the entire source code required for a given subject.
-Color hints
+### Renk İpuçları
 
-Some words are displayed with a different color to make it extra clear these words portray a special meaning:
+Bazı kelimeler, bu kelimelerin özel bir anlam ifade ettiğini açıklığa kavuşturmak için farklı renklerle görüntülenir:
 
-    Definition: green words specify a definition i.e. an important aspect/name of something you're likely to hear more often.
-    Program logic: red words specify function names or class names.
-    Variables: blue words specify variables including all OpenGL constants.
+Tanım:  Yeşil kelimeler bir tanımı yani, daha sık duyabileceğiniz bir şeyin önemli bir yönünü / adını belirtir.
+Program Mantığı: kırmızı kelimeler, işlev isimlerini veya sınıf isimlerini belirtir.
+Değişkenler: mavi kelimeler tüm OpenGL sabitlerini içeren değişkenleri belirtir.
 
 #### OpenGL İşlev Referansları
 
-A particularly well appreciated feature of LearnOpenGL is the ability to review most of OpenGL's functions wherever they show up in the content. Whenever a function is found in the content that is documented at the website, the function will show up with a slightly noticeable underline. You can hover the mouse over the function and after a small interval, a pop-up window will show relevant information about this function including a nice overview of what the function actually does. Hover your mouse over glEnable to see it in action.
+LearnOpenGL'nin bilhassa takdir edilen bir özelliği, OpenGL'in fonksiyonlarının çoğunu, içeriğinde gösterdikleri yerde gözden geçirme yeteneğidir. Web sitesinde belgelenen içerikte bir işlev bulunduğunda, işlev biraz belirgin bir alt çizgi ile gösterilir. Fareyi fonksiyonun üzerine getirebilir ve sonra açılır pencere, fonksiyonun gerçekte ne yaptığına dair güzel bir genel bakış içeren ilgili bilgileri gösterecektir. Görmek için, farenizi hareket halindeyken  glEnable üzerine getirin.
 
-Now that you got a bit of a feel of the structure of the site, hop over to the Getting Started section to start your journey in OpenGL!
+Artık sitenin yapısı hakkında biraz fikir sahibi olduğunuza göre, [Başlarken](https://cg-translators.github.io/learnopengl-tr/getting_started/opengl.html) bölümüne geçebilirsiniz.
 
 
 
