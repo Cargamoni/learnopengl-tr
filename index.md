@@ -7,7 +7,7 @@ permalink: index.html
 ---
 OpenGL grafik API'si için iyi geliştiirlmiş bu mütevazi öğretim platformuma hoşgeldiniz. OpenGL'i akademik amaçlar için öğrenmeye, kariyerine devam etmeye ya da sadece bir hobi bulmaya çalışıyor olsanız da, bu site size Modern (çekirdek-profili) OpenGL kullanarak temel, orta ve tüm gelişmiş bilgileri öğretecektir. LearnOpenGL’in amacı, Modern OpenGL’i anlaşılması kolay  açık örnekler ile göstermek ve aynı zamanda daha sonraki çalışmalar için faydalı bir referans sunmaktır.
 
-Tanım <span style="color:red; font-family:Georgia; font-size:2em;">Kırmızı.</span>
+<span style="color:red">Tanım: </span>
 
 ## Bu Eğitselleri Neden Okumalıyız?
 
