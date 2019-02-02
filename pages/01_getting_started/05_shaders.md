@@ -1,8 +1,7 @@
 ---
 title: Gölgelendiriciler
 keywords: 
-last_updated: 
-tags: [shaders]
+tags: [shader,glsl,vertex shader,fragment shader,vektörler]
 permalink: /getting_started/shaders.html
 sidebar: main_sidebar
 ---
@@ -17,7 +16,7 @@ Shaderlar her zaman bir versiyon bildirimi ile başlar. Bunu bir dizi giriş-ç�
 
 Bir shader genel anlamda aşağıdaki yapıya sahiptir:
 
-```
+```glsl
 #version version_number
 in type in_variable_name;
 in type in_variable_name;
@@ -37,7 +36,7 @@ void main()
 
 Özellikle vertex shader hakkında konuşurken, her giriş değişkeni verteks özniteliği olarak da bilinir. Donanım tarafından sınırlanmış, tanımlamaya izin verilen bir maksimum vertex sayısı vardır. OpenGL, her zaman en az 16 adet 4-bileşenli vertex özelliğinin bulunduğunu garanti eder; fakat bazı donanımlar daha fazlasına izin verebilir. Bunu `GL_MAX_VERTEX_ATTRIBS` değerini sorgulayarak öğrenebilirsiniz:
 
-```
+```cpp
 int nrAttributes;
 glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &nrAttributes);
 std::cout << "Desteklenen maksimum vertex özniteliği sayısı: " << nrAttributes << std::endl;
@@ -52,419 +51,428 @@ GLSL, hangi tipte bir değişkenle çalışmak istediğimizi belirlemek için di
 
 ### Vektörler
 
-A vector in GLSL is a 1,2,3 or 4 component container for any of the basic types just mentioned. They can take the following form (`n` represents the number of components):
+GLSL'de vektör, yukarıda bahsedilen temel tiplerin herhangi biri için 1,2,3 veya 4 bileşenli bir kapsayıcıdır. Aşağıdaki şekilleri alabilirler (`n` bileşen sayısını temsil eder):
 
-*   `vecn`: the default vector of `n` floats.
-*   `bvecn`: a vector of `n` booleans.
-*   `ivecn`: a vector of `n` integers.
-*   `uvecn`: a vector of `n` unsigned integers.
-*   `dvecn`: a vector of `n` double components.
+*   `vecn`: `n` float'tan oluşan başlangıç vektörü.
+*   `bvecn`: `n` boolean içeren vektör.
+*   `ivecn`: `n` integer içeren vektör.
+*   `uvecn`: `n` unsigned tamsayı içeren vektör.
+*   `dvecn`: `n` double sayı içeren vektör.
 
-Most of the time we will be using the basic `vecn` since floats are sufficient for most of our purposes.
+Float tipi çoğu amaç için yeterli olacağından çoğunlukla `vecn` vektörünü kullanacağız.
 
-Components of a vector can be accessed via `vec.x` where `x` is the first component of the vector. You can use `.x`, `.y`, `.z` and `.w` to access their first, second, third and fourth component respectively. GLSL also allows you to use `rgba` for colors or `stpq` for texture coordinates, accessing the same components.
 
-The vector datatype allows for some interesting and flexible component selection called swizzling. Swizzling allows for the following syntax:
+Bir vektörün bileşenlerine `vec.x` ile erişilebilir, burada `x`, vektörün ilk bileşenidir. Birinci, ikinci, üçüncü ve dördüncü bileşene erişmek için sırasıyla `.x`, `.y`, `.z` ve `.w` üyelerini kullanabilirsiniz. Ayrıca GLSL, aynı bileşenlere erişerek, renkler için `rgba` veya doku koordinatları için `stpq` kullanmanıza izin verir.
 
-    
-    vec2 someVec;
-    vec4 differentVec = someVec.xyxx;
-    vec3 anotherVec = differentVec.zyw;
-    vec4 otherVec = someVec.xxxx + anotherVec.yxzy;
-    
+Vektör veri tipi, swizzling denilen biraz ilginç ve esnek bileşen seçimine izin verir. Swizzling aşağıdaki sözdizimine olanak tanır:
 
-You can use any combination of up to 4 letters to create a new vector (of the same type) as long as the original vector has those components; it is not allowed to access the `.z` component of a `vec2` for example. We can also pass vectors as arguments to different vector constructor calls, reducing the number of arguments required:
+```glsl
+vec2 someVec;
+vec4 differentVec = someVec.xyxx;
+vec3 anotherVec = differentVec.zyw;
+vec4 otherVec = someVec.xxxx + anotherVec.yxzy;
+```
 
-    
-    vec2 vect = vec2(0.5, 0.7);
-    vec4 result = vec4(vect, 0.0, 0.0);
-    vec4 otherResult = vec4(result.xyz, 1.0);
-    
+Orijinal vektör bu bileşenlere sahip olduğu sürece (aynı türde) yeni bir vektör oluşturmak için en fazla 4 harften oluşan herhangi bir kombinasyonu kullanabilirsiniz; örneğin bir `vec2`'nin `.z` bileşenine erişimi mümkün değildir. Ayrıca, vektörleri farklı vektör yapıcı çağrılarına argüman olarak iletebiliriz, böylece gerekli argüman sayısını azaltabiliriz:
 
-Vectors are thus a flexible datatype that we can use for all kinds of input and output. Throughout the tutorials you'll see plenty of examples of how we can creatively manage vectors.
+```glsl
+vec2 vect = vec2(0.5, 0.7);
+vec4 result = vec4(vect, 0.0, 0.0);
+vec4 otherResult = vec4(result.xyz, 1.0);
+```
+
+Vektör, her tür giriş ve çıkış için kullanabileceğimiz esnek veri tipidir. Eğitim boyunca, vektörleri nasıl yaratıcı bir şekilde yönetebileceğimize dair bolca örnek göreceksiniz.
 
 Girdiler ve Çıktılar
 ------------
 
-Shaders are nice little programs on their own, but they are part of a whole and for that reason we want to have inputs and outputs on the individual shaders so that we can move stuff around. GLSL defined the `in` and `out` keywords specifically for that purpose. Each shader can specify inputs and outputs using those keywords and wherever an output variable matches with an input variable of the next shader stage they're passed along. The vertex and fragment shader differ a bit though.
+Shaderlar kendi başlarına küçük hoş programlardır, ama bir bütünün parçasıdırlar ve bu nedendenle her bir shader üzerinde giriş ve çıkışlara sahip olmak isteriz ki böylece birşeyleri etrafta hareket ettirebiliriz. GLSL, bu amaç için özelllikle `in` ve `out` anahtar kelimelerini tanımlamıştır. Her bir shader, bu anahtar kelimeleri kullanarak giriş ve çıkışlar tanımlayabilir ve bir çıkış değişkeni, bir sonraki shader bölümünün bir giriş değişkeni ile eşleştiğinde aktarılır. Vertex ve fragment shader biraz farklıdır.
 
-The vertex shader should receive some form of input otherwise it would be pretty ineffective. The vertex shader differs in its input, in that it receives its input straight from the vertex data. To define how the vertex data is organized we specify the input variables with location metadata so we can configure the vertex attributes on the CPU. We've seen this in the previous tutorial as `layout (location = 0)`. The vertex shader thus requires an extra layout specification for its inputs so we can link it with the vertex data.
+Vertex shader bir tür girdi almalıdır, aksi taktirde oldukça etkisiz olur. Vertex shader girdi bakımından ayrılır, çünkü  girdisini vertex data üzerinden alır. Vertex data'nın nasıl düzenlendiğini tanımlamak için, girdi değişkenlerini konum (location) meta verisi ile belirtiriz. Böylece CPU üzerinde vertex özelliklerini ayarlayabiliriz. Bunu bir önceki derste `layout (location = 0)` olarak görmüştük. Vertex shader, bu nedenle, girdileri için fazladan düzen tanımı gerektirir, böylece onu vertex data ile bağlayabiliriz.
 
-It is also possible to omit the `layout (location = 0)` specifier and query for the attribute locations in your OpenGL code via glGetAttribLocation, but I'd prefer to set them in the vertex shader. It is easier to understand and saves you (and OpenGL) some work.
+`layout (location = 0)` belirtecini çıkartmak ve OpenGL kodunuzda glGetAttribLocation ile özellik konumlarını sorgulamak da mümkündür, ancak ben bunları vertex shader içinde atamayı tercih ederim. Bunu anlaması daha kolaydır ve sizi (ve OpenGL'i) biraz işten kurtarır.
 
-The other exception is that the fragment shader requires a `vec4` color output variable, since the fragment shaders needs to generate a final output color. If you'd fail to specify an output color in your fragment shader OpenGL will render your object black (or white).
+Diğer istisna ise fragment shader'ın bir `vec4` renk çıkışı değişkeni gerektirmesidir, çünkü fragment shaderlar bir son çıktı rengi üretmesi gerekir. Fragment shaderda çıktı rengi belirtmeyi başaramazsanız OpenGL nesnenizi siyah (veya beyaz) yapar.
 
-So if we want to send data from one shader to the other we'd have to declare an output in the sending shader and a similar input in the receiving shader. When the types and the names are equal on both sides OpenGL will link those variables together and then it is possible to send data between shaders (this is done when linking a program object). To show you how this works in practice we're going to alter the shaders from the previous tutorial to let the vertex shader decide the color for the fragment shader.
+Dolayısıyla bir shaderdan veri göndermek istiyorsak, gönderen shaderdan bir çıktı ve alıcı shadera, benzer bir girdi bildirmek zorunda kalırız. Tipler ve isimler her iki tarafta da aynı olduğunda, OpenGL bu değişkenleri birbirleriyle bağlar ve shaderlar arası veri göndermek mümkün olur(bu bir program nesnesi bağlanırken yapılır). Bunun pratikte nasıl çalıştığını size göstermek için geçen dersteki shaderları değiştireceğiz, vertex shaderın, fragment shaderın rengine karar vermesine izin vereceğiz.
 
 **Vertex shader**
 
-    
-    #version 330 core
-    layout (location = 0) in vec3 aPos; // the position variable has attribute position 0
-      
-    out vec4 vertexColor; // specify a color output to the fragment shader
-    
-    void main()
-    {
-        gl_Position = vec4(aPos, 1.0); // see how we directly give a vec3 to vec4's constructor
-        vertexColor = vec4(0.5, 0.0, 0.0, 1.0); // set the output variable to a dark-red color
-    }
-    
+```glsl
+#version 330 core
+layout (location = 0) in vec3 aPos; // the position variable has attribute position 0
+
+out vec4 vertexColor; // specify a color output to the fragment shader
+
+void main()
+{
+    gl_Position = vec4(aPos, 1.0); // see how we directly give a vec3 to vec4's constructor
+    vertexColor = vec4(0.5, 0.0, 0.0, 1.0); // set the output variable to a dark-red color
+}
+```
 
 **Fragment shader**
 
-    
-    #version 330 core
-    out vec4 FragColor;
-      
-    in vec4 vertexColor; // the input variable from the vertex shader (same name and same type)  
-    
-    void main()
-    {
-        FragColor = vertexColor;
-    } 
-    
+```glsl
+#version 330 core
+out vec4 FragColor;
+  
+in vec4 vertexColor; // the input variable from the vertex shader (same name and same type)  
 
-You can see we declared a vertexColor variable as a `vec4` output that we set in the vertex shader and we declare a similar vertexColor input in the fragment shader. Since they both have the same type and name, the vertexColor in the fragment shader is linked to the vertexColor in the vertex shader. Because we set the color to a dark-red color in the vertex shader, the resulting fragments should be dark-red as well. The following image shows the output:
+void main()
+{
+    FragColor = vertexColor;
+}
+```
+Bir vertexColor değişkenini, vertex shader'da atadığımız çıkışı `vec4` olarak belirttiğimizi ve fragment shader'da benzer bir vertexColor girişi tanımladığımızı görebilirsiniz. Bunların ismi ve tipi aynı olduğu için, fragment shader'daki vertexColor, vertex shader içindeki vertexColor'a bağlanır. Vertex shader'da koyu kırmızı bir renk atadığımız için sonuç fragmentleri de koyu kırmızı olmalıdır. Aşağıdaki görseller çıktıyı gösteriyor.
 
 ![](/img/getting-started/shaders.png)
 
-There we go! We just managed to send a value from the vertex shader to the fragment shader. Let's spice it up a bit and see if we can send a color from our application to the fragment shader!
+İşte başlıyoruz! Biz sadece vertex shader'dan fragment shader'a bir değer göndermeyi başardık. Let's spice it up a bit and see if we can send a color from our application to the fragment shader! Haydi biraz baharatlandıralım ve uygulamamızdan fragment shader'a bir renk gönderebilecek miyiz görelim!
 
-Uniforms
+Uniformlar
 --------
 
-Uniforms are another way to pass data from our application on the CPU to the shaders on the GPU, but uniforms are slightly different compared to vertex attributes. First of all, uniforms are global. Global, meaning that a uniform variable is unique per shader program object, and can be accessed from any shader at any stage in the shader program. Second, whatever you set the uniform value to, uniforms will keep their values until they're either reset or updated.
+Uniformlar, CPU üzerindeki uygulamamızdan GPU üzerindeki shaderlara veri aktarmanın bir başka yoludur. Ancak uniformlar vertex özellikleriyle karşılaştırılınca biraz farklıdır. Öncelikle, uniformlar globaldir. Global, bir uniform değişkenin, her bir shader program nesnesine özgün olması ve shader programının herhangi bir bölümündeki herhangi bir shaderdan erişilebilir olması anlamına gelir. İkinci olarak, uniform değeri neye ayarladığınıza göre, uniformlar sıfırlanana veya güncellenene kadar değerlerini koruyacaktır.
 
-To declare a uniform in GLSL we simply add the `uniform` keyword to a shader with a type and a name. From that point on we can use the newly declared uniform in the shader. Let's see if this time we can set the color of the triangle via a uniform:
+GLSL'de bir uniform tanımlamak için basitçe, bir shadera, bir tip ve isimle birlikte `uniform` anahtar kelimesini ekleriz.
+Bu noktadan itibaren, shaderda yeni tanımlanan uniformu kullanabiliriz. Bakalım bu sefer üçgenin rengini üniform ile ayarlayabilir miyiz?:
 
-    
-    #version 330 core
-    out vec4 FragColor;
-      
-    uniform vec4 ourColor; // we set this variable in the OpenGL code.
-    
-    void main()
-    {
-        FragColor = ourColor;
-    }   
-    
+```glsl
+#version 330 core
+out vec4 FragColor;
+  
+uniform vec4 ourColor; // bu değişkeni OpenGL kodunda atıyoruz
 
-We declared a uniform `vec4` ourColor in the fragment shader and set the fragment's output color to the content of this uniform value. Since uniforms are global variables, we can define them in any shader we'd like so no need to go through the vertex shader again to get something to the fragment shader. We're not using this uniform in the vertex shader so there's no need to define it there.
+void main()
+{
+    FragColor = ourColor;
+}   
+```
 
-If you declare a uniform that isn't used anywhere in your GLSL code the compiler will silently remove the variable from the compiled version which is the cause for several frustrating errors; keep this in mind!
+Fragment shaderda bir uniform `vec4` tanımladık ve fragmentin çıktı rengini bu üniformun değerine atadık. Üniformlar global değişkenler olduğundan dolayı, onları istediğimiz bir shaderın içinde tanımlayabiliriz ???? Bu üniformu vertex shaderda kullanmıyoruz, böylece onu burada tanımlamamıza ihtiyaç yok.
 
-The uniform is currently empty; we haven't added any data to the uniform yet so let's try that. We first need to find the index/location of the uniform attribute in our shader. Once we have the index/location of the uniform, we can update its values. Instead of passing a single color to the fragment shader, let's spice things up by gradually changing color over time:
+GLSL kodu içinde, hiçbir yerde kullanmadığınız bir üniform tanımlarsanız, derleyiciniz bu değişkeni birkaç sinir bozucu hataya neden oluşturan derlenmiş hâlinden sessizce kaldıracaktır; aklınızda bulunsun.
 
-    
-    float timeValue = glfwGetTime();
-    float greenValue = (sin(timeValue) / 2.0f) + 0.5f;
-    int vertexColorLocation = glGetUniformLocation(shaderProgram, "ourColor");
+Üniform şuan boş; henüz üniforma bir veri eklemedik, hadi deneyelim. Öncelikle, shaderımızda üniformun konum (location) özelliğini bulmamız gerek. Üniformun konumunu bildiğimizde, değerini gücelleyebiliriz. Fragment shader'a tek renk geçmek yerine, rengi zamanla kademeli bir şekilde değiştirerek canlandıralım:
+
+```cpp
+float timeValue = glfwGetTime();
+float greenValue = (sin(timeValue) / 2.0f) + 0.5f;
+int vertexColorLocation = glGetUniformLocation(shaderProgram, "ourColor");
+glUseProgram(shaderProgram);
+glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
+```
+
+Önce, çalışma zamanını glfwGetTime() ile alırız. Sonra, sin fonksiyonunu kullanarak rengi `0.0` - `1.0` aralığında çeşitlendirir ve sonucu greenValue'da saklarız.
+
+Sonra ourColor üniformunun konumunu glGetUniformLocation kullanarak sorgularız. Sorgu fonksiyonuna, shader programını ve üniformun (konumdan almak istediğimiz) adını sağladık.
+
+glGetUniformLocation `-1` döndürürse, konumu bulamamıştır. Son olarak glUniform4f fonksiyonunu kullanarak üniformun değerini ayarlayabiliriz. Üniform konumunu bulmanın, önce shader programını kullanmanızı gerektirmediğini unutmayın., ancak bir üniformu güncellemek şu anda aktif olan shader programında üniformu ayarladığı için önce programı (glUseProgram'ı çağırarak) kullanmanızı gerektirir.
+!!!!!!!!!!!!
+{% include callout.html content="
+OpenGL, çekirdeğinde bir C kütüphanesi olduğundan aşırı yükleme için (overloading) native (doğal) desteğe sahip değildir. Bir fonksiyonun farklı tiplerle çağrılabildiği her yerde OpenGL gereken her tip için yeni fonksiyonlar tanımlar; glUniform bunun mükemmel bir örneğidir. Fonksiyon, belirlemek istediğiniz üniformun tipi için özel bir son ek gerektirir. Birkaç olası son ek:
+<br/><br/>
+`f`: fonsiyon bir `float` bekliyor<br/>
+`i`: fonsiyon bir `int` bekliyor<br/>
+`ui`: fonsiyon bir `unsigned int` bekliyor<br/>
+`3f`: fonsiyon 3 `float` bekliyor<br/>
+`fv`: fonsiyon bir `float` vektörü/dizisi bekliyor<br/>
+<br/>
+OpenGL'de bir seçeneği ayarlamak istediğiniz zaman, basitçe, tipinize uygun olan aşırı yüklenmiş fonksiyonu seçin. Bizim durumumuzda, her bir üniforma 4 float atamak istiyoruz, bu yüzden verimizi `glUniform4f` fonksiyonuyla aktaracağız(ayrıca `fv` hâlini kullanabileceğimize de dikkat edin).
+<br/>
+" type="primary" %} 
+
+Şuan uniform değişkenlerinin değerlerini nasıl atayacağımızı biliyoruz, bunları render için kullanabiliriz. Rengi kademeli olarak değiştirmek istiyorsak, bu uniformu her oyun döngüsü yinelemesini (kareye göre değişir) güncellemek isteriz aksi hâlde eğer bir kere atarsak üçgen tek bir düz rengi korur. Bu yüzden greenValue yi hesaplarız ve her render yinelemesinde uniformu güncelleriz:
+
+```cpp
+while(!glfwWindowShouldClose(window))
+{
+    // girdi
+    processInput(window);
+
+    // render
+    // renk tamponunu temizle
+    glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    //  be sure to activate the shader
     glUseProgram(shaderProgram);
+  
+    // update the uniform color
+    float timeValue = glfwGetTime();
+    float greenValue = sin(timeValue) / 2.0f + 0.5f;
+    int vertexColorLocation = glGetUniformLocation(shaderProgram, "ourColor");
     glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
-    
 
-First, we retrieve the running time in seconds via glfwGetTime(). Then we vary the color in the range of `0.0` - `1.0` by using the sin function and store the result in greenValue.
+    // now render the triangle
+    glBindVertexArray(VAO);
+    glDrawArrays(GL_TRIANGLES, 0, 3);
+  
+    // swap buffers and poll IO events
+    glfwSwapBuffers(window);
+    glfwPollEvents();
+}
+```
 
-Then we query for the location of the ourColor uniform using glGetUniformLocation. We supply the shader program and the name of the uniform (that we want to retrieve the location from) to the query function. If glGetUniformLocation returns `-1`, it could not find the location. Lastly we can set the uniform value using the glUniform4f function. Note that finding the uniform location does not require you to use the shader program first, but updating a uniform **does** require you to first use the program (by calling glUseProgram), because it sets the uniform on the currently active shader program.
+Kod, önceki kodun nispeten basit bir uyarlamasıdır. Bu kez, üçgeni çizmeden önce her bir yineleme için tek biçimli bir değeri güncelledik. Uniformu doğru bir şekilde güncellerseniz, üçgeninizin renginin kademeli olarak yeşilden siyaha ve yeşile döndüğünü görmelisiniz.
 
-Because OpenGL is in its core a C library it does not have native support for type overloading, so wherever a function can be called with different types OpenGL defines new functions for each type required; glUniform is a perfect example of this. The function requires a specific postfix for the type of the uniform you want to set. A few of the possible postfixes are:
-
-*   `f`: the function expects a `float` as its value
-*   `i`: the function expects an `int` as its value
-*   `ui`: the function expects an `unsigned int` as its value
-*   `3f`: the function expects 3 `float`s as its value
-*   `fv`: the function expects a `float` vector/array as its value
-
-Whenever you want to configure an option of OpenGL simply pick the overloaded function that corresponds with your type. In our case we want to set 4 floats of the uniform individually so we pass our data via glUniform4f (note that we also could've used the `fv` version).
-
-Now that we know how to set the values of uniform variables, we can use them for rendering. If we want the color to gradually change, we want to update this uniform every game loop iteration (so it changes per-frame) otherwise the triangle would maintain a single solid color if we only set it once. So we calculate the greenValue and update the uniform each render iteration:
-
-    
-    while(!glfwWindowShouldClose(window))
-    {
-        // input
-        processInput(window);
-    
-        // render
-        // clear the colorbuffer
-        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
-    
-        // be sure to activate the shader
-        glUseProgram(shaderProgram);
-      
-        // update the uniform color
-        float timeValue = glfwGetTime();
-        float greenValue = sin(timeValue) / 2.0f + 0.5f;
-        int vertexColorLocation = glGetUniformLocation(shaderProgram, "ourColor");
-        glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
-    
-        // now render the triangle
-        glBindVertexArray(VAO);
-        glDrawArrays(GL_TRIANGLES, 0, 3);
-      
-        // swap buffers and poll IO events
-        glfwSwapBuffers(window);
-        glfwPollEvents();
-    }
-    
-
-The code is a relatively straightforward adaptation of the previous code. This time, we update a uniform value each iteration before drawing the triangle. If you update the uniform correctly you should see the color of your triangle gradually change from green to black and back to green.
-
- ![](/img/getting-started/shaders2.png) 
+ ![](/img/getting-started/shaders2.png)
 
 Check out the source code [here](/code_viewer_gh.php?code=src/1.getting_started/3.1.shaders_uniform/shaders_uniform.cpp) if you're stuck.
 
-As you can see, uniforms are a useful tool for setting attributes that might change in render iterations, or for interchanging data between your application and your shaders, but what if we want to set a color for each vertex? In that case we'd have to declare as many uniforms as we have vertices. A better solution would be to include more data in the vertex attributes which is what we're going to do.
 
-More attributes!
+Gördüğünüz gibi uniformlar, render yinelemelerinde değişebilecek nitelikleri ayarlamak veya uygulamanız ile shaderlarınız arasında veri alışverişi yapmak için yararlı bir araçtır, ancak her vertex için bir renk belirlemek istiyorsak ne olur? Bu durumda, köşelerimiz kadar uniform tanımlamamız etmemiz gerekirdi. Daha iyi bir çözüm, yapacağımız şey olan vertex özelliklerine daha fazla veri eklemek olacaktır.
+
+Daha fazla özellik!
 ----------------
 
-We saw in the previous tutorial how we can fill a VBO, configure vertex attribute pointers and store it all in a VAO. This time, we also want to add color data to the vertex data. We're going to add color data as 3 `float`s to the vertices array. We assign a red, green and blue color to each of the corners of our triangle respectively:
+Önceki derste, bir VBO'yu nasıl doldurabileceğimizi, vertex özellik pointerlarını nasıl yapılandırabileceğimizi ve hepsini bir VAO'da nasıl saklayabileceğimizi gördük. Bu kez, vertex verisine renk verileri de eklemek istiyoruz. Renk vertex dizisine 3 `float` şeklinde renk verilerini ekleyeceğiz. Üçgenin her bir köşesine sırasıyla kırmızı, yeşil ve mavi renk atarız:
 
-    
-    float vertices[] = {
-        // positions         // colors
-         0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,   // bottom right
-        -0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,   // bottom left
-         0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f    // top 
-    };    
-    
+```cpp
+float vertices[] = {
+    // positions         // colors
+     0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,   // bottom right
+    -0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,   // bottom left
+     0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f    // top 
+};    
+```
 
-Since we now have more data to send to the vertex shader, it is necessary to adjust the vertex shader to also receive our color value as a vertex attribute input. Note that we set the location of the aColor attribute to 1 with the layout specifier:
+Artık vertex shadera gönderilecek daha fazla veriye sahip olduğumuzdan, renk değerimizi bir vertex özelliği girişi olarak alacak şekilde vertex shaderı ayarlamak gerekir. `aColor` özelliğinin konumunu düzen belirleyici ile `1`olarak ayarladığımızı unutmayın:
 
-    
-    #version 330 core
-    layout (location = 0) in vec3 aPos;   // the position variable has attribute position 0
-    layout (location = 1) in vec3 aColor; // the color variable has attribute position 1
-      
-    out vec3 ourColor; // output a color to the fragment shader
-    
-    void main()
-    {
-        gl_Position = vec4(aPos, 1.0);
-        ourColor = aColor; // set ourColor to the input color we got from the vertex data
-    }       
-    
+```glsl
+#version 330 core
+layout (location = 0) in vec3 aPos;   // the position variable has attribute position 0
+layout (location = 1) in vec3 aColor; // the color variable has attribute position 1
+  
+out vec3 ourColor; // output a color to the fragment shader
 
-Since we no longer use a uniform for the fragment's color, but now use the ourColor output variable we'll have to change the fragment shader as well:
+void main()
+{
+    gl_Position = vec4(aPos, 1.0);
+    ourColor = aColor; // set ourColor to the input color we got from the vertex data
+}       
+```
 
-    
-    #version 330 core
-    out vec4 FragColor;  
-    in vec3 ourColor;
-      
-    void main()
-    {
-        FragColor = vec4(ourColor, 1.0);
-    }
-    
+Artık, fragment'in rengi için bir uniform kullanmayacağımızdan, şimdi ourColor çıktı değişkenini kullandığımız için, fragment shaderı da değiştirmek zorunda kalacağız:
 
-Because we added another vertex attribute and updated the VBO's memory we have to re-configure the vertex attribute pointers. The updated data in the VBO's memory now looks a bit like this:
+```glsl
+#version 330 core
+out vec4 FragColor;  
+in vec3 ourColor;
+  
+void main()
+{
+    FragColor = vec4(ourColor, 1.0);
+}
+```
+
+Başka bir vertex niteliği eklediğimiz ve VBO hafızasını güncellediğimiz için vertex niteliği işaretçilerini yeniden yapılandırmamız gerekiyor. VBO’nun belleğindeki güncellenmiş veriler şimdi biraz şuna benziyor:
 
 ![Interleaved data of position and color within VBO to be configured wtih <function id='30'>glVertexAttribPointer</function>](/img/getting-started/vertex_attribute_pointer_interleaved.png)
 
-Knowing the current layout we can update the vertex format with glVertexAttribPointer:
+Mevcut düzeni bilerek, vertex formatını `glVertexAttribPointer` ile güncelleyebiliriz:
 
-    
-    // position attribute
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
-    // color attribute
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3* sizeof(float)));
-    glEnableVertexAttribArray(1);
-    
+```cpp
+// position attribute
+glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+glEnableVertexAttribArray(0);
+// color attribute
+glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3* sizeof(float)));
+glEnableVertexAttribArray(1);
+```
+GlVertexAttribPointer'ın ilk birkaç argümanı nispeten basittir. Bu kez vertex niteliğini `1` özellik konumunda yapılandırıyoruz. Renk değerleri 3 `float` büyüklüğüne sahiptir ve değerleri normalleştirmiyoruz.
 
-The first few arguments of glVertexAttribPointer are relatively straightforward. This time we are configuring the vertex attribute on attribute location `1`. The color values have a size of `3` `float`s and we do not normalize the values.
+Şimdi iki vertex niteliğine sahip olduğumuz için _stride_ değerini yeniden hesaplamamız gerekiyor. Veri dizisindeki bir sonraki öznitelik değerini (örneğin, pozisyon vektörünün bir sonraki 'x` bileşeni) elde etmek için, üç pozisyon değeri ve üç renk değeri için `6` `float`ı sağa hareket ettirmeliyiz. Bu bize bayt cinsinden bir `float` boyutunun 6 katı adım değeri verir (= `24` bayt).
 
-Since we now have two vertex attributes we have to re-calculate the _stride_ value. To get the next attribute value (e.g. the next `x` component of the position vector) in the data array we have to move `6` `float`s to the right, three for the position values and three for the color values. This gives us a stride value of 6 times the size of a `float` in bytes (= `24` bytes).  
-Also, this time we have to specify an offset. For each vertex, the position vertex attribute is first so we declare an offset of `0`. The color attribute starts after the position data so the offset is `3 * sizeof(float)` in bytes (= `12` bytes).
+Ayrıca, bu sefer bir ofset belirtmeliyiz. Her vertex için, konum vertex özniteliği öncedir, bu nedenle `0` ofsetini tanımlarız. Renk özniteliği, konum verilerinden sonra başlar, bu nedenle ofset, bayt cinsinden `3 * sizeof (float)` dır (=`12` bayt).
 
-Running the application should result in the following image:   
+Uygulamayı çalıştırmak aşağıdaki görüntüyle sonuçlanmalıdır:
 
 ![](/img/getting-started/shaders3.png)
 
 Check out the source code [here](/code_viewer_gh.php?code=src/1.getting_started/3.2.shaders_interpolation/shaders_interpolation.cpp) if you're stuck.
 
-The image might not be exactly what you would expect, since we only supplied 3 colors, not the huge color palette we're seeing right now. This is all the result of something called fragment interpolation in the fragment shader. When rendering a triangle the rasterization stage usually results in a lot more fragments than vertices originally specified. The rasterizer then determines the positions of each of those fragments based on where they reside on the triangle shape.  
-Based on these positions, it interpolates all the fragment shader's input variables. Say for example we have a line where the upper point has a green color and the lower point a blue color. If the fragment shader is run at a fragment that resides around a position at `70%` of the line its resulting color input attribute would then be a linear combination of green and blue; to be more precise: `30%` blue and `70%` green.
+Resim tam olarak beklediğiniz gibi olmayabilir, çünkü şu anda gördüğümüz büyük renk paleti değil, sadece 3 renk sağladık. Tüm bunlar, fragment shaderda fragment enterpolasyonu denilen bir şeyin sonucu. Bir üçgen oluştururken, rasterleştirme aşaması genellikle başlangıçta belirtilen vertexlerden çok daha fazla fragmente neden olur. Rasterizer, daha sonra bu fragmentlerin her birinin pozisyonlarını, üçgen şeklinde bulundukları yere göre belirler.
+Bu konumlara dayanarak, tüm parça gölgelendiricinin giriş değişkenlerini enterpolasyon yapar. Örneğin, üst noktanın yeşil ve alt noktanın mavi renkte olduğu bir çizgimiz var. Fragment shader, çizginin `%70` pozisyonundaki bir pozisyon etrafında kalan bir parçada çalıştırılırsa, sonuçtaki renk girişi özelliği, yeşil ve mavinin doğrusal bir birleşimi olur; Daha kesin olmak gerekirse: `%30` mavi ve `%70` yeşil.
 
-This is exactly what happened at the triangle. We have 3 vertices and thus 3 colors and judging from the triangle's pixels it probably contains around 50000 fragments, where the fragment shader interpolated the colors among those pixels. If you take a good look at the colors you'll see it all makes sense: red to blue first gets to purple and then to blue. Fragment interpolation is applied to all the fragment shader's input attributes.
 
-Our own shader class
+Bu tam olarak üçgende olan şey. 3 vertexe ve dolayısıyla 3 renge sahibiz ve üçgenin piksellerine bakılırsa, muhtemelen fragment shaderın renkleri bu pikseller arasına yerleştirdiği yaklaşık 50000 fragmentten oluşuyor. Renklere iyi bakarsanız, her şeyin mantıklı olduğunu göreceksiniz: önce kırmızıdan maviye, mor sonra maviye. Parça enterpolasyonu, tüm fragment shaderın giriş niteliklerine uygulanır.
+
+Kendi shader sınıfımız
 ====================
 
-Writing, compiling and managing shaders can be quite cumbersome. As a final touch on the shader subject we're going to make our life a bit easier by building a shader class that reads shaders from disk, compiles and links them, checks for errors and is easy to use. This also gives you a bit of an idea how we can encapsulate some of the knowledge we learned so far into useful abstract objects.
+Shaderların yazılması, derlenmesi ve yönetilmesi oldukça zahmetli olabilir. Shader konusuna son bir dokunuş olarak, shaderları diskten okuyan, derleyen ve bağlayan, hataları kontrol eden ve kullanımı kolay bir shader sınıfı oluşturarak hayatımızı biraz daha kolaylaştıracağız. Bu aynı zamanda size şimdiye kadar öğrendiğimiz bilgilerin bir kısmını yararlı soyut nesnelere nasıl yerleştirebileceğimize dair bir fikir verir.
 
-We will create the shader class entirely in a header file, mainly for learning purposes and portability. Let's start by adding the required includes and by defining the class structure:
+Gölgelendirici sınıfını, esas olarak öğrenme amaçları ve taşınabilirlik için tamamen bir header dosyasında oluşturacağız. Gerekli olanları ekleyerek ve sınıf yapısını tanımlayarak başlayalım:
 
-    
-    #ifndef SHADER_H
-    #define SHADER_H
-    
-    #include <glad/glad.h> // include glad to get all the required OpenGL headers
-      
-    #include <string>
-    #include <fstream>
-    #include <sstream>
-    #include <iostream>
-      
-    
-    class Shader
-    {
-    public:
-        // the program ID
-        unsigned int ID;
-      
-        // constructor reads and builds the shader
-        Shader(const GLchar* vertexPath, const GLchar* fragmentPath);
-        // use/activate the shader
-        void use();
-        // utility uniform functions
-        void setBool(const std::string &name, bool value) const;  
-        void setInt(const std::string &name, int value) const;   
-        void setFloat(const std::string &name, float value) const;
-    };
-      
-    #endif
-    
+```cpp
+#ifndef SHADER_H
+#define SHADER_H
 
-We used several preprocessor directives at the top of the header file. Using these little lines of code informs your compiler to only include and compile this header file if it hasn't been included yet, even if multiple files include the shader header. This prevents linking conflicts.
+#include <glad/glad.h> // gerekli tüm OpenGL headarlarını almak için glad
+  
+#include <string>
+#include <fstream>
+#include <sstream>
+#include <iostream>
+  
 
-The shader class holds the ID of the shader program. Its constructor requires the file paths of the source code of the vertex and fragment shader respectively that we can store on disk as simple text files. To add a little extra we also add several utility functions to ease our lifes a little: use activates the shader program, and all set... functions query a uniform location and set its value.
+class Shader
+{
+public:
+    // the program ID
+    unsigned int ID;
+  
+    // constructor reads and builds the shader
+    Shader(const GLchar* vertexPath, const GLchar* fragmentPath);
+    // use/activate the shader
+    void use();
+    // utility uniform functions
+    void setBool(const std::string &name, bool value) const;  
+    void setInt(const std::string &name, int value) const;   
+    void setFloat(const std::string &name, float value) const;
+};
+  
+#endif
+```
 
-Reading from file
+Header dosyasının en üstünde birkaç önişlemci direktifi kullandık. Bu küçük kod satırlarını kullanmak, derleyicinize yalnızca bu header dosyasını eklememiş ve henüz eklenmemişse, birden fazla dosya shader headerını dahil etse bile derler. Bu bağlantı çakışmalarını önler.
+
+Shader sınıfı, shader programının ID'sini tutar. Yapıcısı, diskte basit metin dosyaları olarak saklayabileceğimiz sırasıyla vertex ve fragment shaderın kaynak kodunun dosya yollarını gerektirir. Biraz fazlalık eklemek, yaşamımızı biraz kolaylaştırmak için çeşitli işe yarar fonksiyonlar da ekliyoruz: `use`, shader programını etkinleştirir ve tüm `set...` fonksiyonları bir uniform konum sorgusu yapar ve değerini ayarlar.
+
+Dosyadan okuma
 -----------------
 
-We're using C++ filestreams to read the content from the file into several `string` objects:
+Dosyanın içeriğini birkaç `string` değişkeninin içine aktarmak için C++ filestreamlarını kullanıyoruz:
 
-    
-    Shader(const char* vertexPath, const char* fragmentPath)
+```cpp
+Shader(const char* vertexPath, const char* fragmentPath)
+{
+    // 1. retrieve the vertex/fragment source code from filePath
+    std::string vertexCode;
+    std::string fragmentCode;
+    std::ifstream vShaderFile;
+    std::ifstream fShaderFile;
+    // ensure ifstream objects can throw exceptions:
+    vShaderFile.exceptions (std::ifstream::failbit | std::ifstream::badbit);
+    fShaderFile.exceptions (std::ifstream::failbit | std::ifstream::badbit);
+    try 
     {
-        // 1. retrieve the vertex/fragment source code from filePath
-        std::string vertexCode;
-        std::string fragmentCode;
-        std::ifstream vShaderFile;
-        std::ifstream fShaderFile;
-        // ensure ifstream objects can throw exceptions:
-        vShaderFile.exceptions (std::ifstream::failbit | std::ifstream::badbit);
-        fShaderFile.exceptions (std::ifstream::failbit | std::ifstream::badbit);
-        try 
-        {
-            // open files
-            vShaderFile.open(vertexPath);
-            fShaderFile.open(fragmentPath);
-            std::stringstream vShaderStream, fShaderStream;
-            // read file's buffer contents into streams
-            vShaderStream << vShaderFile.rdbuf();
-            fShaderStream << fShaderFile.rdbuf();		
-            // close file handlers
-            vShaderFile.close();
-            fShaderFile.close();
-            // convert stream into string
-            vertexCode   = vShaderStream.str();
-            fragmentCode = fShaderStream.str();		
-        }
-        catch(std::ifstream::failure e)
-        {
-            std::cout << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ" << std::endl;
-        }
-        const char* vShaderCode = vertexCode.c_str();
-        const char* fShaderCode = fragmentCode.c_str();
-        [...]
-    
-
-Next we need to compile and link the shaders. Note that we're also reviewing if compilation/linking failed and if so, print the compile-time errors which is extremely useful when debugging (you are going to need those error logs eventually):
-
-    
-    // 2. compile shaders
-    unsigned int vertex, fragment;
-    int success;
-    char infoLog[512];
-       
-    // vertex Shader
-    vertex = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(vertex, 1, &vShaderCode, NULL);
-    glCompileShader(vertex);
-    // print compile errors if any
-    glGetShaderiv(vertex, GL_COMPILE_STATUS, &success);
-    if(!success)
+        // open files
+        vShaderFile.open(vertexPath);
+        fShaderFile.open(fragmentPath);
+        std::stringstream vShaderStream, fShaderStream;
+        // read file's buffer contents into streams
+        vShaderStream << vShaderFile.rdbuf();
+        fShaderStream << fShaderFile.rdbuf();		
+        // close file handlers
+        vShaderFile.close();
+        fShaderFile.close();
+        // convert stream into string
+        vertexCode   = vShaderStream.str();
+        fragmentCode = fShaderStream.str();		
+    }
+    catch(std::ifstream::failure e)
     {
-        glGetShaderInfoLog(vertex, 512, NULL, infoLog);
-        std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
-    };
-      
-    // similiar for Fragment Shader
+        std::cout << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ" << std::endl;
+    }
+    const char* vShaderCode = vertexCode.c_str();
+    const char* fShaderCode = fragmentCode.c_str();
     [...]
-      
-    // shader Program
-    ID = glCreateProgram();
-    glAttachShader(ID, vertex);
-    glAttachShader(ID, fragment);
-    glLinkProgram(ID);
-    // print linking errors if any
-    glGetProgramiv(ID, GL_LINK_STATUS, &success);
-    if(!success)
-    {
-        glGetProgramInfoLog(ID, 512, NULL, infoLog);
-        std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
-    }
-      
-    // delete the shaders as they're linked into our program now and no longer necessery
-    glDeleteShader(vertex);
-    glDeleteShader(fragment);
-    
+```
 
-The use function is straightforward:
+Daha sonra, shaderları derlememiz ve birbirine bağlamamız gerekir. Derleme / bağlamanın başarısız olup olmadığını da incelediğimize dikkat edin ve öyleyse, hata ayıklama işleminde son derece yararlı olan derleme zamanı hatalarını yazdırın (sonunda bu hata günlüklerine ihtiyacınız olacak):
 
-    
-    void use() 
-    { 
-        glUseProgram(ID);
-    }  
-    
+```cpp
+// 2. shaderları derle
+unsigned int vertex, fragment;
+int success;
+char infoLog[512];
+   
+// vertex Shader
+vertex = glCreateShader(GL_VERTEX_SHADER);
+glShaderSource(vertex, 1, &vShaderCode, NULL);
+glCompileShader(vertex);
+// derleme hatası varsa yazdır
+glGetShaderiv(vertex, GL_COMPILE_STATUS, &success);
+if(!success)
+{
+    glGetShaderInfoLog(vertex, 512, NULL, infoLog);
+    std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
+};
+  
+// Fragment Shader için benzeri
+[...]
+  
+// shader Program
+ID = glCreateProgram();
+glAttachShader(ID, vertex);
+glAttachShader(ID, fragment);
+glLinkProgram(ID);
+// linkleme hatası varsa yazdır
+glGetProgramiv(ID, GL_LINK_STATUS, &success);
+if(!success)
+{
+    glGetProgramInfoLog(ID, 512, NULL, infoLog);
+    std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
+}
+  
+// programımızda bağlanmış ve artık gerekmeyen shaderları sil
+glDeleteShader(vertex);
+glDeleteShader(fragment);
+```
 
-Similarly for any of the uniform setter functions:
+`use` fonksiyonu basittir:
 
-    
-    void setBool(const std::string &name, bool value) const
-    {         
-        glUniform1i(glGetUniformLocation(ID, name.c_str()), (int)value); 
-    }
-    void setInt(const std::string &name, int value) const
-    { 
-        glUniform1i(glGetUniformLocation(ID, name.c_str()), value); 
-    }
-    void setFloat(const std::string &name, float value) const
-    { 
-        glUniform1f(glGetUniformLocation(ID, name.c_str()), value); 
-    } 
-    
+```cpp
+void use() 
+{ 
+    glUseProgram(ID);
+}  
+```
 
-And there we have it, a completed [shader class](/code_viewer_gh.php?code=includes/learnopengl/shader_s.h). Using the shader class is fairly easy; we create a shader object once and from that point on simply start using it:
+Herhangi bir uniform setter fonksiyonu için benzer şekilde:
 
-    
-    Shader ourShader("path/to/shaders/shader.vs", "path/to/shaders/shader.fs");
-    ...
-    while(...)
-    {
-        ourShader.use();
-        ourShader.setFloat("someUniform", 1.0f);
-        DrawStuff();
-    }
-    
+```cpp
+void setBool(const std::string &name, bool value) const
+{
+    glUniform1i(glGetUniformLocation(ID, name.c_str()), (int)value);
+}
+void setInt(const std::string &name, int value) const
+{
+    glUniform1i(glGetUniformLocation(ID, name.c_str()), value);
+}
+void setFloat(const std::string &name, float value) const
+{
+    glUniform1f(glGetUniformLocation(ID, name.c_str()), value);
+}
+```
 
-Here we stored the vertex and fragment shader source code in two files called `shader.vs` and `shader.fs`. You're free to name your shader files however you like; I personally find the extensions `.vs` and `.fs` quite intuitive.
+And there we have it, a completed [shader class](/code_viewer_gh.php?code=includes/learnopengl/shader_s.h). 
+Shader sınıfını kullanmak oldukça kolaydır; shader nesnesini bir kez oluştururuz ve bu noktadan itibaren kullanmaya başlarız:
+
+```cpp
+Shader ourShader("path/to/shaders/shader.vs", "path/to/shaders/shader.fs");
+...
+while(...)
+{
+    ourShader.use();
+    ourShader.setFloat("someUniform", 1.0f);
+    DrawStuff();
+}
+```
+
+Burada vertex ve fragment shaderın kaynak kodunu `shader.vs` ve `shader.fs` isimli iki dosyada sakladık. Shader dosyalarını dilediğiniz gibi adlandırmakta özgürsünüz; Kişisel olarak `.vs` ve `.fs` uzantıları oldukça sezgisel buluyorum.
 
 You can find the source code [here](/code_viewer_gh.php?code=src/1.getting_started/3.3.shaders_class/shaders_class.cpp) using our newly created [shader class](/code_viewer_gh.php?code=includes/learnopengl/shader_s.h). Note that you can click the shader file paths to find each shader's source code.
 
-Exercises
+Alıştırmalar
 =========
 
-1.  Adjust the vertex shader so that the triangle is upside down: [solution](/code_viewer.php?code=getting-started/shaders-exercise1).
-2.  Specify a horizontal offset via a uniform and move the triangle to the right side of the screen in the vertex shader using this offset value: [solution](/code_viewer.php?code=getting-started/shaders-exercise2).
-3.  Output the vertex position to the fragment shader using the `out` keyword and set the fragment's color equal to this vertex position (see how even the vertex position values are interpolated across the triangle). Once you managed to do this; try to answer the following question: why is the bottom-left side of our triangle black?: [solution](/code_viewer.php?code=getting-started/shaders-exercise3).
+1. Vertex shaderı, üçgen baş aşağı olacak şekilde ayarlayın: [solution](/code_viewer.php?code=getting-started/shaders-exercise1).
+2. Bir uniform ile yatay bir ofset belirtin ve bu ofset değerini kullanarak vertex shaderda üçgeni ekranın sağ tarafına taşıyın: [solution](/code_viewer.php?code=getting-started/shaders-exercise2).
+3. Vertex pozisyonunu `out` anahtar sözcüğünü kullanarak fragment shadera çıkarıp parçanın rengini bu vertex pozisyonuna eşit olarak ayarlayın (vertex pozisyon değerlerinin üçgen boyunca nasıl enterpolasyon yaptığını görün). Bir kere bunu yapmayı başardınız; aşağıdaki soruyu cevaplamaya çalışın: neden üçgenimizin sol-alt tarafı siyah?: [solution](/code_viewer.php?code=getting-started/shaders-exercise3).
 
 
 ![GPL License](http://www.gnu.org/graphics/gplv3-88x31.png)
