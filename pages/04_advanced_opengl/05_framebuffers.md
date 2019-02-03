@@ -56,11 +56,11 @@ glDeleteFramebuffers(1, &fbo);
 ```
 Şimdi bütünlük kontrolü yapılmadan önce, framebuffer ile bir veya daha fazla <span style="color:green">bağ (ing. attachment) </span> kurmamız gerekir. Bir bağ, framebuffer için tampon görevi görebilen, onu imge olarak düşünebilen bir hafıza alanıdır. Bir bağ oluştururken iki seçeneğimiz var: Dokular veya <span style="color:green">renderbuffer </span>  nesneler.
 
-## Texture attachments
+## Doku Bağlantısı
 
-When attaching a texture to a framebuffer, all rendering commands will write to the texture as if it was a normal color/depth or stencil buffer. The advantage of using textures is that the result of all rendering operations will be stored as a texture image that we can then easily use in our shaders.
+Bir dokuyu framebuffer'a bağlarken, tüm sahneleme komutları dokuya normal bir renk/derinlik ya da şablon tamponu gibi uygulanacaktır. Doku kullanmanın avantajı, tüm sahneleme işlemlerinin sonucunun gölgelendiricilerimizde kolayca kullanabileceğimiz bir doku imgesi olarak saklanmasıdır.
 
-Creating a texture for a framebuffer is roughly the same as a normal texture: 
+Bir framebuffer için doku oluşturmak, normal bir doku oluşturmayla kabaca aynıdır:
 ```cpp
 unsigned int texture;
 glGenTextures(1, &texture);
@@ -71,25 +71,26 @@ glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 800, 600, 0, GL_RGB, GL_UNSIGNED_BYTE, NU
 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR); 
 ```
-The main differences here is that we set the dimensions equal to the screen size (although this is not required) and we pass NULL as the texture's data parameter. For this texture, we're only allocating memory and not actually filling it. Filling the texture will happen as soon as we render to the framebuffer. Also note that we do not care about any of the wrapping methods or mipmapping since we won't be needing those in most cases.
-If you want to render your whole screen to a texture of a smaller or larger size you need to call glViewport again (before rendering to your framebuffer) with the new dimensions of your texture, otherwise only a small part of the texture or screen would be drawn onto the texture.
+Buradaki ana fark, boyutları ekran boyutuna eşit ayarlamamız(nu gerekli olmasa da) ve NULL değerini dokunun veri parametresi olarak iletmemizdir. Bu doku için, sadece bellekte yer ayırıyoruz ve aslında doldurmuyoruz. Dokuyu doldurmak, framebuffer'e gönderdiğimiz anda gerçekleşir. Ayrıca, çoğu durumda bunlara ihtiyaç duymayacağımızdan, paketleme (ing. wrapping) yöntemlerinin veya mipmaplerin hiçbirini umursamadığımızı da unutmayın.
 
-Now that we've created a texture the last thing we need to do is actually attach it to the framebuffer: 
+>Tüm ekranınızı daha küçük veya daha büyük bir boyuta sahip bir dokuya dönüştürmek istiyorsanız, dokunuzdaki yeni boyutlarla glViewport'u tekrar çağırmanız gerekir (famebuffer'da oluşturmadan önce), aksi takdirde, doku veya ekranın sadece küçük bir kısmı doku üzerine çizilir.
+
+Şimdi bir doku oluşturduğumuza göre, yapmamız gereken son şey onu framebuffer'a bağlamak.
 
 ```cpp
 glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture, 0);
 ```
- The glFrameBufferTexture2D has the following parameters:
+The glFrameBufferTexture2D has the following parameters:
 
- * target: the framebuffer type we're targeting (draw, read or both).
- * attachment: the type of attachment we're going to attach. Right now we're attaching a color attachment. Note that the 0 at the end suggests we can attach more than 1 color attachment. We'll get to that in a later tutorial.
- * textarget: the type of the texture you want to attach.
- * texture: the actual texture to attach.
- * level: the mipmap level. We keep this at 0.
+* target: hedeflediğimiz framebuffer tipi (çizme, okuma ya da her ikisi).
+* attachment: bağ tipi. Şu anda bir renk bağı ile bağlantı sağlıyoruz. Sonundaki 0'ın, daha fazla renk eki ekleyebileceğimizi ifade ettiğini unutmayın. Daha sonraki bir derste buna başlayacağız.
+* textarget: bağlamak istediğimiz dokunun tipi
+* texture: bağlantı sağlanacak doku
+* level: mipmap seviyesi. Bunu 0'da tutuyoruz.
  
- Aside from the color attachments we can also attach a depth and a stencil texture to the framebuffer object. To attach a depth attachment we specify the attachment type as GL_DEPTH_ATTACHMENT. Note that the texture's format and internalformat type should then become GL_DEPTH_COMPONENT to reflect the depth buffer's storage format. To attach a stencil buffer you use GL_STENCIL_ATTACHMENT as the second argument and specify the texture's formats as GL_STENCIL_INDEX.
+Renk bağlantılarının yanı sıra, framebuffer nesnesine bir derinlik ve şablon dokusu de ekleyebiliriz. Derinlik eklemek için, bağlantı türünü GL_DEPTH_ATTACHMENT olarak belirtiyoruz.Doku formatının ve **dahili biçim (ing. internalformat)** türünün, derinlik tamponunun depolama formatını yansıtması için GL_DEPTH_COMPONENT olması gerektiğini unutmayın. Bir şablon tamponu eklemek için ikinci argüman olarak GL_STENCIL_ATTACHMENT kullanır ve doku formatlarını GL_STENCIL_INDEX olarak belirtirsiniz.
 
-It is also possible to attach both a depth buffer and a stencil buffer as a single texture. Each 32 bit value of the texture then consists for 24 bits of depth information and 8 bits of stencil information. To attach a depth and stencil buffer as one texture we use the GL_DEPTH_STENCIL_ATTACHMENT type and configure the texture's formats to contain combined depth and stencil values. An example of attaching a depth and stencil buffer as one texture to the framebuffer is given below: 
+Tek bir doku olarak hem bir derinlik tamponu hem de bir şablon tamponu eklemek de mümkündür. Dokunun her 32-bitlik değeri daha sonra 24-bit derinlik bilgisi ve 8-bit şablon bilgisi için oluşur. Bir doku olarak derinlik ve şablon tamponu eklemek için GL_DEPTH_STENCIL_ATTACHMENT tipini kullanırız ve dokunun formatlarını derinlik ve şablon değerleri içerecek şekilde yapılandırırız. Altyapıya bir doku olarak bir derinlik ve şablon tamponu bağlama örneği aşağıda verilmiştir:
 
 ```cpp
 glTexImage2D(
@@ -99,40 +100,39 @@ glTexImage2D(
 
 glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, texture, 0);
 ```
-## Renderbuffer object attachments
+## Renderbuffer Nesne Bağlantısı
 
-Renderbuffer objects were introduced to OpenGL after textures as a possible type of framebuffer attachments, so textures were the only attachments used in the good old days. Just like a texture image, a renderbuffer object is an actual buffer e.g. an array of bytes, integers, pixels or whatever. A renderbuffer object has the added advantage though that it stores its data in OpenGL's native rendering format making it optimized for off-screen rendering to a framebuffer.
+**Renderbuffer nesneler** OpenGL'e dokulardan sonra olası bir framebuffer bağlantı türü olarak getirildi. Tıpkı bir doku imgesi gibi, bir renderbuffer nesnesi de gerçek bir arabellektir. Örneğin; bayt dizisi, tamsayılar, pikseller vb. Bir renderbuffer nesnesi, verilerini OpenGL'in yerel sahneleme biçiminde saklamasına rağmen ek bir avantaja sahiptir, bu da ekran dışı sahneleme framebuffer'ı için optimize edilmesini sağlar.
 
-Renderbuffer objects store all the render data directly into their buffer without any conversions to texture-specific formats, thus making them faster as a writeable storage medium. However, renderbuffer objects are generally write-only, thus you cannot read from them (like with texture-access). It is possible to read from them via glReadPixels though that returns a specified area of pixels from the currently bound framebuffer, but not directly from the attachment itself.
+Renderbuffer nesneleri, tüm sahneleme verilerini, dokuya özgü biçimlerde herhangi bir dönüşüm yapmadan doğrudan arabelleğine depolar, böylece, onları yazılabilir bir depolama ortamı olarak daha hızlı hale getirir. Bununla birlikte, renderbuffer nesneleri genellikle salt-yazılırdır. Bu nedenle onlardan okuma yapılamaz (doku erişiminde olduğu gibi).Onları glReadPixels işlevi ile okumak mümkündür, ancak doğrudan bağlantının kendisinden değil.
 
-Because their data is already in its native format they are quite fast when writing data or simply copying their data to other buffers. Operations like switching buffers are thus quite fast when using renderbuffer objects. The glfwSwapBuffers function we've been using at the end of each render iteration might as well be implemented with renderbuffer objects: we simply write to a renderbuffer image, and swap to the other one at the end. Renderbuffer objects are perfect for these kind of operations.
+Verileri zaten kendi biçiminde olduğundan, veri yazarken veya basitçe verilerini diğer tamponlara kopyalarken oldukça hızlıdırlar. Geçiş(ing. switching) arabellekleri gibi işlemler, renderbuffer nesneleri kullanırken bu nedenle oldukça hızlıdır. Her sahneleme yinelemesinin sonunda kullandığımız glfwSwapBuffers işlevi, renderbuffer nesneleri ile de uygulanabilir:Biz sadece bir renderbuffer imgeye yazıyoruz ve sonunda diğerine takas yapıyoruz. Renderbuffer nesneleri bu tür işlemler için mükemmeldir.
 
-Creating a renderbuffer object looks similar to the framebuffer's code: 
+Renderbuffer nesnesi oluşturma, framebuffer koduna benzerdir:
 ```cpp
 unsigned int rbo;
 glGenRenderbuffers(1, &rbo);
 ```
-And similarly we want to bind the renderbuffer object so all subsequent renderbuffer operations affect the current rbo:
+Ve benzer şekilde tüm sonraki renderbuffer işlemleri, geçerli rbo'yu etkileyecek şekilde renderbuffer nesnesini bağlıyoruz
 ```cpp
 glBindRenderbuffer(GL_RENDERBUFFER, rbo);
 ```
- Since renderbuffer objects are generally write-only they are often used as depth and stencil attachments, since most of the time we don't really need to read values from the depth and stencil buffers but still care about depth and stencil testing. We need the depth and stencil values for testing, but don't need to sample these values so a renderbuffer object suits this perfectly. When we're not sampling from these buffers, a renderbuffer object is generally preferred since it's more optimized.
+Renderbuffer nesneleri genellikle salt-yazılır olduklarından, derinlik ve şablon bağlantıları olarak kullanılırlar. Çünkü çoğu zaman derinlik ve şablon tamponlarından değerleri okumamıza gerek kalmaz, ancak yine de derinlik testi ve şablon testini önemsiyoruz. Test için derinlik ve şablon değerlerine ihtiyacımız var, ancak bu değerleri örneklememiz gerekmiyor. Bu tamponlardan örnekleme yapmadığımız zaman, renderbuffer nesnesi genellikle daha optimize olduğu için tercih edilmektedir.
 
-Creating a depth and stencil renderbuffer object is done by calling the glRenderbufferStorage function: 
+Derinlik ve şablon renderbuffer nesnesi oluşturma, glRenderbufferStorage işlevinin çağrılması ile gerçekleştirilir: 
 ```cpp
 glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, 800, 600);
 ```
- Creating a renderbuffer object is similar to texture objects, the difference being that this object is specifically designed to be used as an image, instead of a general purpose data buffer like a texture. Here we've chosen the GL_DEPTH24_STENCIL8 as the internal format, which holds both the depth and stencil buffer with 24 and 8 bits respectively.
+Bir renderbuffer nesnesi oluşturma işlemi doku nesnelerininkine benzerdir. Aradaki fark, bu nesnenin, doku gibi genel amaçlı bir veri tamponu yerine, bir imge olarak kullanılmak üzere özel olarak tasarlanmasıdır. Burada, hem derinlik hem de şablon tamponunu sırasıyla 24 ve 8 bit ile tutan dahili biçim olarak GL_DEPTH24_STENCIL8'i seçtik.
 
-Last thing left to do is actually attach the renderbuffer object: 
+Yapılması gereken son şey aslında renderbuffer nesnesini bağlamaktır:
 ```cpp
 glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rbo);
 ```
-Renderbuffer objects could provide some optimizations in your framebuffer projects, but it is important to realize when to use renderbuffer objects and when to use textures. The general rule is that if you never need to sample data from a specific buffer, it is wise to use a renderbuffer object for that specific buffer. If you need to someday sample data from a specific buffer like colors or depth values, you should use a texture attachment instead. Performance-wise it doesn't have an enormous impact though. 
+Renderbuffer nesneleri, framebuffer projelerinizde bazı iyileştirmeler sağlayabilir, ancak ne zaman renderbuffer nesnei ve ne zaman doku olarak kullanılacağının bilinmesi önemlidir. Verileri belirli bir tampondan hiçbir zaman örneklemeniz gerekmiyorsa, o belirli tampon için bir renderbuffer nesnesini kullanmak akıllıca olandır. Bir gün veriyi renk veya derinlik değerleri gibi belirli bir tampondan örneklemeniz gerekirse, bunun yerine bir doku kullanmanız gerekir. Performans açısından olsa da, muazzam derecede etkisi olmaz.
 
-## Rendering to a texture
-
-Now that we know how framebuffers (sort of) work it's time to put them to good use. We're going to render the scene into a color texture attached to a framebuffer object we created and then draw this texture over a simple quad that spans the whole screen. The visual output is then exactly the same as without a framebuffer, but this time it's all printed on top of a single quad. Now why is this useful? In the next section we'll see why.
+## Bir Dokuyu Sahneleme
+Framebuffer'ın nasıl çalıştığını bildiğimize göre artık onları kullanmanın vakti geldi. We're going to render the scene into a color texture attached to a framebuffer object we created and then draw this texture over a simple quad that spans the whole screen. The visual output is then exactly the same as without a framebuffer, but this time it's all printed on top of a single quad. Now why is this useful? In the next section we'll see why.
 
 First thing to do is to create an actual framebuffer object and bind it, this is all relatively straightforward:
 ```cpp
@@ -385,3 +385,5 @@ This kernel highlights all edges and darkens the rest, which is quite useful whe
 <img src=https://learnopengl.com/img/advanced/framebuffers_edge_detection.png>
 
 It probably does not come as a surprise that kernels like this are used as image-manipulating tools/filters in tools like Photoshop. Because of a graphic card's ability to process fragments with extreme parallel capabilities, we can manipulate images on a per-pixel basis in real-time with relative ease. Image-editing tools therefore tend to use graphics cards more often for image-processing. 
+
+Çeviri: [Nezihe Sözen](https://github.com/NeziheSozen)
