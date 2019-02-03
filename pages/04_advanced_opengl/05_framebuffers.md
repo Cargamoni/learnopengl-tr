@@ -132,17 +132,17 @@ glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDER
 Renderbuffer nesneleri, framebuffer projelerinizde bazı iyileştirmeler sağlayabilir, ancak ne zaman renderbuffer nesnei ve ne zaman doku olarak kullanılacağının bilinmesi önemlidir. Verileri belirli bir tampondan hiçbir zaman örneklemeniz gerekmiyorsa, o belirli tampon için bir renderbuffer nesnesini kullanmak akıllıca olandır. Bir gün veriyi renk veya derinlik değerleri gibi belirli bir tampondan örneklemeniz gerekirse, bunun yerine bir doku kullanmanız gerekir. Performans açısından olsa da, muazzam derecede etkisi olmaz.
 
 ## Bir Dokuyu Sahneleme
-Framebuffer'ın nasıl çalıştığını bildiğimize göre artık onları kullanmanın vakti geldi. We're going to render the scene into a color texture attached to a framebuffer object we created and then draw this texture over a simple quad that spans the whole screen. The visual output is then exactly the same as without a framebuffer, but this time it's all printed on top of a single quad. Now why is this useful? In the next section we'll see why.
+Framebuffer'ın nasıl çalıştığını bildiğimize göre artık onları kullanmanın vakti geldi. Yarattığımız bir framebuffer nesnesine bağlı renkli bir dokuyu sahneleyeceğiz ve sonra tüm ekrana yayılan basit bir dörtlü (ing. quad) üzerinde bu dokuyu çizeceğiz. Görsel çıktı, çerçevesiz olarak aynıdır, ancak bu kez hepsi tek bir dörtlünün üstüne basılmıştır. Bu neden yararlıdır? Bir sonraki bölümde nedenini göreceğiz.
 
-First thing to do is to create an actual framebuffer object and bind it, this is all relatively straightforward:
+Yapılması gereken ilk şey, gerçek bir framebuffer nesnesi oluşturmak ve bağlamaktır, bu nispeten basittir:
 ```cpp
 unsigned int framebuffer;
 glGenFramebuffers(1, &framebuffer);
 glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
 ```
-Next we create a texture image that we attach as a color attachment to the framebuffer. We set the texture's dimensions equal to the width and height of the window and keep its data uninitialized: 
+Sonra,framebuffer'a renk bağlantısı olarak eklediğimiz doku imgesi oluştururuz. Dokunun boyutlarını pencerenin genişliğine ve yüksekliğine eşit olarak belirliyor ve verilerini ilklendirmemiş olarak tutuyoruz:
 ```cpp
-// generate texture
+// doku üret
 unsigned int texColorBuffer;
 glGenTextures(1, &texColorBuffer);
 glBindTexture(GL_TEXTURE_2D, texColorBuffer);
@@ -151,12 +151,12 @@ glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 glBindTexture(GL_TEXTURE_2D, 0);
 
-// attach it to currently bound framebuffer object
+// mevcur framebuffer nesnesine bağla
 glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texColorBuffer, 0);
 ```
- We also want to make sure OpenGL is able to do depth testing (and optionally stencil testing if you're into that) so we have to make sure to add a depth (and stencil) attachment to the framebuffer as well. Since we'll only be sampling the color buffer and not the other buffers we can create a renderbuffer object for this purpose. Remember that they're a good choice when you're not going to sample from the specific buffer(s)?
+Ayrıca OpenGL'in derinlik testi yapabildiğinden emin olmak istiyoruz (ve eğer isterseniz şablon testi), bu nedenle framebuffer'a derinlik (ve şablon) bağlantısı eklemeyi de sağlamalıyız. Sadece renk tamponu örnekleyeceğimizden ve diğer tamponları örneklemediğimizden, bu amaç için bir renderbuffer nesnesi oluşturabiliriz. Belirli tampondan örnekleme yapmayacağınız zaman iyi bir seçim olduklarını unutmayın.
 
-Creating a renderbuffer object isn't too hard. The only thing we have to remember is that we're creating it as a depth and stencil attachment renderbuffer object. We set its internal format to GL_DEPTH24_STENCIL8 which is enough precision for our purposes. 
+Bir renderbuffer nesnesi oluşturmak çok zor değil. Hatırlamamız gereken tek şey, onu derinlik ve şablon eki oluşturma nesnesi olarak oluşturmamızdır. Dahili formatını, amaçlarımız için yeterince hassas olan GL_DEPTH24_STENCIL8 olarak ayarladık.
 
 ```cpp
 unsigned int rbo;
@@ -166,35 +166,34 @@ glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, 800, 600);
 glBindRenderbuffer(GL_RENDERBUFFER, 0);
 ```
 
-Once we've allocated enough memory for the renderbuffer object we can unbind the renderbuffer.
+Renderbuffer nesnesi için yeterli bellek ayırdıktan sonra, renderbuffer bağını serbest bırakabiliriz.
 
-Then, as a final step before we can complete the framebuffer, we attach the renderbuffer object to the depth and stencil attachment of the framebuffer: 
-
+Sonra, framebuffer'ı tamamlayabilmemiz için son bir adım olarak renderbuffer nesnesini, framebuffer'ın derinlik ve şablon bağına bağlarız:
 
 ```cpp
 glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rbo);
 ```
 
-Then as a final measure we want to check if the framebuffer is actually complete and if it's not, we print an error message.
+Son bir önlem olarak, framebuffer'ın gerçekten tamamlanıp tamamlanmadığını kontrol etmek istiyoruz ve değilse, bir hata mesajı yazdırıyoruz.
 
 ```cpp
 if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 	std::cout << "ERROR::FRAMEBUFFER:: Framebuffer is not complete!" << std::endl;
 glBindFramebuffer(GL_FRAMEBUFFER, 0);
 ```
- Then also be sure to unbind the framebuffer to make sure we're not accidentally rendering to the wrong framebuffer.
+Sonra da yanlış framebuffer'ın sahnelenmediğinden emin olabilmek için bağın çözüldüğünden emin olun.
 
-Now that the framebuffer is complete all we need to do to render to the framebuffer's buffers instead of the default framebuffers is simply bind to the framebuffer object. All subsequent rendering commands will then influence the currently bound framebuffer. All the depth and stencil operations will also read from the currently bound framebuffer's depth and stencil attachments if they're available. If you were to omit a depth buffer for example, all depth testing operations will no longer work, because there's not a depth buffer present in the currently bound framebuffer.
+Madem ki framebuffer tamamlandı, framebuffer sahnelemek için yapmamız gereken şey, varsayılan framebuffer yerine framebuffer nesnelerine bağlamaktır. Sonraki tüm sahneleme komutları şu anda bağlı olan framebuffer'ı etkileyecektir. Tüm derinlik ve şablon işlemleri, eğer varsa, bağlı framebuffer derinlik ve şablon bağlantılarından da okunacaktır. Örneğin bir derinlik tamponunu unutacak olursanız, derinlik testi işlemleri artık çalışmayacaktır, çünkü şu anda bağlı framebuffer'da bir derinlik tamponu mevcut değildir.
 
-So, to draw the scene to a single texture we'll have to take the following steps:
+Dolayısıyla sahneyi tek bir doku ile çizmek için aşağıdaki adımları izlememiz gerekir:
 
- 1. Render the scene as usual with the new framebuffer bound as the active framebuffer.
- 2. Bind to the default framebuffer.
- 3. Draw a quad that spans the entire screen with the new framebuffer's color buffer as its texture.
+ 1. Sahneyi, etkin framebuffer olarak bağlı yeni framebuffer ile oluşturun.
+ 2. Varsayılan framebuffer'a bağlanın
+ 3. Tüm ekranı, yeni framebuffer'ın renk tamponunu kullanarak doku olarak kaplayan bir dörtlü çizin.
 
-We'll draw the same scene we've used in the depth testing tutorial, but this time with the old-school container texture.
+Derinlik testi eğitselindeki aynı sahneyi çizeceğiz, ancak bu sefer eski okul konteyner dokusunu kullanarak.
 
-To draw the quad we're going to create a fresh set of simple shaders. We're not going to include any fancy matrix transformations since we'll just be supplying the vertex coordinates as normalized device coordinates so we can directly specify them as the output of the vertex shader. The vertex shader looks like this: 
+Dörtlüyü çizmek için yeni bir basit gölgelendirici seti oluşturacağız. Herhangi bir süslü püslü matris dönüşümünü dahil etmeyeceğiz. Çünkü yalnızca köşe koordinatlarını normalize cihaz koordinatları olarak vereceğiz, böylece bunları doğrudan köşe gölgelendiricisinin çıktısı olarak belirleyebiliriz. Kçşe gölgelendiricisi şöyle görünüyor:
 
 ```cpp
 #version 330 core
@@ -209,7 +208,7 @@ void main()
     TexCoords = aTexCoords;
 }
 ```
-Nothing too fancy. The fragment shader will be even more basic since the only thing we have to do is sample from a texture: 
+Çok süslü bir şey yok. Yapmamız gereken tek şey dokudan bir örnek almak olduğu için parça gölgelendiricisi daha da basit olacaktır: 
 
 ```cpp
 #version 330 core
@@ -224,18 +223,17 @@ void main()
     FragColor = texture(screenTexture, TexCoords);
 } 
 ```
-It is then up to you to create and configure a VAO for the screen quad. A render iteration of the framebuffer procedure then has the following structure: 
+Ekran için bir VAO oluşturmak ve yapılandırmak size kalmıştır. Framebuffer işleminin bir sahneleme yinelemesi aşağıdaki yapıya sahiptir:
 ```cpp
-
-// first pass
+// ilk geçiş
 glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
 glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // we're not using the stencil buffer now
+glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // şablon tamponunu şimdi kullanmıyoruz.
 glEnable(GL_DEPTH_TEST);
 DrawScene();	
   
-// second pass
-glBindFramebuffer(GL_FRAMEBUFFER, 0); // back to default
+// ikinci geçiş
+glBindFramebuffer(GL_FRAMEBUFFER, 0); // varsayılana geri dön
 glClearColor(1.0f, 1.0f, 1.0f, 1.0f); 
 glClear(GL_COLOR_BUFFER_BIT);
   
@@ -245,16 +243,17 @@ glDisable(GL_DEPTH_TEST);
 glBindTexture(GL_TEXTURE_2D, textureColorbuffer);
 glDrawArrays(GL_TRIANGLES, 0, 6);
 ```
- There are a few things to note. First, since each framebuffer we're using has its own set of buffers, we want to clear each of those buffers with the appropriate bits set by calling glClear. Second, when drawing the quad, we're disabling depth testing since we don't really care about depth testing because we're drawing a simple quad; we'll have to enable depth testing again when we draw the normal scene though.
+Dikkat edilmesi gereken birkaç şey var. Öncelikle, kullandığımız her framebuffer kendi arabellek kümesine sahip olduğundan, bu arabelleklerin her birini glClear işlevini çağırarak ayarlanan uygun bitlerle siliyoruz. İkincisi, dörtlü çizerken, derinlik testini devre dışı bırakıyoruz çünkü derinlik testini gerçekten umursamıyoruz çünkü basit bir dörtlü çiziyoruz; normal sahneyi çizerken yine derinlik testini etkinleştirmek zorunda kalacağız.
 
-There are quite some steps that could go wrong here, so if you have no output, try to debug where possible and re-read the relevant sections of the tutorial. If everything did work out successfully you'll get a visual result that looks like this: 
+Burada yanlış gidebilecek bazı adımlar vardır, bu nedenle çıktınız yoksa, hata ayıklamayı (ing. debug) deneyin ve eğitselin ilgili bölümlerini yeniden okuyun. Her şey başarılı bir şekilde çalıştıysa, şuna benzeyen görsel bir sonuç alırsınız. 
 
 <img src=https://learnopengl.com/img/advanced/framebuffers_screen_texture.png>
- The left shows the visual output which is exactly the same as we've seen in the depth testing tutorial, but this time, rendered to a simple quad. If we render the scene in wireframe it becomes obvious we've only drawn a single quad in the default framebuffer.
 
-You can find the source code of the application here.
+Solda, derinlik testi eğitiminde gördüğümüzle aynı olan görsel çıktı gösteriliyor, ancak bu kez basit bir dörtlü oluşturuldu. Sahneyi tel kafes içinde oluşturursak, görünür hale gelir, varsayılan çerçevede yalnızca bir dörtlü çizdik.
 
-So what was the use of this again? Well, because we can now freely access each of the pixels of the completely rendered scene as a single texture image, we can create some interesting effects in the fragment shader. The combination of all these interesting effects are called post-processing effects. 
+[Burada](https://learnopengl.com/code_viewer_gh.php?code=src/4.advanced_opengl/5.1.framebuffers/framebuffers.cpp) uygulamanın kaynak kodunu bulabilirsiniz.
+
+Tamamen sahnelenmiş piksellerinin her birine tek bir doku imgesi olarak serbestçe erişebildiğimiz için, parça gölgelendiricisinde bazı ilginç efektler oluşturabiliriz. Tüm bu ilginç etkilerin kombinasyonuna son-işlem efekti denir.
 
 # Post-processing
 
