@@ -478,3 +478,5 @@ Alıştırmalar
 ![GPL License](http://www.gnu.org/graphics/gplv3-88x31.png)
 *[grafik iletişim hattı]: graphics pipeline
 *[uniform]: ??
+
+Çeviri: [Barış Çelik](https://github.com/bariscelik)
