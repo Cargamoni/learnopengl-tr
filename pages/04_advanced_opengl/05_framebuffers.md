@@ -247,7 +247,7 @@ Dikkat edilmesi gereken birkaç şey var. Öncelikle, kullandığımız her fram
 
 Burada yanlış gidebilecek bazı adımlar vardır, bu nedenle çıktınız yoksa, hata ayıklamayı (ing. debug) deneyin ve eğitselin ilgili bölümlerini yeniden okuyun. Her şey başarılı bir şekilde çalıştıysa, şuna benzeyen görsel bir sonuç alırsınız. 
 
-<img src=https://learnopengl.com/img/advanced/framebuffers_screen_texture.png>
+<img src="https://learnopengl.com/img/advanced/framebuffers_screen_texture.png">
 
 Solda, derinlik testi eğitiminde gördüğümüzle aynı olan görsel çıktı gösteriliyor, ancak bu kez basit bir dörtlü oluşturuldu. Sahneyi tel kafes içinde oluşturursak, görünür hale gelir, varsayılan çerçevede yalnızca bir dörtlü çizdik.
 
@@ -271,7 +271,7 @@ void main()
 ```
 While inversion is a relatively simple post-processing effect it already creates funky results: 
 
-<img src=https://learnopengl.com/img/advanced/framebuffers_inverse.png>
+<img src="https://learnopengl.com/img/advanced/framebuffers_inverse.png">
 
  The entire scene now has all its colors inversed with a single line of code in the fragment shader. Pretty cool huh?
 ## Grayscale
@@ -294,7 +294,7 @@ void main()
     FragColor = vec4(average, average, average, 1.0);
 }  
 ```
-<img src=https://learnopengl.com/img/advanced/framebuffers_grayscale.png>
+<img src="https://learnopengl.com/img/advanced/framebuffers_grayscale.png">
 
  You probably won't notice the difference right away, but with more complicated scenes, such a weighted grayscaling effect tends to be more realistic.
 ## Kernel effects
@@ -349,7 +349,7 @@ void main()
 
 This particular sharpen kernel looks like this: 
 
-<img src=https://learnopengl.com/img/advanced/framebuffers_sharpen.png>
+<img src="https://learnopengl.com/img/advanced/framebuffers_sharpen.png">
 
  This could create some interesting effects of where your player might be on a narcotic adventure.
 ## Blur
@@ -368,7 +368,7 @@ float kernel[9] = float[](
 ```
 By changing the kernel float array in the fragment shader we're completely changing the post-processing effect we're after. It now looks something like this: 
 
-<img src= https://learnopengl.com/img/advanced/framebuffers_blur.png>
+<img src="https://learnopengl.com/img/advanced/framebuffers_blur.png">
 
  Such a blur effect creates interesting possibilities. We could vary the blur amount over time for example to create the effect of someone being drunk, or increase the blur whenever the main character is not wearing glasses. Blurring also give us a useful utility to smooth color values which we will use in later tutorials.
 
@@ -381,7 +381,7 @@ Below you can find an edge-detection kernel that is similar to the sharpen kerne
 
 This kernel highlights all edges and darkens the rest, which is quite useful when we only care about edges in an image. 
 
-<img src=https://learnopengl.com/img/advanced/framebuffers_edge_detection.png>
+<img src="https://learnopengl.com/img/advanced/framebuffers_edge_detection.png">
 
 It probably does not come as a surprise that kernels like this are used as image-manipulating tools/filters in tools like Photoshop. Because of a graphic card's ability to process fragments with extreme parallel capabilities, we can manipulate images on a per-pixel basis in real-time with relative ease. Image-editing tools therefore tend to use graphics cards more often for image-processing. 
 
