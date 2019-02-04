@@ -191,9 +191,9 @@ Dolayısıyla sahneyi tek bir doku ile çizmek için aşağıdaki adımları izl
  2. Varsayılan framebuffer'a bağlanın
  3. Tüm ekranı, yeni framebuffer'ın renk tamponunu kullanarak doku olarak kaplayan bir dörtlü çizin.
 
-Derinlik testi eğitselindeki aynı sahneyi çizeceğiz, ancak bu sefer eski okul konteyner dokusunu kullanarak.
+Derinlik testi eğitselindeki aynı sahneyi çizeceğiz, ancak bu sefer eski model konteyner dokusunu kullanarak.
 
-Dörtlüyü çizmek için yeni bir basit gölgelendirici seti oluşturacağız. Herhangi bir süslü püslü matris dönüşümünü dahil etmeyeceğiz. Çünkü yalnızca köşe koordinatlarını normalize cihaz koordinatları olarak vereceğiz, böylece bunları doğrudan köşe gölgelendiricisinin çıktısı olarak belirleyebiliriz. Kçşe gölgelendiricisi şöyle görünüyor:
+Dörtlüyü çizmek için yeni bir basit gölgelendirici seti oluşturacağız. Herhangi bir süslü püslü matris dönüşümünü dahil etmeyeceğiz. Çünkü yalnızca köşe koordinatlarını normalize cihaz koordinatları olarak vereceğiz, böylece bunları doğrudan köşe gölgelendiricisinin çıktısı olarak belirleyebiliriz. Köşe gölgelendiricisi şöyle görünüyor:
 
 ```cpp
 #version 330 core
