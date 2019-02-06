@@ -27,9 +27,9 @@ uniform type uniform_name;
 
 void main()
 {
-  // process input(s) and do some weird graphics stuff
+  // girdileri işle ve bazı garip grafikler yap
   ...
-  // output processed stuff to output variable
+  // işlenmiş bölümü çıktı değişkenine ata
   out_variable_name = weird_stuff_we_processed;
 }
 ```
@@ -100,14 +100,14 @@ Dolayısıyla bir shaderdan veri göndermek istiyorsak, gönderen shaderdan bir 
 
 ```glsl
 #version 330 core
-layout (location = 0) in vec3 aPos; // the position variable has attribute position 0
+layout (location = 0) in vec3 aPos; // konum özelliği 0 olan pozisyon değişkeni 
 
-out vec4 vertexColor; // specify a color output to the fragment shader
+out vec4 vertexColor; // fragment shadera bir renk çıktısı belirle
 
 void main()
 {
-    gl_Position = vec4(aPos, 1.0); // see how we directly give a vec3 to vec4's constructor
-    vertexColor = vec4(0.5, 0.0, 0.0, 1.0); // set the output variable to a dark-red color
+    gl_Position = vec4(aPos, 1.0); // vec4'ün yapıcısına nasıl doğrudan vec3 verdiğimizi görün
+    vertexColor = vec4(0.5, 0.0, 0.0, 1.0); // çıktı değişkenine koyu-kırmızı bir renk ata
 }
 ```
 
@@ -117,7 +117,7 @@ void main()
 #version 330 core
 out vec4 FragColor;
   
-in vec4 vertexColor; // the input variable from the vertex shader (same name and same type)  
+in vec4 vertexColor; // vertex shaderın girdi değişkeni (aynı ad ve aynı tip)  
 
 void main()
 {
@@ -126,9 +126,9 @@ void main()
 ```
 Bir vertexColor değişkenini, vertex shader'da atadığımız çıkışı `vec4` olarak belirttiğimizi ve fragment shader'da benzer bir vertexColor girişi tanımladığımızı görebilirsiniz. Bunların ismi ve tipi aynı olduğu için, fragment shader'daki vertexColor, vertex shader içindeki vertexColor'a bağlanır. Vertex shader'da koyu kırmızı bir renk atadığımız için sonuç fragmentleri de koyu kırmızı olmalıdır. Aşağıdaki görseller çıktıyı gösteriyor.
 
-![](/img/getting-started/shaders.png)
+![](https://learnopengl.com/img/getting-started/shaders.png)
 
-İşte başlıyoruz! Biz sadece vertex shader'dan fragment shader'a bir değer göndermeyi başardık. Let's spice it up a bit and see if we can send a color from our application to the fragment shader! Haydi biraz baharatlandıralım ve uygulamamızdan fragment shader'a bir renk gönderebilecek miyiz görelim!
+İşte başlıyoruz! Biz sadece vertex shader'dan fragment shader'a bir değer göndermeyi başardık. Haydi biraz baharatlandıralım ve uygulamamızdan fragment shader'a bir renk gönderebilecek miyiz görelim!
 
 Uniformlar
 --------
@@ -169,7 +169,7 @@ glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
 Sonra ourColor üniformunun konumunu glGetUniformLocation kullanarak sorgularız. Sorgu fonksiyonuna, shader programını ve üniformun (konumdan almak istediğimiz) adını sağladık.
 
 glGetUniformLocation `-1` döndürürse, konumu bulamamıştır. Son olarak glUniform4f fonksiyonunu kullanarak üniformun değerini ayarlayabiliriz. Üniform konumunu bulmanın, önce shader programını kullanmanızı gerektirmediğini unutmayın., ancak bir üniformu güncellemek şu anda aktif olan shader programında üniformu ayarladığı için önce programı (glUseProgram'ı çağırarak) kullanmanızı gerektirir.
-!!!!!!!!!!!!
+
 {% include callout.html content="
 OpenGL, çekirdeğinde bir C kütüphanesi olduğundan aşırı yükleme için (overloading) native (doğal) desteğe sahip değildir. Bir fonksiyonun farklı tiplerle çağrılabildiği her yerde OpenGL gereken her tip için yeni fonksiyonlar tanımlar; glUniform bunun mükemmel bir örneğidir. Fonksiyon, belirlemek istediğiniz üniformun tipi için özel bir son ek gerektirir. Birkaç olası son ek:
 <br/><br/>
@@ -196,20 +196,20 @@ while(!glfwWindowShouldClose(window))
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    //  be sure to activate the shader
+    //  shaderın aktif edildiğinden emin ol
     glUseProgram(shaderProgram);
   
-    // update the uniform color
+    // uniform rengini güncelle
     float timeValue = glfwGetTime();
     float greenValue = sin(timeValue) / 2.0f + 0.5f;
     int vertexColorLocation = glGetUniformLocation(shaderProgram, "ourColor");
     glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
 
-    // now render the triangle
+    // üçgeni çiz
     glBindVertexArray(VAO);
     glDrawArrays(GL_TRIANGLES, 0, 3);
   
-    // swap buffers and poll IO events
+    // tamponları takas et ve G/Ç olaylarını yokla
     glfwSwapBuffers(window);
     glfwPollEvents();
 }
@@ -217,9 +217,9 @@ while(!glfwWindowShouldClose(window))
 
 Kod, önceki kodun nispeten basit bir uyarlamasıdır. Bu kez, üçgeni çizmeden önce her bir yineleme için tek biçimli bir değeri güncelledik. Uniformu doğru bir şekilde güncellerseniz, üçgeninizin renginin kademeli olarak yeşilden siyaha ve yeşile döndüğünü görmelisiniz.
 
- ![](/img/getting-started/shaders2.png)
+ ![](https://learnopengl.com/img/getting-started/shaders2.png)
 
-Check out the source code [here](/code_viewer_gh.php?code=src/1.getting_started/3.1.shaders_uniform/shaders_uniform.cpp) if you're stuck.
+Takıldıysanız [buradan](https://learnopengl.com/code_viewer_gh.php?code=src/1.getting_started/3.1.shaders_uniform/shaders_uniform.cpp) kaynak kodunu inceleyin.
 
 
 Gördüğünüz gibi uniformlar, render yinelemelerinde değişebilecek nitelikleri ayarlamak veya uygulamanız ile shaderlarınız arasında veri alışverişi yapmak için yararlı bir araçtır, ancak her vertex için bir renk belirlemek istiyorsak ne olur? Bu durumda, köşelerimiz kadar uniform tanımlamamız etmemiz gerekirdi. Daha iyi bir çözüm, yapacağımız şey olan vertex özelliklerine daha fazla veri eklemek olacaktır.
@@ -231,10 +231,10 @@ Daha fazla özellik!
 
 ```cpp
 float vertices[] = {
-    // positions         // colors
-     0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,   // bottom right
-    -0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,   // bottom left
-     0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f    // top 
+    // pozisyonlar         // renkler
+     0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,   // alt sağ
+    -0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,   // alt sol
+     0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f    // üst
 };    
 ```
 
@@ -242,15 +242,15 @@ Artık vertex shadera gönderilecek daha fazla veriye sahip olduğumuzdan, renk 
 
 ```glsl
 #version 330 core
-layout (location = 0) in vec3 aPos;   // the position variable has attribute position 0
-layout (location = 1) in vec3 aColor; // the color variable has attribute position 1
+layout (location = 0) in vec3 aPos;   // konum özelliği 0 olan pozisyon değişkeni
+layout (location = 1) in vec3 aColor; // konum özelliği 1 olan renk değişkeni
   
-out vec3 ourColor; // output a color to the fragment shader
+out vec3 ourColor; // fragment shadera bir renk gönder
 
 void main()
 {
     gl_Position = vec4(aPos, 1.0);
-    ourColor = aColor; // set ourColor to the input color we got from the vertex data
+    ourColor = aColor; // vertex verisinden aldığımız değeri ourColor'a ata
 }       
 ```
 
@@ -269,15 +269,15 @@ void main()
 
 Başka bir vertex niteliği eklediğimiz ve VBO hafızasını güncellediğimiz için vertex niteliği işaretçilerini yeniden yapılandırmamız gerekiyor. VBO’nun belleğindeki güncellenmiş veriler şimdi biraz şuna benziyor:
 
-![Interleaved data of position and color within VBO to be configured wtih <function id='30'>glVertexAttribPointer</function>](/img/getting-started/vertex_attribute_pointer_interleaved.png)
+![glVertexAttribPointer ile yapılandırılacak VBO içindeki pozisyon ve rengin iç içe geçmiş verileri](https://learnopengl.com/img/getting-started/vertex_attribute_pointer_interleaved.png)
 
 Mevcut düzeni bilerek, vertex formatını `glVertexAttribPointer` ile güncelleyebiliriz:
 
 ```cpp
-// position attribute
+// pozisyon özelliği
 glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
 glEnableVertexAttribArray(0);
-// color attribute
+// renk özelliği
 glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3* sizeof(float)));
 glEnableVertexAttribArray(1);
 ```
@@ -289,9 +289,9 @@ Ayrıca, bu sefer bir ofset belirtmeliyiz. Her vertex için, konum vertex öznit
 
 Uygulamayı çalıştırmak aşağıdaki görüntüyle sonuçlanmalıdır:
 
-![](/img/getting-started/shaders3.png)
+![](https://learnopengl.com/img/getting-started/shaders3.png)
 
-Check out the source code [here](/code_viewer_gh.php?code=src/1.getting_started/3.2.shaders_interpolation/shaders_interpolation.cpp) if you're stuck.
+Kaynak kodunu [buradan](https://learnopengl.com/code_viewer_gh.php?code=src/1.getting_started/3.2.shaders_interpolation/shaders_interpolation.cpp)inceleyin
 
 Resim tam olarak beklediğiniz gibi olmayabilir, çünkü şu anda gördüğümüz büyük renk paleti değil, sadece 3 renk sağladık. Tüm bunlar, fragment shaderda fragment enterpolasyonu denilen bir şeyin sonucu. Bir üçgen oluştururken, rasterleştirme aşaması genellikle başlangıçta belirtilen vertexlerden çok daha fazla fragmente neden olur. Rasterizer, daha sonra bu fragmentlerin her birinin pozisyonlarını, üçgen şeklinde bulundukları yere göre belirler.
 Bu konumlara dayanarak, tüm parça gölgelendiricinin giriş değişkenlerini enterpolasyon yapar. Örneğin, üst noktanın yeşil ve alt noktanın mavi renkte olduğu bir çizgimiz var. Fragment shader, çizginin `%70` pozisyonundaki bir pozisyon etrafında kalan bir parçada çalıştırılırsa, sonuçtaki renk girişi özelliği, yeşil ve mavinin doğrusal bir birleşimi olur; Daha kesin olmak gerekirse: `%30` mavi ve `%70` yeşil.
@@ -321,14 +321,14 @@ Gölgelendirici sınıfını, esas olarak öğrenme amaçları ve taşınabilirl
 class Shader
 {
 public:
-    // the program ID
+    // program ID
     unsigned int ID;
   
-    // constructor reads and builds the shader
+    // yapıcı shaderı okur ve derler
     Shader(const GLchar* vertexPath, const GLchar* fragmentPath);
-    // use/activate the shader
+    // shaderı kullan/aktifleştir
     void use();
-    // utility uniform functions
+    // uniform fonksiyonları
     void setBool(const std::string &name, bool value) const;  
     void setInt(const std::string &name, int value) const;   
     void setFloat(const std::string &name, float value) const;
@@ -349,27 +349,27 @@ Dosyanın içeriğini birkaç `string` değişkeninin içine aktarmak için C++ 
 ```cpp
 Shader(const char* vertexPath, const char* fragmentPath)
 {
-    // 1. retrieve the vertex/fragment source code from filePath
+    // 1. dosya yolundan vertex/fragment kaynak kodunu al
     std::string vertexCode;
     std::string fragmentCode;
     std::ifstream vShaderFile;
     std::ifstream fShaderFile;
-    // ensure ifstream objects can throw exceptions:
+    // ifstream nesnelerinin exception verebildiğinden emin ol:
     vShaderFile.exceptions (std::ifstream::failbit | std::ifstream::badbit);
     fShaderFile.exceptions (std::ifstream::failbit | std::ifstream::badbit);
     try 
     {
-        // open files
+        // dosyaları aç
         vShaderFile.open(vertexPath);
         fShaderFile.open(fragmentPath);
         std::stringstream vShaderStream, fShaderStream;
-        // read file's buffer contents into streams
+        // dosyanın tampon içeriklerini akışlara aktar
         vShaderStream << vShaderFile.rdbuf();
         fShaderStream << fShaderFile.rdbuf();		
-        // close file handlers
+        // dosya işleyicileri kapat
         vShaderFile.close();
         fShaderFile.close();
-        // convert stream into string
+        // akışı stringe çevir
         vertexCode   = vShaderStream.str();
         fragmentCode = fShaderStream.str();		
     }
@@ -449,7 +449,7 @@ void setFloat(const std::string &name, float value) const
 }
 ```
 
-And there we have it, a completed [shader class](/code_viewer_gh.php?code=includes/learnopengl/shader_s.h). 
+Ve tamamlanmış bir [shader sınıfı](/code_viewer_gh.php?code=includes/learnopengl/shader_s.h)mız var.
 Shader sınıfını kullanmak oldukça kolaydır; shader nesnesini bir kez oluştururuz ve bu noktadan itibaren kullanmaya başlarız:
 
 ```cpp
@@ -465,12 +465,12 @@ while(...)
 
 Burada vertex ve fragment shaderın kaynak kodunu `shader.vs` ve `shader.fs` isimli iki dosyada sakladık. Shader dosyalarını dilediğiniz gibi adlandırmakta özgürsünüz; Kişisel olarak `.vs` ve `.fs` uzantıları oldukça sezgisel buluyorum.
 
-You can find the source code [here](/code_viewer_gh.php?code=src/1.getting_started/3.3.shaders_class/shaders_class.cpp) using our newly created [shader class](/code_viewer_gh.php?code=includes/learnopengl/shader_s.h). Note that you can click the shader file paths to find each shader's source code.
+Yeni oluşturduğumuz [shader sınıfını](https://learnopengl.com/code_viewer_gh.php?code=includes/learnopengl/shader_s.h) kullanan kaynak kodunu [burada](https://learnopengl.com/code_viewer_gh.php?code=src/1.getting_started/3.3.shaders_class/shaders_class.cpp) bulabilirsiniz. 
 
 Alıştırmalar
 =========
 
-1. Vertex shaderı, üçgen baş aşağı olacak şekilde ayarlayın: [solution](/code_viewer.php?code=getting-started/shaders-exercise1).
+1. Vertex shaderı, üçgen baş aşağı olacak şekilde ayarlayın: [solution](https://learnopengl.com/code_viewer.php?code=getting-started/shaders-exercise1).
 2. Bir uniform ile yatay bir ofset belirtin ve bu ofset değerini kullanarak vertex shaderda üçgeni ekranın sağ tarafına taşıyın: [solution](/code_viewer.php?code=getting-started/shaders-exercise2).
 3. Vertex pozisyonunu `out` anahtar sözcüğünü kullanarak fragment shadera çıkarıp parçanın rengini bu vertex pozisyonuna eşit olarak ayarlayın (vertex pozisyon değerlerinin üçgen boyunca nasıl enterpolasyon yaptığını görün). Bir kere bunu yapmayı başardınız; aşağıdaki soruyu cevaplamaya çalışın: neden üçgenimizin sol-alt tarafı siyah?: [solution](/code_viewer.php?code=getting-started/shaders-exercise3).
 
