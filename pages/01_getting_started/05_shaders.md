@@ -283,7 +283,7 @@ glEnableVertexAttribArray(1);
 ```
 GlVertexAttribPointer'ın ilk birkaç argümanı nispeten basittir. Bu kez vertex niteliğini `1` özellik konumunda yapılandırıyoruz. Renk değerleri 3 `float` büyüklüğüne sahiptir ve değerleri normalleştirmiyoruz.
 
-Şimdi iki vertex niteliğine sahip olduğumuz için _stride_ değerini yeniden hesaplamamız gerekiyor. Veri dizisindeki bir sonraki öznitelik değerini (örneğin, pozisyon vektörünün bir sonraki 'x` bileşeni) elde etmek için, üç pozisyon değeri ve üç renk değeri için `6` `float`ı sağa hareket ettirmeliyiz. Bu bize bayt cinsinden bir `float` boyutunun 6 katı adım değeri verir (= `24` bayt).
+Şimdi iki vertex niteliğine sahip olduğumuz için _stride_ değerini yeniden hesaplamamız gerekiyor. Veri dizisindeki bir sonraki öznitelik değerini (örneğin, pozisyon vektörünün bir sonraki `x` bileşeni) elde etmek için, üç pozisyon değeri ve üç renk değeri için `6` `float`ı sağa hareket ettirmeliyiz. Bu bize bayt cinsinden bir `float` boyutunun 6 katı adım değeri verir (= `24` bayt).
 
 Ayrıca, bu sefer bir ofset belirtmeliyiz. Her vertex için, konum vertex özniteliği öncedir, bu nedenle `0` ofsetini tanımlarız. Renk özniteliği, konum verilerinden sonra başlar, bu nedenle ofset, bayt cinsinden `3 * sizeof (float)` dır (=`12` bayt).
 
