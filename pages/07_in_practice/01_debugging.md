@@ -304,8 +304,7 @@ void main()
     gl_Position = vec4(position, 0.0f, 1.0f);
     TexCoords = texCoords;
 }
-```
-```glsl
+
 // fragment shader
 #version 330 core
 out vec4 FragColor;
@@ -318,7 +317,7 @@ void main()
     FragColor = texture(fboAttachment, TexCoords);
 } 
 
-  
+```cpp
 void DisplayFramebufferTexture(GLuint textureID)
 {
     if(!notInitialized)
@@ -335,8 +334,7 @@ void DisplayFramebufferTexture(GLuint textureID)
         glBindVertexArray(0);
     glUseProgram(0);
 }
-```
-```cpp
+
 int main()
 {
     [...]
