@@ -284,14 +284,14 @@ Note that if it detects no error it returns no output. Testing the GLSL referenc
 <img src="https://learnopengl.com/img/in-practice/debugging_glsl_reference_compiler.png">
 
  It won't show you the subtle differences between AMD, NVidia or Intel GLSL compilers, nor will it help you completely bug proof your shaders, but it does at least help you to check your shaders against the direct GLSL specification.
-Framebuffer output
+## Framebuffer output
 
 Another useful trick for your debugging toolkit is displaying a framebuffer's content(s) in some pre-defined region of your OpenGL application. You're likely to use framebuffers quite often and as most of their magic happens behind the scenes it's sometimes difficult to figure out what's going on. Displaying the content(s) of a framebuffer within your application is a useful trick to quickly see if things look correct.
 Note that displaying the contents (attachments) of a framebuffer as explained here only works on texture attachments, not render buffer objects.
 
 Using a simple shader that only displays a texture we can easily write a small help function to quickly display any texture at the top-right of the screen:
 
-
+```glsl
 // vertex shader
 #version 330 core
 layout (location = 0) in vec2 position;
@@ -304,7 +304,8 @@ void main()
     gl_Position = vec4(position, 0.0f, 1.0f);
     TexCoords = texCoords;
 }
-  
+```
+```glsl
 // fragment shader
 #version 330 core
 out vec4 FragColor;
@@ -334,7 +335,8 @@ void DisplayFramebufferTexture(GLuint textureID)
         glBindVertexArray(0);
     glUseProgram(0);
 }
-  
+```
+```cpp
 int main()
 {
     [...]
@@ -346,7 +348,7 @@ int main()
         glfwSwapBuffers(window);
     }
 }  
-
+```
 This will give you a nice little window at the corner of your screen for debugging framebuffer output. Useful, for example, for determining if the normal vectors of the geometry pass in a deferred renderer look correct: 
 
 <img src="https://learnopengl.com/img/in-practice/debugging_fbo_output.png">
