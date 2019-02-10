@@ -1,5 +1,5 @@
 ---
-title: Pencere Oluşturmak
+title: Pencere Oluşturma
 keywords: 
 last_updated: 
 tags: []
@@ -7,19 +7,19 @@ permalink: /getting_started/creating_a_window.html
 sidebar: main_sidebar
 ---
 
-# Creating a window
+# Bir Pencere Oluşturma
 
-The first thing we need to do to create stunning graphics is to create an OpenGL context and an application window to draw in. However, those operations are specific per operating system and OpenGL purposefully tries to abstract from these operations. This means we have to create a window, define a context and handle user input all by ourselves.
+Çarpıcı grafikler oluşturmak için yapmamız gereken ilk şey, bir OpenGL bağlamı ve onu çizmek için bir uygulama penceresi oluşturmaktır. Ancak, bu işlemler her bir işletim sistemi için özeldir ve OpenGL kasıtlı olarak bu işlemlerden soyutlanmaya çalışır. Bunun anlamı bir pencere oluşturmamız, bir bağlam tanımlamamız ve kullanıcı girdisi ile kendimizin ilgilenmesi gerektiğidir.
 
-Luckily, there are quite a few libraries out there that already provide the functionality we seek, some specifically aimed at OpenGL. Those libraries save us all the operation-system specific work and give us a window and an OpenGL context to render in. Some of the more popular libraries are GLUT, SDL, SFML and GLFW. For our tutorials we will be using GLFW.
+Neyse ki, aradığımız işlevselliği sağlayan epeyce kütüphane var ve bazıları özellikle OpenGL'i hedefliyor. Bu kütüphaneler, işletim sistemine özgü tüm çalışmalarla ilgileniyor ve bize oluşturulacak bir pencere ve bir OpenGL bağlamı veriyor. Bu popüler kütüphanelerden bazıları GLUT, SDL, SFML ve GLFW'dir. Bizim eğitsellerimiz için GLFW kullanacağız.
 
 ## GLFW
 
-GLFW is a library, written in C, specifically targeted at OpenGL providing the bare necessities required for rendering goodies to the screen. It allows us to create an OpenGL context, define window parameters and handle user input which is all that we need. 
+GLFW, özellikle ekrana görüntülenmesi için gereken yalın gereklilikleri sağlayan ve OpenGL'i hedef alan C ile yazılmış bir kütüphanedir. Bir OpenGL bağlamı oluşturmamıza, pencere parametrelerini tanımlamamıza ve ihtiyaç duyduğumuz kullanıcı girdisini kullanmamıza olanak tanır.
 
 <img src="https://learnopengl.com/img/getting-started/glfw.png">
 
- The focus of this and the next tutorial is getting GLFW up and running, making sure it properly creates an OpenGL context and that it properly displays a window for us to render in. The tutorial will take a step-by-step approach in retrieving, building and linking the GLFW library. For this tutorial we will use the Microsoft Visual Studio 2015 IDE (note that the process is the same on the more recent visual studio versions). If you're not using Visual Studio (or an older version) don't worry, the process will be similar on most other IDEs.
+The focus of this and the next tutorial is getting GLFW up and running, making sure it properly creates an OpenGL context and that it properly displays a window for us to render in. The tutorial will take a step-by-step approach in retrieving, building and linking the GLFW library. For this tutorial we will use the Microsoft Visual Studio 2015 IDE (note that the process is the same on the more recent visual studio versions). If you're not using Visual Studio (or an older version) don't worry, the process will be similar on most other IDEs.
 Building GLFW
 
 GLFW can be obtained from their webpage's download page. GLFW already has pre-compiled binaries and header files for Visual Studio 2013/2015, but for completeness' sake we will compile GLFW ourselves from the source code. So let's download the Source package.
