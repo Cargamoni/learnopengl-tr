@@ -109,7 +109,7 @@ entries:
       url: /model_loading/model.html
       output: web, pdf
 
-  - title: İleri Düzeyde OpenGL
+  - title: İleri Düzey OpenGL
     output: web, pdf
 
     folderitems:
@@ -137,11 +137,11 @@ entries:
       url: /advanced_opengl/cubemaps.html
       output: web, pdf
 
-    - title: İleri Düzeyde Veriler
+    - title: İleri Düzey Veriler
       url: /advanced_opengl/advanced_data.html
       output: web, pdf
 
-    - title: İleri Düzeyde GLSL
+    - title: İleri Düzey GLSL
       url: /advanced_opengl/advanced_glsl.html
       output: web, pdf
 
@@ -157,11 +157,11 @@ entries:
       url: /advanced_opengl/anti_aliasing.html
       output: web, pdf
 
-  - title: İleri Düzeyde Işıklandırma
+  - title: İleri Düzey Işıklandırma
     output: web, pdf
 
     folderitems:
-    - title: İleri Düzeyde Işıklandırma
+    - title: İleri Düzey Işıklandırma
       url: /advanced_lighting/advanced_lighting.html
       output: web, pdf
 
