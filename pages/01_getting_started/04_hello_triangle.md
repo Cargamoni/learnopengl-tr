@@ -34,17 +34,17 @@ Geometri gölgelendiricisinin çıktısı daha sonra, primitifleri nihai ekranda
 
 Parça gölgelendiricinin temel amacı, bir pikselin son rengini hesaplamaktır ve bu genellikle gelişmiş OpenGL efektlerinin gerçekleştiği aşamadır. Parça gölgelendirici genellikle, son piksel rengini (ışıklar, gölgeler, ışığın rengi vb.) hesaplamak için kullanabileceği 3-boyutlu sahne hakkındaki verileri içerir.
 
-Karşılık gelen tüm renk değerleri belirlendikten sonra, nihai nesne, alfa testi ve harmanlama aşaması dediğimiz bir aşamadan daha geçecektir. This stage checks the corresponding depth (and stencil) value (we'll get to those later) of the fragment and uses those to check if the resulting fragment is in front or behind other objects and should be discarded accordingly. The stage also checks for alpha values (alpha values define the opacity of an object) and blends the objects accordingly. So even if a pixel output color is calculated in the fragment shader, the final pixel color could still be something entirely different when rendering multiple triangles.
+Karşılık gelen tüm renk değerleri belirlendikten sonra, nihai nesne, alfa testi ve harmanlama aşaması dediğimiz bir aşamadan daha geçecektir. Bu aşama, parçanın karşılık gelen derinlik (ve şablon) değerini kontrol eder ve elde edilen parçanın diğer nesnelerin önünde mi yoksa arkasında mı olduğunu kontrol etmek için bunları kullanır. Aşama ayrıca alfa değerlerini de kontrol eder (alfa değerleri bir nesnenin opaklığını tanımlar) ve nesneleri buna göre harmanlar (ing. blending). Dolayısıyla, bir piksel çıktı rengi parça gölgelendiricisinde hesaplansa bile, son piksel rengi birden çok üçgen oluştururken yine de tamamen farklı bir şey olabilir.
 
-As you can see, the graphics pipeline is quite a complex whole and contains many configurable parts. However, for almost all the cases we only have to work with the vertex and fragment shader. The geometry shader is optional and usually left to its default shader.
+Gördüğünüz gibi, grafik iş hattı oldukça karmaşık bir bütündür ve değiştirilebilir birçok parça içermektedir. Bununla birlikte, neredeyse tüm durumlar için sadece tepe ve parça gölgelendiriciyle çalışmak zorundayız. Geometri gölgelendiricisi isteğe bağlıdır ve genellikle varsayılan gölgelendiricide bırakılır.
 
-In Modern OpenGL we are required to define at least a vertex and fragment shader of our own (there are no default vertex/fragment shaders on the GPU). For this reason it is often quite difficult to start learning Modern OpenGL since a great deal of knowledge is required before being able to render your first triangle. Once you do get to finally render your triangle at the end of this chapter you will end up knowing a lot more about graphics programming. 
+Modern OpenGL'de kendimize ait en az bir tepe noktası ve parça gölgelendirici tanımlamamız gerekmektedir (GPU'da varsayılan tepe noktası/ parça gölgelendirici yoktur). Bu nedenle, Modern OpenGL'i öğrenmeye başlamak çoğu zaman zordur, çünkü ilk üçgeni oluşturmadan önce çok fazla bilgi gerekmektedir. Bu bölümün sonunda üçgeni oluşturduğunuzda, grafik programlama hakkında daha fazla şey öğrenmiş olacaksınız. 
 
 ## Vertex input
 
-To start drawing something we have to first give OpenGL some input vertex data. OpenGL is a 3D graphics library so all coordinates that we specify in OpenGL are in 3D (x, y and z coordinate). OpenGL doesn't simply transform all your 3D coordinates to 2D pixels on your screen; OpenGL only processes 3D coordinates when they're in a specific range between -1.0 and 1.0 on all 3 axes (x, y and z). All coordinates within this so called normalized device coordinates range will end up visible on your screen (and all coordinates outside this region won't).
+Bir şeyler çizmeye başlamak için öncelikle OpenGL’e girdi olarak tepe noktası verisi vermeliyiz. OpenGL 3-boyutlu bir grafik kütüphanesidir, bu yüzden OpenGL'de belirlediğimiz tüm koordinatlar 3-boyutludur (x, y ve z koordinatı). OpenGL, tüm 3-boyutlu koordinatları ekranınızdaki 2-boyutlu piksellere dönüştürmez; OpenGL 3-boyutlu koordinatları yalnızca 3 eksenin (x, y ve z) -1 ile 1.0 arasında belirli bir aralıktayken işler. Bu normalize koordinatlar aralığındaki tüm koordinatlar ekranınızda görünecektir (ve bu bölgenin dışındaki hiç bir koordinat görünmeyecektir).
 
-Because we want to render a single triangle we want to specify a total of three vertices with each vertex having a 3D position. We define them in normalized device coordinates (the visible region of OpenGL) in a float array: 
+Tek bir üçgen oluşturmak istediğimiz için, her tepe noktasında 3-boyutlu konumu olan toplam üç tepe noktası belirlemek istiyoruz. Onları float dizisindeki normalize edilmiş koordinatlar (OpenGL'in görünür bölgesi) olarak tanımlarız:
 ```cpp
 float vertices[] = {
     -0.5f, -0.5f, 0.0f,
@@ -52,18 +52,18 @@ float vertices[] = {
      0.0f,  0.5f, 0.0f
 }; 
 ```
-
-Because OpenGL works in 3D space we render a 2D triangle with each vertex having a z coordinate of 0.0. This way the depth of the triangle remains the same making it look like it's 2D. 
+OpenGL 3-boyutlu alanda çalıştığı için, her tepe noktasını 0.0 olan z-koordinatına sahip bir 2-boyutlu üçgen biçiminde oluştururuz. Böylece üçgenin derinliği aynı kalır ve 2-boyutlu gibi görünür.
 
 ```
-### Normalized Device Coordinates (NDC)
+### Normalize Edilmiş Koordinatlar (Normalized Device Coordinates-NDC)
 
-Once your vertex coordinates have been processed in the vertex shader, they should be in normalized device coordinates which is a small space where the x, y and z values vary from -1.0 to 1.0. Any coordinates that fall outside this range will be discarded/clipped and won't be visible on your screen. Below you can see the triangle we specified within normalized device coordinates (ignoring the z axis): 
+Tepe noktası koordinatlarınız, tepe noktası gölgelendiricisinde işlendikten sonra, x, y ve z değerlerinin -1,0 ile 1,0 arasında değiştiği küçük bir alan olan normalleştirilmiş cihaz koordinatlarında olmalıdır. Bu aralığın dışında kalan tüm koordinatlar atılacak/ kırpılacak ve ekranınızda görünmeyecektir. Aşağıda normalize edilmiş cihaz koordinatları içerisinde belirlediğimiz üçgeni görebilirsiniz (z-eksenini görmezden geliyoruz):
+
 <img src "https://learnopengl.com/img/getting-started/ndc.png">
 
- Unlike usual screen coordinates the positive y-axis points in the up-direction and the (0,0) coordinates are at the center of the graph, instead of top-left. Eventually you want all the (transformed) coordinates to end up in this coordinate space, otherwise they won't be visible.
+Alışılmış ekran koordinatlarının aksine, (0,0) koordinatı sol-üst köşe yerine grafiğin merkezindedir. Neticede, tüm (dönüştürülmüş) koordinatların bu koordinat alanına girmesini istersiniz, aksi takdirde görünmezler.
 
-Your NDC coordinates will then be transformed to screen-space coordinates via the viewport transform using the data you provided with glViewport. The resulting screen-space coordinates are then transformed to fragments as inputs to your fragment shader. 
+NDC koordinatlarınız daha sonra glViewport ile sağladığınız verileri kullanarak, görüntüleme portu dönüşümüyle ekran-uzay koordinatlarına dönüştürülür.Elde edilen ekran-uzay koordinatları daha sonra parça gölgelendiriciye girdi olarak parçalara dönüştürülür.
 ```
  With the vertex data defined we'd like to send it as input to the first process of the graphics pipeline: the vertex shader. This is done by creating memory on the GPU where we store the vertex data, configure how OpenGL should interpret the memory and specify how to send the data to the graphics card. The vertex shader then processes as much vertices as we tell it to from its memory.
 
