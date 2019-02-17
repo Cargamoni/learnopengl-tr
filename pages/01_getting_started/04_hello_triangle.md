@@ -54,7 +54,7 @@ float vertices[] = {
 ```
 OpenGL 3-boyutlu alanda çalıştığı için, her tepe noktasını 0.0 olan z-koordinatına sahip bir 2-boyutlu üçgen biçiminde oluştururuz. Böylece üçgenin derinliği aynı kalır ve 2-boyutlu gibi görünür.
 
-```
+
 ### Normalize Edilmiş Koordinatlar (Normalized Device Coordinates-NDC)
 
 Tepe noktası koordinatlarınız, tepe noktası gölgelendiricisinde işlendikten sonra, x, y ve z değerlerinin -1,0 ile 1,0 arasında değiştiği küçük bir alan olan normalleştirilmiş cihaz koordinatlarında olmalıdır. Bu aralığın dışında kalan tüm koordinatlar atılacak/ kırpılacak ve ekranınızda görünmeyecektir. Aşağıda normalize edilmiş cihaz koordinatları içerisinde belirlediğimiz üçgeni görebilirsiniz (z-eksenini görmezden geliyoruz):
@@ -64,8 +64,8 @@ Tepe noktası koordinatlarınız, tepe noktası gölgelendiricisinde işlendikte
 Alışılmış ekran koordinatlarının aksine, (0,0) koordinatı sol-üst köşe yerine grafiğin merkezindedir. Neticede, tüm (dönüştürülmüş) koordinatların bu koordinat alanına girmesini istersiniz, aksi takdirde görünmezler.
 
 NDC koordinatlarınız daha sonra glViewport ile sağladığınız verileri kullanarak, görüntüleme portu dönüşümüyle ekran-uzay koordinatlarına dönüştürülür.Elde edilen ekran-uzay koordinatları daha sonra parça gölgelendiriciye girdi olarak parçalara dönüştürülür.
-```
- With the vertex data defined we'd like to send it as input to the first process of the graphics pipeline: the vertex shader. This is done by creating memory on the GPU where we store the vertex data, configure how OpenGL should interpret the memory and specify how to send the data to the graphics card. The vertex shader then processes as much vertices as we tell it to from its memory.
+
+With the vertex data defined we'd like to send it as input to the first process of the graphics pipeline: the vertex shader. This is done by creating memory on the GPU where we store the vertex data, configure how OpenGL should interpret the memory and specify how to send the data to the graphics card. The vertex shader then processes as much vertices as we tell it to from its memory.
 
 We manage this memory via so called vertex buffer objects (VBO) that can store a large number of vertices in the GPU's memory. The advantage of using those buffer objects is that we can send large batches of data all at once to the graphics card without having to send data a vertex a time. Sending data to the graphics card from the CPU is relatively slow, so wherever we can, we try to send as much data as possible at once. Once the data is in the graphics card's memory the vertex shader has almost instant access to the vertices making it extremely fast
 
@@ -448,3 +448,4 @@ To really get a good grasp of the concepts discussed a few exercises were set up
     Now create the same 2 triangles using two different VAOs and VBOs for their data: solution.
     Create two shader programs where the second program uses a different fragment shader that outputs the color yellow; draw both triangles again where one outputs the color yellow: solution.
 
+Çeviri: [Nezihe Sözen](https://github.com/NeziheSozen)
