@@ -31,14 +31,14 @@ GLFW [web sayfasından](https://www.glfw.org/download.html) indirilebilir. GLFW 
 Kaynak paketi indirdikten sonra, çıkartın ve içeriğini açın. Sadece birkaç ürünle ilgileniyoruz:
 
 
-* The resulting library from compilation.
-* The include folder.
+* Derleme sonucu ortaya çıkan kütüphane.
+* **include** klasörü.
 
-Compiling the library from the source code guarantees that the resulting library is perfectly tailored for your CPU/OS, a luxury pre-compiled binaries do not always provide (sometimes, pre-compiled binaries are not available for your system). The problem with providing source code to the open world however is that not everyone uses the same IDE for developing their application, which means the project/solution files provided may not be compatible with other people's IDEs. So people then have to build their own project/solution with the given .c/.cpp and .h/.hpp files, which is cumbersome. Exactly for those reasons there is a tool called CMake.
+Kütüphaneyi kaynak kodundan derlemek, elde edilen kütüphanenin CPU/işletim sisteminize mükemmel şekilde uyarlandığını garanti eder, önceden derlenmiş binary dosyalar her zaman uyum sağlamaz (bazen önceden derlenmiş binary dosyalar sisteminizde kullanılamaz).Bununla birlikte, açık kaynak dünyasında kaynak kodu sağlamadaki sorun, uygulama geliştirmek için herkesin aynı IDE'yi kullanmamasıdır. Bu, sağlanan proje/çözüm dosyalarının diğer kişilerin IDE'leriyle uyumlu olmayabileceği anlamına gelir. Bu yüzden insanlar daha sonra  .c/.cpp ve .h/.hpp dosyalarıyla kendi projelerini/çözümlerini oluşturmalılar. Bu nedenlerden dolayı CMake adında bir araç var.
 
 ## CMake
 
-CMake is a tool that can generate project/solution files of the user's choice (e.g. Visual Studio, Code::Blocks, Eclipse) from a collection of source code files using pre-defined CMake scripts. This allows us to generate a Visual Studio 2012 project file from GLFW's source package which we can use to compile the library. First we need to download and install CMake that can be found on their download page. I used the Win32 Installer.
+CMake, kullanıcının seçtiği proje/ çözüm dosyalarını (örneğin, Visual Studio, Code::Blocks, Eclipse) önceden tanımlanmış CMake kodları kullanarak kaynak kod dosyaları koleksiyonundan üretebilen bir araçtır. Bu, GLFW'nin kütüphanesini derlemek için kullanabileceğimiz kaynak paketinden bir Visual Studio 2012 proje dosyası oluşturmamızı sağlar. Öncelikle, [indirme](https://cmake.org/download/) sayfalarında bulunan CMake'i indirip yüklememiz gerekir. Win32 yükleyicyi kullandım.
 
 Once CMake is installed you can choose to run CMake from the command line or via their GUI. Since we're not trying to overcomplicate things we're going to use the GUI. CMake requires a source code folder and a destination folder for the binaries. As the source code folder we're going to choose the root folder of the downloaded GLFW source package and for the build folder we're creating a new directory build and then select that directory. 
 
@@ -142,3 +142,4 @@ Hitting the compile button shouldn't give you any errors, at which point we're s
     Writing a build system under Linux: an autotools tutorial by Wouter Verholst on how to write a build system in Linux, specifically targeted for these tutorials.
     Polytonic/Glitter: a simple boilerplate project that comes pre-configured with all relevant libraries; great for if you want a sample project for the LearnOpenGL tutorials without the hassle of having to compile all the libraries yourself.
 
+Çeviri: [Nezihe Sözen](https://github.com/NeziheSozen)
