@@ -19,16 +19,20 @@ GLFW, özellikle ekrana görüntülenmesi için gereken yalın gereklilikleri sa
 
 <img src="https://learnopengl.com/img/getting-started/glfw.png">
 
-The focus of this and the next tutorial is getting GLFW up and running, making sure it properly creates an OpenGL context and that it properly displays a window for us to render in. The tutorial will take a step-by-step approach in retrieving, building and linking the GLFW library. For this tutorial we will use the Microsoft Visual Studio 2015 IDE (note that the process is the same on the more recent visual studio versions). If you're not using Visual Studio (or an older version) don't worry, the process will be similar on most other IDEs.
-Building GLFW
+Bunun ve bir sonraki eğitselin odağı, bir OpenGL bağlamı oluşturduğundan ve  bir pencere gösterdiğinden emin olarak GLFW'yi çalıştırmaktır. Eğitsel, GLFW kütüphanesini alma, inşa etme (ing building) ve  bağlama (ing. linking) için adım adım bir yaklaşım izleyecektir. Bu ders için Microsoft Visual Studio 2015 IDE'yi kullanacağız (işlemin daha yeni Visual Studio sürümlerinde aynı olduğunu unutmayın). Visual Studio'yu (ya da daha eski bir sürümü) kullanmıyorsanız endişelenmeyin, işlem diğer çoğu IDE'de benzer olacaktır.
 
-GLFW can be obtained from their webpage's download page. GLFW already has pre-compiled binaries and header files for Visual Studio 2013/2015, but for completeness' sake we will compile GLFW ourselves from the source code. So let's download the Source package.
-If you're using their pre-compiled binaries, be sure to download the 32 bit versions and not the 64 bit versions (unless you know exactly what you're doing). The 64 bit versions have reportedly been causing weird errors for most readers.
+### Building GLFW
 
-Once you've downloaded the source package, extract it and open its content. We are only interested in a few items:
+GLFW [web sayfasından](https://www.glfw.org/download.html) indirilebilir. GLFW zaten Visual Studio 2013/2015 için önceden derlenmiş binary ve başlık dosyalarına sahiptir, ancak eksiksiz olması için GLFW'yi kaynak kodundan kendimiz derleyeceğiz. Öyleyse Kaynak paketini indirelim.
 
-    The resulting library from compilation.
-    The include folder.
+> Önceden derlenmiş binary dosyaları kullanıyorsanız (tam olarak ne yaptığınızı bilmiyorsanız) 64-bit sürümlerini değil de 32-bit sürümlerini indirdiğinizden emin olun. 64-bit sürümlerin garip hatalara neden olduğu çoğu okuyucu tarafından bildiriliyor.
+
+
+Kaynak paketi indirdikten sonra, çıkartın ve içeriğini açın. Sadece birkaç ürünle ilgileniyoruz:
+
+
+* The resulting library from compilation.
+* The include folder.
 
 Compiling the library from the source code guarantees that the resulting library is perfectly tailored for your CPU/OS, a luxury pre-compiled binaries do not always provide (sometimes, pre-compiled binaries are not available for your system). The problem with providing source code to the open world however is that not everyone uses the same IDE for developing their application, which means the project/solution files provided may not be compatible with other people's IDEs. So people then have to build their own project/solution with the given .c/.cpp and .h/.hpp files, which is cumbersome. Exactly for those reasons there is a tool called CMake.
 
