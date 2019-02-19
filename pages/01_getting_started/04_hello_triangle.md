@@ -59,7 +59,7 @@ OpenGL 3-boyutlu alanda çalıştığı için, her tepe noktasını 0.0 olan z-k
 
 Tepe noktası koordinatlarınız, tepe noktası gölgelendiricisinde işlendikten sonra, x, y ve z değerlerinin -1,0 ile 1,0 arasında değiştiği küçük bir alan olan normalleştirilmiş cihaz koordinatlarında olmalıdır. Bu aralığın dışında kalan tüm koordinatlar atılacak/ kırpılacak ve ekranınızda görünmeyecektir. Aşağıda normalize edilmiş cihaz koordinatları içerisinde belirlediğimiz üçgeni görebilirsiniz (z-eksenini görmezden geliyoruz):
 
-<img src "https://learnopengl.com/img/getting-started/ndc.png">
+<img src="https://learnopengl.com/img/getting-started/ndc.png">
 
 Alışılmış ekran koordinatlarının aksine, (0,0) koordinatı sol-üst köşe yerine grafiğin merkezindedir. Neticede, tüm (dönüştürülmüş) koordinatların bu koordinat alanına girmesini istersiniz, aksi takdirde görünmezler.
 
