@@ -40,7 +40,7 @@ Kütüphaneyi kaynak kodundan derlemek, elde edilen kütüphanenin CPU/işletim 
 
 CMake, kullanıcının seçtiği proje/ çözüm dosyalarını (örneğin, Visual Studio, Code::Blocks, Eclipse) önceden tanımlanmış CMake kodları kullanarak kaynak kod dosyaları koleksiyonundan üretebilen bir araçtır. Bu, GLFW'nin kütüphanesini derlemek için kullanabileceğimiz kaynak paketinden bir Visual Studio 2012 proje dosyası oluşturmamızı sağlar. Öncelikle, [indirme](https://cmake.org/download/) sayfalarında bulunan CMake'i indirip yüklememiz gerekir. Win32 yükleyicyi kullandım.
 
-Once CMake is installed you can choose to run CMake from the command line or via their GUI. Since we're not trying to overcomplicate things we're going to use the GUI. CMake requires a source code folder and a destination folder for the binaries. As the source code folder we're going to choose the root folder of the downloaded GLFW source package and for the build folder we're creating a new directory build and then select that directory. 
+CMake kurulduktan sonra onu komut satırından veya GUI'den çalıştırmayı seçebilirsiniz. İşleri karmaşıklaştırmaya çalışmadığımızdan GUI'yi kullanacağız. CMake, binary dosyalar için bir kaynak kod klasörüne ve bir hedef klasöre ihtiyaç duyar. As the source code folder we're going to choose the root folder of the downloaded GLFW source package and for the build folder we're creating a new directory build and then select that directory. 
 
 <img src="https://learnopengl.com/img/getting-started/cmake.png">
 
