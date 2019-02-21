@@ -40,24 +40,25 @@ Kütüphaneyi kaynak kodundan derlemek, elde edilen kütüphanenin CPU/işletim 
 
 CMake, kullanıcının seçtiği proje/ çözüm dosyalarını (örneğin, Visual Studio, Code::Blocks, Eclipse) önceden tanımlanmış CMake kodları kullanarak kaynak kod dosyaları koleksiyonundan üretebilen bir araçtır. Bu, GLFW'nin kütüphanesini derlemek için kullanabileceğimiz kaynak paketinden bir Visual Studio 2012 proje dosyası oluşturmamızı sağlar. Öncelikle, [indirme](https://cmake.org/download/) sayfalarında bulunan CMake'i indirip yüklememiz gerekir. Win32 yükleyicyi kullandım.
 
-CMake kurulduktan sonra onu komut satırından veya GUI'den çalıştırmayı seçebilirsiniz. İşleri karmaşıklaştırmaya çalışmadığımızdan GUI'yi kullanacağız. CMake, binary dosyalar için bir kaynak kod klasörüne ve bir hedef klasöre ihtiyaç duyar. As the source code folder we're going to choose the root folder of the downloaded GLFW source package and for the build folder we're creating a new directory build and then select that directory. 
+CMake kurulduktan sonra onu komut satırından veya GUI'den çalıştırmayı seçebilirsiniz. İşleri karmaşıklaştırmaya çalışmadığımızdan GUI'yi kullanacağız. CMake, binary dosyalar için bir kaynak kod klasörüne ve bir hedef klasöre ihtiyaç duyar. İndirilen GLFW kaynak paketinin kök klasörünü, kaynak kod klasörü olarak seçeceğiz ve ve build klasörü için yeni bir build dizini yaratıyoruz ve sonra bu dizini seçiyoruz.
 
 <img src="https://learnopengl.com/img/getting-started/cmake.png">
 
- Once the source and destination folders have been set, click the Configure button so CMake can read the required settings and the source code. We then have to choose the generator for the project and since we're using Visual Studio 2015 we will choose the Visual Studio 14 option (Visual Studio 2015 is also known as Visual Studio 14). CMake will then display the possible build options to configure the resulting library. We can leave them to their default values and click Configure again to store the settings. Once the settings have been set, we can click Generate and the resulting project files will be generated in your build folder.
+Kaynak ve hedef klasörler ayarlandıktan sonra, CMake'in gerekli ayarları ve kaynak kodunu okuyabilmesi için Configure (tr. Yapılandır) düğmesine tıklayın. Daha sonra proje için üreteç seçmeliyiz ve Visual Studio 2015'i kullandığımızdan Visual Studio 14 seçeneğini seçeceğiz (Visual Studio 2015 ayrıca Visual Studio 14 olarak da bilinir). CMake daha sonra ortaya çıkan kütüphaneyi yapılandırmak için olası seçeneklerini görüntüler. Bunları varsayılan değerlerine bırakıp ayarları saklamak için tekrar Configure'i tıklayabiliriz. Ayarlar yapıldıktan sonra Generate (tr. Üret) seçeneğine tıklarız ve ortaya çıkan proje dosyaları build klasörünüzde oluşturulur.
  
-## Compilation
+## Derleme
 
-In the build folder a file named GLFW.sln can be found and we open it with Visual Studio 2015. Since CMake generated a project file that already contains the proper configuration settings we can hit the Build Solution button and the resulting compiled library can be found in src/Debug named glfw3.lib (note, we're using version 3).
+Derleme klasöründe GLFW.sln isimli bir dosya bulunacak ve onu Visual Studio 2015 ile açıyoruz.CMake, zaten uygun yapılandırma ayarlarını içeren bir proje dosyası oluşturduğundan, Build Solution düğmesine basabiliriz ve elde edilen derlenmiş kütüphane, glfw3.lib adlı src/Debug dizininde bulunabilir (Not: sürüm 3'ü kullanıyoruz).
 
-Once the library is generated we need to make sure the IDE knows where to find the library and the include files. There are two approaches in doing this:
+Kütüphane oluşturulduktan sonra, IDE'nin kütüphaneyi ve include dosyalarını nerede bulacağını bildiğinden emin olmalıyız. Bunu yaparken iki yaklaşım vardır:
 
-    We find the /lib and /include folders of the IDE/Compiler and add the content of GLFW's include folder to the IDE's /include folder and similarly add glfw3.lib to the IDE's /lib folder. This works, but this is not the recommended approach. It's hard to keep track of your library/include files and a new installation of your IDE/Compiler will result in lost files.
-    The recommended approach is to create a new set of directories at a location of your choice that contains all the header files/libraries from third parties to which you can refer to using your IDE/Compiler. I personally use a single folder that contains a Libs and Include folder where I store all my library and header files respectively for OpenGL projects. Now all my third party libraries are organized within a single location (that could be shared across multiple computers). The requirement is however, that each time we create a new project we have to tell the IDE where to find those directories.
+1. IDE'nin /lib ve /include klasörlerini buluruz ve GLFW'nin include klasörünün içeriğini IDE'nin /include klasörüne ekleriz ve benzer şekilde IDE'nin /lib klasörüne glfw3.lib'i ekleriz. Bu işe yarar, ancak önerilen yaklaşım bu değildir.library/include dosyalarınızı takip etmek zordur ve IDE'nizin yeniden kurulumu dosyaların kaybına neden olacaktır.
+
+2. The recommended approach is to create a new set of directories at a location of your choice that contains all the header files/libraries from third parties to which you can refer to using your IDE/Compiler. I personally use a single folder that contains a Libs and Include folder where I store all my library and header files respectively for OpenGL projects. Now all my third party libraries are organized within a single location (that could be shared across multiple computers). The requirement is however, that each time we create a new project we have to tell the IDE where to find those directories.
 
 Once the required files are stored at a location of your choice, we can start creating our first OpenGL project with GLFW!
 
-Our first project
+# Our first project
 
 First, let's open up Visual Studio and create a new project. Choose Visual C++ if multiple options are given and take the Empty Project (don't forget to give your project a suitable name). We now have a workspace to create our very first OpenGL application!
 Linking
