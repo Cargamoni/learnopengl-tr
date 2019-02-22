@@ -54,28 +54,29 @@ Kütüphane oluşturulduktan sonra, IDE'nin kütüphaneyi ve include dosyaların
 
 1. IDE'nin /lib ve /include klasörlerini buluruz ve GLFW'nin include klasörünün içeriğini IDE'nin /include klasörüne ekleriz ve benzer şekilde IDE'nin /lib klasörüne glfw3.lib'i ekleriz. Bu işe yarar, ancak önerilen yaklaşım bu değildir.library/include dosyalarınızı takip etmek zordur ve IDE'nizin yeniden kurulumu dosyaların kaybına neden olacaktır.
 
-2. The recommended approach is to create a new set of directories at a location of your choice that contains all the header files/libraries from third parties to which you can refer to using your IDE/Compiler. I personally use a single folder that contains a Libs and Include folder where I store all my library and header files respectively for OpenGL projects. Now all my third party libraries are organized within a single location (that could be shared across multiple computers). The requirement is however, that each time we create a new project we have to tell the IDE where to find those directories.
+2. Önerilen yaklaşım, seçtiğiniz bir yerde, IDE ya da derleyicinizi kullanarak başvurabileceğiniz üçüncü parti tüm başlık dosyalarını ve kütüphanelerini içeren yeni bir dizin seti oluşturmaktır. Kişisel olarak, OpenGL projeleri için sırasıyla tüm kütüphane ve başlık dosyalarımı sakladığım bir **Libs** ve **Include** klasörü içeren tek bir klasör kullanıyorum. Artık tüm üçüncü parti kütüphanelerim tek bir yerde (birden fazla bilgisayar arasında paylaşılabilecek şekilde) düzenleniyor.Bununla birlikte, yeni bir proje oluşturduğumuzda, IDE'ye bu dizinleri nerede bulacağını söylememiz gerekir.
 
-Once the required files are stored at a location of your choice, we can start creating our first OpenGL project with GLFW!
+Gereken dosyaları seçtiğiniz bir dizinde saklandıktan sonra, ilk OpenGL projemiz GLFW!
 
-# Our first project
+# İlk Projemiz
 
-First, let's open up Visual Studio and create a new project. Choose Visual C++ if multiple options are given and take the Empty Project (don't forget to give your project a suitable name). We now have a workspace to create our very first OpenGL application!
-Linking
+İlk önce Visual Studio'yu açalım ve yeni bir proje oluşturalım. Birden fazla seçenek verilirse Visual C++'ı ve ardından Empty Project'i seçin (projenize uygun bir ad vermeyi unutmayın). Artık ilk OpenGL uygulamamızı oluşturmak için bir çalışma alanımız var!
 
-In order for the project to use GLFW we need to link the library with our project. This can be done by specifying we want to use glfw3.lib in the linker settings, but our project does not yet know where to find glfw3.lib since we pasted our third party libraries to different directories. We thus need to add those directories to the project first.
+## Bağlama (ing. Linking)
 
-We can add those directories (where VS should search for libraries/include-files) by going to the project properties (right-click the project name in the solution explorer) and then go to VC++ Directories as can be seen in the image below: 
+Projenin GLFW'yi kullanması için kütüphaneyi projemizle bağlamamız gerekir. Bu, linker ayarlarında glfw3.lib kullanmak istediğimizi belirterek yapılabilir, ancak projemizde üçüncü parti kütüphaneleri farklı dizinlere yapıştırdığımızdan beri glfw3.lib'i nerede bulunacağı bilinmiyor. Bu yüzden önce bu dizinleri projeye eklememiz gerekiyor.
+
+Proje özelliklerine gidip (Solution Explorer'da proje adına sağ tıklayın) bu dizinleri ekleyebilir ve ardından aşağıdaki resimde görüldüğü gibi VC++ dizinlerine gidebiliriz: 
 
 <img src="https://learnopengl.com/img/getting-started/vc_directories.png">
 
 
-From there on out you can add your own directories to let the project know where to search. This can be done by manually inserting it into the text or clicking the appropriate location string and selecting the <Edit..> option where you'll see the following image for the Include Directories case: 
+O andan itibaren, projenin nerede arama yapılacağını bildirmek için kendi dizinlerinizi ekleyebilirsiniz. Bu, metne elle ekleme yaparak veya uygun konum dizesini tıklayarak ve **Include Directories** vakası için aşağıdaki resmi göreceğiniz <Edit ..> seçeneğini belirleyerek yapılabilir:
 
 <img src="https://learnopengl.com/img/getting-started/include_directories.png">
 
 
- Here you can add as many extra directories as you'd like and from that point on the IDE will also search those directories when searching for header files, so as soon as your Include folder from GLFW is included, you will be able to find all the header files for GLFW by including <GLFW/..>. The same applies for the library directories.
+Here you can add as many extra directories as you'd like and from that point on the IDE will also search those directories when searching for header files, so as soon as your Include folder from GLFW is included, you will be able to find all the header files for GLFW by including <GLFW/..>. The same applies for the library directories.
 
 Since VS can now find all the required files we can finally link GLFW to the project by going to the Linker tab and selecting input: 
 
@@ -97,27 +98,28 @@ Then, once you've added both the GLFW and OpenGL library to the linker settings 
 ```
 
 
->For Linux users compiling with GCC the following command line options might help you compile the project -lglfw3 -lGL -lX11 -lpthread -lXrandr -lXi -ldl. Not correctly linking the corresponding libraries will generate many undefined reference errors. 
+> GCC ile derleme yapan Linux kullanıcıları için aşağıdaki komut satırı seçenekleri -lglfw3 -lGL -lX11 -lpthread -lXrandr -lXi -ldl projesini derlemenize yardımcı olabilir. Karşılık gelen kütüphaneleri doğru bir şekilde ilişkilendirmemek birçok tanımsız referans hatası oluşturacaktır.
 
- This concludes the setup and configuration of GLFW.
+Böylece GLFW'nin kurulumunu ve konfigürasyonunu sonlandırırız.
 
 ## GLAD
 
-We're still not quite there yet, since there is one other thing we still need to do. Since OpenGL is a standard/specification it is up to the driver manufacturer to implement the specification to a driver that the specific graphics card supports. Since there are many different versions of OpenGL drivers, the location of most of its functions is not known at compile-time and needs to be queried at run-time. It is then the task of the developer to retrieve the location of the functions he/she needs and store them in function pointers for later use. Retrieving those locations is OS-specific and in Windows it looks something like this: 
+Hala tam olarak sonuna varablmiş değiliz, çünkü yapmamız gereken bir şey daha var. OpenGL bir standart/spesifikasyon olduğu için, belirli grafik kartının desteklediği bir sürücüye teknik özellikleri uygulamak sürücü üreticisine kalmıştır. OpenGL sürücülerinin birçok farklı sürümü bulunduğundan, işlevlerinin çoğunun konumu derleme zamanında bilinmemektedir ve çalışma zamanında sorgulanması gerekir. Ardından, geliştiricinin, ihtiyaç duyduğu işlevlerin yerlerini almak ve daha sonra kullanmak üzere işlev işaretçilerinde (ing. funtion pointers) saklamak görevidir. Bu konumların alınması işletim sistemine özgüdür ve Windows'ta şöyle görünür:
 
 ```cpp
-// define the function's prototype
+// işlev prototipini tanımla
 typedef void (*GL_GENBUFFERS) (GLsizei, GLuint*);
-// find the function and assign it to a function pointer
+// işlevi bul ve bir işlev işaretçisine ata
 GL_GENBUFFERS glGenBuffers  = (GL_GENBUFFERS)wglGetProcAddress("glGenBuffers");
-// function can now be called as normal
+// işlev şimdi normal olarak adlandırılabilir
 unsigned int buffer;
 glGenBuffers(1, &buffer);
 ```
 
 
- As you can see the code looks complex and it's a cumbersome process to do this for each function you might need that is not yet declared. Thankfully, there are libraries for this purpose as well where GLAD is a popular and up-to-date library.
-Setting up GLAD
+As you can see the code looks complex and it's a cumbersome process to do this for each function you might need that is not yet declared. Thankfully, there are libraries for this purpose as well where GLAD is a popular and up-to-date library.
+
+### Setting up GLAD
 
 GLAD is an open source library that manages all that cumbersome work we talked about. GLAD has a slightly different configuration setup than most common open source libraries. GLAD uses a web service where we can tell GLAD for which version of OpenGL we'd like to define and load all relevant OpenGL functions according to that version.
 
