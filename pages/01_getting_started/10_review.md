@@ -11,7 +11,7 @@ sidebar: main_sidebar
 
 Eğitsellerle oynamaya çalışın, biraz deneme yapın veya bazı sorunlara ilişkin kendi fikir ve çözümlerinizi bulun. Tartıştığımız tüm materyalleri anladığınızı hissettiğiniz anda bir sonraki derse geçme zamanı.
 
-## Glossary
+## Sözlük
 
 * **OpenGL**: her işlevin düzenini ve çıktısını tanımlayan  grafik API'sinin resmi bir spesifikasyonu.
 * **GLAD**: Tüm OpenGL işlev işaretçilerini yükleyen ve ayarlayan bir eklenti yükleme kütüphanesi, böylece tüm OpenGL işlevlerini kullanabiliyoruz.
