@@ -7,7 +7,7 @@ permalink: /getting_started/camera.html
 sidebar: main_sidebar
 ---
 
- In the previous tutorial we discussed the view matrix and how we can use the view matrix to move around the scene (we moved backwards a little). OpenGL by itself is not familiar with the concept of a camera, but we can try to simulate one by moving all objects in the scene in the reverse direction, giving the illusion that we are moving.
+Önceki eğitselde, görünüm matrisini ve sahnenin etrafında hareket etmek için görünüm matrisini nasıl kullanabileceğimizi tartıştık (biraz geçmişe doğru gittik). OpenGL tek başına bir kamera kavramına sahip değildir,
 
 In this tutorial we'll discuss how we can set up a camera in OpenGL. We will discuss an FPS-style camera that allows you to freely move around in a 3D scene. In this tutorial we'll also discuss keyboard and mouse input and finish with a custom camera class.
 
