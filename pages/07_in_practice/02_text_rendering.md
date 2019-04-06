@@ -150,7 +150,7 @@ Also be sure to clear FreeType's resources once you're finished processing the g
 FT_Done_Face(face);
 FT_Done_FreeType(ft);
 ```
-Shaders
+## Shaders
 
 To render the actual glyphs we'll be using the following vertex shader:
 
@@ -299,3 +299,7 @@ Going further
 This tutorial demonstrated a text rendering technique with TrueType fonts using the FreeType library. The approach is flexible, scalable and works with many character encodings. However, this approach is likely going to be overkill for your application as we generate and render textures for each glyph. Performance-wise bitmap fonts are preferable as we only need one texture for all our glyphs. The best approach would be to combine the two approaches by dynamically generating a bitmap font texture featuring all characters glyphs as loaded with FreeType. This saves the renderer from a significant amount of texture switches and based on how tightly each glyph is packed could save quite some performance.
 
 Another issue with FreeType fonts is that the glyph textures are stored with a fixed font size so a significant amount of scaling might be required that will introduce jagged edges. Furthermore, rotations applied to the glyphs will cause them to appear blurry. This can be mitigated by, instead of storing the actual rasterized pixel color, storing the distance to the closest glyph outline per pixel. This technique is called signed distance fields and Valve published a paper a few years ago about their implementation of this technique which works surprisingly well for 3D rendering applications. 
+
+Kaynak: [Text Rendering](https://learnopengl.com/In-Practice/Text-Rendering)
+Çeviri: [Nezihe Sözen](https://github.com/NeziheSozen)
+
