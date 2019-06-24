@@ -76,22 +76,25 @@ O andan itibaren, projenin nerede arama yapılacağını bildirmek için kendi d
 <img src="https://learnopengl.com/img/getting-started/include_directories.png">
 
 
-Here you can add as many extra directories as you'd like and from that point on the IDE will also search those directories when searching for header files, so as soon as your Include folder from GLFW is included, you will be able to find all the header files for GLFW by including <GLFW/..>. The same applies for the library directories.
+Burada istediğiniz kadar fazladan dizin ekleyebilirsiniz ve IDE header dosyalarını ararken bu dizinleri de arayacaktır. Böylece GLFW'nin "include" klasörü dahil edilince GLFW için tüm header dosyalarını <GLFW/..> şeklinde bulabileceksiniz. Aynısı diğer kütüphane dizinleri için de geçerlidir.
 
-Since VS can now find all the required files we can finally link GLFW to the project by going to the Linker tab and selecting input: 
+
+VS artık gerekli tüm dosyaları bulabildiği için, Linker sekmesine gidip giriş seçerek GLFW'yi projeye bağlayabiliriz:
 
 <img src="https://learnopengl.com/img/getting-started/linker_input.png">
 
 
- To then link to a library you'd have to specify the name of the library to the linker. Since the library name is glfw3.lib, we add that to the Additional Dependencies field (either manually or using the <Edit..> option) and from that point on GLFW will be linked when we compile. Aside from GLFW you should also add a link entry to the OpenGL library, but this might differ per operating system:
-OpenGL library on Windows
+Daha sonra bir kütüphaneye link vermek için kütüphanenin adını linke belirtmeniz gerekir. Kütüphane adı glfw3.lib olduğu için, Ek Bağımlılıklar alanına (manuel olarak ya da <Düzenle ..> seçeneğini kullanarak) ekliyoruz ve derlediğimizde GLFW'deki o noktadan bağlantı sağlanacak. GLFW dışında, OpenGL kütüphanesine bir link girişi de eklemelisiniz, ancak bu işletim sistemine göre farklılık gösterebilir:
 
-If you're on Windows the OpenGL library opengl32.lib comes with the Microsoft SDK which is installed by default when you install Visual Studio. Since this tutorial uses the VS compiler and is on windows we add opengl32.lib to the linker settings.
-OpenGL library on Linux
+Windows'ta OpenGL Kütüphanesi
 
-On Linux systems you need to link to the libGL.so library by adding -lGL to your linker settings. If you can't find the library you probably need to install any of the Mesa, NVidia or AMD dev packages, but I won't delve into the details since this is platform-specific (plus I'm not a Linux expert).
+Windows kullanıyorsanız, OpenGL kütüphanesi opengl32.lib, Visual Studio'yu yüklediğinizde varsayılan olarak yüklenen Microsoft SDK ile birlikte gelir. Bu eğitimde VS derleyicisini kullandığından ve Windows üzerinde bulunduğundan, Linker ayarlarına opengl32.lib ekliyoruz.
 
-Then, once you've added both the GLFW and OpenGL library to the linker settings you can include the headers of GLFW as follows: 
+Linux'da OpenGL Kütüphanesi
+
+Linux sistemlerde libGL.so kütüphanesini linker ayarlarına -lGL ekleyerek bağlamanız gerekir. Eğer kütüphaneyi bulamıyorsanız muhtemelen Mesa, NVidia ya da AMD paketlerinden birini yüklemeniz gerekiyor. Ancak platforma özgü bir işlem olduğu için detaylara dalmayacağım. (ek olarak, Linux uzmanı değilim)
+
+Ardından, hem GLFW hem de OpenGL kütüphanesini linker ayarlarına ekledikten sonra, GLFW header dosyalarını aşağıdaki gibi ekleyebilirsiniz:
 
 ```cpp
 #include <GLFW\glfw3.h>
