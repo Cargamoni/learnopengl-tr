@@ -51,8 +51,7 @@ OpenGL başlı başına büyük bir durum makinesidir(ing. state machine): Bu du
 
 OpenGL'e üçgen yerine çizgiler çizmek istediğimizi söylediğimizde, OpenGL çizimini ayarlayan bazı bağlam değişkenlerini değiştirerek aslında OpenGL durumunu değiştiririz. Opengl'e çizgiler çizmesi gerektiğini söyleyerek durumu değiştirdiğimizde, bir sonraki çizim komutları şimdi üçgen yerine çizgiler çizecektir.
 
-When working in OpenGL we will come across several state-changing functions that change the context and several state-using functions that perform some operations based on the current state of OpenGL. As long as you keep in mind that OpenGL is basically one large state machine, most of its functionality will make more sense.
-### Nesneler
+OpenGL'de çalışırken, bağlamı değiştiren çeşitli durum-değişitirici ve OpenGL'in şu anki durumuna bağlı olarak bazı işlemleri yapan birçok durum-kulanıcı işlevlerle karşılaşacağız. OpenGL'in temelde büyük bir durum makinesi olduğunu aklınızda tuttuğunuz sürece, işlevlerinin çoğu daha mantıklı olacaktır.
 
 OpenGL kütüphaneleri C dilinde yazılmıştır ve diğer dillerde birçok türetim için izin verir, fakat özünde bir C kütüphanesi olarak kalır. C'nin dil yapılarının çoğu, bunu diğer üst düzey dillere pek iyi çevirmediğinden, OpenGL birçok soyutlama düşünülerek geliştirilmiştir. Bu soyutlamalardan biri OpenGL'deki nesnelerdir (ing. objects).
 
@@ -96,7 +95,7 @@ Bu nesneleri kullanmanın en iyi yanı, uygulamamızdaki birden fazla nesneyi ta
 
 ### Hadi Başlayalım
 
-Bir spesifikasyon ve kütüphane olarak OpenGL hakkında biraz şey öğrendiniz. OpenGL'in yaklaşık olarak  nasıl çalıştığını ve OpenGL'in kullandığı birkaç özel püf noktayı öğrendiniz. Hepsini anlamadıysanız endişelenmeyin; eğitsel boyunca adım adım işleyeceğiz ve OpenGL'i gerçekten kavramak için yeterli örnekler göreceğiz. Bir sonraki adıma hazırsanız, OpenGL bağlamını ve ilk penceremizi oluşturmaya başlayabiliriz [here](https://cg-translators.github.io/learnopengl-tr/getting_started/creating_a_window.html). 
+Bir spesifikasyon ve kütüphane olarak OpenGL hakkında biraz şey öğrendiniz. OpenGL'in yaklaşık olarak  nasıl çalıştığını ve OpenGL'in kullandığı birkaç özel püf noktayı öğrendiniz. Hepsini anlamadıysanız endişelenmeyin; eğitsel boyunca adım adım işleyeceğiz ve OpenGL'i gerçekten kavramak için yeterli örnekler göreceğiz. Bir sonraki adıma hazırsanız, OpenGL bağlamını ve ilk penceremizi oluşturmaya [buradan](https://cg-translators.github.io/learnopengl-tr/getting_started/creating_a_window.html) başlayabiliriz . 
 
 ### Ek Kaynaklar
 
