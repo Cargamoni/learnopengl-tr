@@ -7,7 +7,7 @@ permalink: /in_practice/text_rendering.html
 sidebar: main_sidebar
 ---
 
- Grafik maceralarınızın bir aşamasında OpenGL'de metin çizmek isteyeceksiniz. Beklediğinizin aksine, basit bir karakter katarının ekranda gösterilmesi OpenGL gibi düşük seviyeli bir kütüphanede oldukça zordur. Eğer 128'den fazla karakter oluşturmayı istemiyorsanız, o zaman da muhtemelen çok zor değil. Her karakterin farklı genişlik, yükseklik ve mesafesi olduğu anda işler daha da zorlaşıyor. Yaşadığınız yere göre, 128 karakterden daha fazlasına da ihtiyacınız olabilir; peki ya benzer matematiksel ifadeler veya notalar sembolleri için özel semboller ifade etmek istiyorsanız, ya da metni aşağıdan yukarıya doğru yapmak için ne yapmalısınız? Tüm bu karmaşık metin meseleleri hakkında düşündüğünüzde, bunun muhtemelen OpenGL gibi düşük seviyeli bir API'ye ait olmadığı sizi şaşırtmaz.
+ Grafik maceralarınızın bir aşamasında OpenGL'de metin çizmek isteyeceksiniz. Beklediğinizin aksine, basit bir karakter katarının ekranda gösterilmesi OpenGL gibi düşük seviyeli bir kütüphanede oldukça zordur. Eğer 128'den fazla karakter oluşturmayı istemiyorsanız, o zaman da muhtemelen çok zor değildir. Her karakterin farklı genişlik, yükseklik ve mesafesi olduğu anda işler daha da zorlaşıyor. Yaşadığınız yere göre, 128 karakterden daha fazlasına da ihtiyacınız olabilir; peki ya benzer matematiksel ifadeler veya notalar sembolleri için özel semboller ifade etmek istiyorsanız, ya da metni aşağıdan yukarıya doğru yapmak için ne yapmalısınız? Tüm bu karmaşık metin meseleleri hakkında düşündüğünüzde, bunun muhtemelen OpenGL gibi düşük seviyeli bir API'ye ait olmadığı sizi şaşırtmaz.
 
 OpenGL içindeki herhangi bir metin özelliği için destek olmadığından, ekrana metin oluşturmak için bir sistem tanımlama görevi bize kalmıştır. Metin karakterleri için grafiksel primitifler olmadığından, yaratıcı olmamız gerekmektedir. Bazı örnek teknikler şunlardır: GL_LINES ile harf şekilleri çizmek, 3B harflerin 3B ağlarını (ing. mesh) oluşturmak veya 3B bir ortamda 2B dörtlülerle(ing. quad) karakter dokuları oluşturmak.
 
@@ -20,11 +20,11 @@ Eskiden metin oluşturma işleminde, uygulamanız için bir font seçmek (veya k
 
 Burada, bir bitmap yazı tipi alarak ve ilgili dörtlü harflerin üzerinde oluşturduğumuz glifleri dokudan (doku koordinatlarını dikkatlice seçerek) 'OpenGL' metnini nasıl oluşturacağımızı görebilirsiniz. [Harmanlama](https://cg-translators.github.io/learnopengl-tr/advanced_opengl/blending.html) (ing. blending) ve arka planı saydam tutarak, ekrana getirilmiş bir dizi karakterle sonuçlanır. Bu belirli bitmap yazı tipi, Codehead'in Bitmap [Font Üreteç](http://www.codehead.co.uk/cbfg/)'i kullanılarak üretildi.
 
-This approach has several advantages and disadvantages. First, it is relatively easy to implement and because bitmap fonts are pre-rasterized they're quite efficient. However, it is not particular flexible. When you want to use a different font, you need to recompile a complete new bitmap font and the system is limited to a single resolution; zooming will quickly show pixelated edges. Furthermore, it is often limited to a small character set so Extended or Unicode characters are often out of the question.
+Bu yaklaşımın bazı avantaj ve dezavantajları vardır. İlk olarak, uygulanması nispeten kolaydır ve bitmap fontlar önceden pikselleştirildiği için oldukça verimlidir. Ancak belirli bir esneklikte değildir. Farklı bir yazı tipi kullanmak istediğinizde, yeni bir bitmap yazı tipini yeniden derlemeniz gerekir ve sistem tek bir çözünürlükle sınırlıdır. Yakınlaştırma yapıldığında  pikselli kenarlar gösterilecektir. Ayrıca, küçük bir karakter kümesiyle sınırlıdır, bu yüzden Extended veya Unicode karakterler genellikle söz konusu değildir.
 
-This approach was quite popular back in the day (and still is) since it is fast and works on any platform, but as of today more flexible approaches exist. One of these approaches is loading TrueType fonts using the FreeType library. 
+Bu yaklaşım, oldukça popülerdi ve hala devam ediyor. Çünkü hızlı ve herhangi bir platformda çalışmaktadır. Ancak bugünden itibaren daha esnek yaklaşımlar var. Bu yaklaşımlardan biri, FreeType kütüphanesini kullanarak TrueType fontları yüklemektir.
 
-## Modern text rendering: FreeType
+## Modern Metin Sahneleme: FreeType
 
 FreeType is a software development library that is able to load fonts, render them to bitmaps and provide support for several font-related operations. It is a popular library used by Mac OS X, Java, PlayStation Consoles, Linux and Android to name a few. What makes FreeType particularly attractive is that it is able to load TrueType fonts.
 
