@@ -7,21 +7,21 @@ permalink: /pbr/theory.html
 sidebar: main_sidebar
 ---
 
- PBR, or more commonly known as physically based rendering is a collection of render techniques that are more or less based on the same underlying theory which more closely matches that of the physical world. As physically based rendering aims to mimic light in a physically plausible way it generally looks more realistic compared to our original lighting algorithms like Phong and Blinn-Phong. Not only does it look better, as it closely approximates actual physics, we (and especially the artists) can author surface materials based on physical parameters without having to resort to cheap hacks and tweaks to make the lighting look right. One of the bigger advantages of authoring materials based on physical parameters is that these materials will look correct regardless of lighting conditions; something that is not true in non-PBR pipelines.
+ PBR ya da daha yaygın olarak bilinen ismiyle Fiziksel Temelli Sahneleme (ing. Physically Based Rendering) fiziksel dünyadaki teoriyle aynı temelde birleşen sahneleme tekniğidir. Fiziksel Temelli Sahneleme, ışığı fiziksel olarak makul bir şekilde taklit etmeyi amaçlar. Phong ve Blinn-Phong gibi orijinal aydınlatma algoritmalarına kıyasla genellikle daha gerçekçi görünür. Sadece daha iyi görünmekle kalmaz, aynı zamanda gerçek fiziğe yaklaştığı için, aydınlatmanın doğru sağlanması için bayağı ve ince ayarlara başvurmaya gerek olmaksızın yüzey materyalleri oluşturabiliriz. Fiziksel parametrelere dayalı materyallerin en büyük avantajlarından biri, aydınlatma koşullarından bağımsız olarak bu materyallerin doğru görünmesidir. Bu, PBR olmaksızın iş hatlarında sağlanamayan bir şeydir.
+ 
+Fiziksel temelli renderleme gerçekliğin bir yaklaşımıdır (fizik prensiplerine dayandırılarak), bu yüzden fiziksel gölgeleme değil, fiziksel temelli gölgeleme olarak adlandırılır. Bir PBR aydınlatma modelinin fiziksel olarak temel alınması için aşağıdaki 3 şartı yerine getirmesi gerekir:
 
-Physically based rendering is still nonetheless an approximation of reality (based on the principles of physics) which is why it's not called physical shading, but physically based shading. For a PBR lighting model to be considered physically based it has to satisfy the following 3 conditions (don't worry, we'll get to them soon enough):
+1. Mikro-yüzey yüzey modeline sahip olmak
+2. Enerji tasarruflu olmak
+3. Fiziksel tabanlı BRDF kullanmak
 
-1. Be based on the microfacet surface model.
-2. Be energy conserving.
-3. Use a physically based BRDF.
-
-In this PBR tutorial series/guide we'll be focusing on the PBR approach as originally explored by Disney and adopted for real-time display by Epic Games. Their approach based on the metallic workflow is decently documented, widely adopted on most popular engines and looks visually amazing. By the end of the series we'll have something that looks like this: 
+Bu PBR eğitselinde başlangıçta Disney tarafından keşfedilen ve Epic Games tarafından gerçek zamanlı gösterim için kabul edilen PBR yaklaşımına odaklanacağız. Metalik iş akışına dayanan yaklaşımları oldukça belgeleştirilmiştir, çoğu popüler motorda yaygın olarak kullanılmaktadır ve görsel olarak harika görünmektedir. Serinin sonunda şuna benzeyen bir şeye sahip olacağız:
 
 <img src ="https://learnopengl.com/img/pbr/ibl_specular_result_textured.png">
 
-Keep in mind the topics in this tutorial series are rather advanced so it is advised to have a good understanding of OpenGL and shader lighting. Some of the more advanced knowledge you'll need for this series are: framebuffers, cubemaps, gamma correction, HDR and normal mapping. We'll also delve into some advanced mathematics, but I'll do my best to explain the concepts as clear as possible. 
+Bu eğitseldeki kısımların oldukça ileri seviye olduğunu unutmayın, bu yüzden OpenGL ve gölgelendirici aydınlatma konularını iyi anlayabilmeniz önerilir. Bu seri için ihtiyaç duyacağınız ileri seviye bilgilerden bazıları şunlardır: framebuffer, cubemap, gama düzeltmesi, HDR ve normal haritalama. Ayrıca ileri seviye matematiğe de gireceğiz, ancak kavramları mümkün olduğunca net bir şekilde açıklamak için elimden geleni yapacağım.
 
-## The microfacet model
+## Mikro-yüzey Model
 
  All the PBR techniques are based on the theory of microfacets. The theory describes that any surface at a microscopic scale can be described by tiny little perfectly reflective mirrors called microfacets. According to the roughness of a surface the alignment of these tiny little mirrors can differ quite a lot: 
  
