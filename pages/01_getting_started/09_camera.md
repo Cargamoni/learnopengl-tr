@@ -52,7 +52,7 @@ Artık hem x-ekseni vektörüne hem de z-ekseni vektörüne sahip olduğumuza g�
 ```cpp
 glm::vec3 cameraUp = glm::cross(cameraDirection, cameraRight);
 ```
-Çapraz çarpım ve birkaç püf nokta yardımıyla Görünüm/ Kamera uzayını oluşturan tüm vektörleri elde ettik. Daha matematiksel eğilimli okuyucular için ifade edecek olursak, bu işlem doğrusal cebirdeki Gram-Schmidt işlemi olarak bilinir. Bu kamera vektörlerini kullanarak artık kamera oluşturmak için çok faydalı olduğunu kanıtlayan bir LookAt matrisi oluşturabiliriz.
+Çapraz çarpım ve birkaç püf nokta yardımıyla Görünüm/ Kamera uzayını oluşturan tüm vektörleri elde ettik. Daha matematiksel eğilimli okuyucular için ifade edecek olursak, bu işlem doğrusal cebirdeki [Gram-Schmidt](en.wikipedia.org/wiki/Gram%E2%80%93Schmidt_process) işlemi olarak bilinir. Bu kamera vektörlerini kullanarak artık kamera oluşturmak için çok faydalı olduğunu kanıtlayan bir LookAt matrisi oluşturabiliriz.
 
 ## Look At
 
