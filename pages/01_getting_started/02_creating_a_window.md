@@ -118,13 +118,13 @@ GL_GENBUFFERS glGenBuffers  = (GL_GENBUFFERS)wglGetProcAddress("glGenBuffers");
 unsigned int buffer;
 glGenBuffers(1, &buffer);
 ```
+Gördüğünüz gibi, kod karmaşık görünüyor ve henüz deklare edilmemiş, ihtiyaç duyabileceğiniz her işlev için bunu yapmak zahmetli bir işlem. Neyse ki, GLAD'ın popüler ve güncel bir kütüphane olduğu bu amaç için kütüphaneler var.
 
-
-As you can see the code looks complex and it's a cumbersome process to do this for each function you might need that is not yet declared. Thankfully, there are libraries for this purpose as well where GLAD is a popular and up-to-date library.
-
-### Setting up GLAD
+### GLAD'ın Ayarlanması
 
 GLAD is an open source library that manages all that cumbersome work we talked about. GLAD has a slightly different configuration setup than most common open source libraries. GLAD uses a web service where we can tell GLAD for which version of OpenGL we'd like to define and load all relevant OpenGL functions according to that version.
+
+GLAD, konuştuğumuz tüm bu hantal işleri yöneten açık kaynaklı bir kütüphanedir. GLAD, yaygın açık kaynaklı kütüphanelerden biraz farklı olarak bir yapılandırma kurulumuna sahiptir. GLAD, OpenGL'in kullanacağımız sürümü için ilgili tüm OpenGL işlevlerini bu sürüme göre tanımlamak ve yüklemek istediğimizi söyleyebileceğimiz bir Web hizmeti kullanır.
 
 Go to the web service, make sure the language is set to C++ and in the API section, select an OpenGL version of at least 3.3 (which is what we'll be using for these tutorials; higher versions are fine as well). Also make sure the profile is set to Core and that the Generate a loader option is ticked. Ignore the extensions (for now) and click Generate to produce the resulting library files.
 
@@ -140,12 +140,11 @@ After the previous steps, you should be able to add the following include direct
 Hitting the compile button shouldn't give you any errors, at which point we're set to go for the next tutorial where we'll discuss how we can actually use GLFW and GLAD to configure an OpenGL context and spawn a window. Be sure to check that all your include and library directories are correct and that the library names in the linker settings match with the corresponding libraries. If you're still stuck, check the comments, check any of the additional resources or ask your question below.
 
 ### Ek Kaynaklar
-
-    GLFW: Window Guide: official GLFW guide on setting up and configuring a GLFW window.
-    Building applications: provides great info about the compilation/linking process of your application and a large list of possible errors (plus solutions) that might come up.
-    GLFW with Code::Blocks: building GLFW in Code::Blocks IDE.
-    Running CMake: short overview of how to run CMake on both Windows and Linux.
-    Writing a build system under Linux: an autotools tutorial by Wouter Verholst on how to write a build system in Linux, specifically targeted for these tutorials.
-    Polytonic/Glitter: a simple boilerplate project that comes pre-configured with all relevant libraries; great for if you want a sample project for the LearnOpenGL tutorials without the hassle of having to compile all the libraries yourself.
+* GLFW: Window Guide: official GLFW guide on setting up and configuring a GLFW window.
+* Building applications: provides great info about the compilation/linking process of your application and a large list of possible errors (plus solutions) that might come up.
+* GLFW with Code::Blocks: building GLFW in Code::Blocks IDE.
+* Running CMake: short overview of how to run CMake on both Windows and Linux.
+* Writing a build system under Linux: an autotools tutorial by Wouter Verholst on how to write a build system in Linux, specifically targeted for these tutorials.
+* Polytonic/Glitter: a simple boilerplate project that comes pre-configured with all relevant libraries; great for if you want a sample project for the LearnOpenGL tutorials without the hassle of having to compile all the libraries yourself.
 
 Çeviri: [Nezihe Sözen](https://github.com/NeziheSozen)
