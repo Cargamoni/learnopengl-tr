@@ -140,11 +140,11 @@ After the previous steps, you should be able to add the following include direct
 Hitting the compile button shouldn't give you any errors, at which point we're set to go for the next tutorial where we'll discuss how we can actually use GLFW and GLAD to configure an OpenGL context and spawn a window. Be sure to check that all your include and library directories are correct and that the library names in the linker settings match with the corresponding libraries. If you're still stuck, check the comments, check any of the additional resources or ask your question below.
 
 ### Ek Kaynaklar
-* GLFW: Window Guide: official GLFW guide on setting up and configuring a GLFW window.
-* Building applications: provides great info about the compilation/linking process of your application and a large list of possible errors (plus solutions) that might come up.
-* GLFW with Code::Blocks: building GLFW in Code::Blocks IDE.
-* Running CMake: short overview of how to run CMake on both Windows and Linux.
-* Writing a build system under Linux: an autotools tutorial by Wouter Verholst on how to write a build system in Linux, specifically targeted for these tutorials.
-* Polytonic/Glitter: a simple boilerplate project that comes pre-configured with all relevant libraries; great for if you want a sample project for the LearnOpenGL tutorials without the hassle of having to compile all the libraries yourself.
+* [GLFW: Window Guide](https://www.glfw.org/docs/latest/window_guide.html): official GLFW guide on setting up and configuring a GLFW window.
+* [Building applications](http://www.opengl-tutorial.org/miscellaneous/building-your-own-c-application/): provides great info about the compilation/linking process of your application and a large list of possible errors (plus solutions) that might come up.
+* [GLFW with Code::Blocks](http://wiki.codeblocks.org/index.php?title=Using_GLFW_with_Code::Blocks): building GLFW in Code::Blocks IDE.
+* [Running CMake](https://cmake.org/runningcmake/): short overview of how to run CMake on both Windows and Linux.
+* [Writing a build system under Linux](https://learnopengl.com/demo/autotools_tutorial.txt): an autotools tutorial by Wouter Verholst on how to write a build system in Linux, specifically targeted for these tutorials.
+* [Polytonic/Glitter](https://github.com/Polytonic/Glitter): a simple boilerplate project that comes pre-configured with all relevant libraries; great for if you want a sample project for the LearnOpenGL tutorials without the hassle of having to compile all the libraries yourself.
 
 Çeviri: [Nezihe Sözen](https://github.com/NeziheSozen)
