@@ -13,8 +13,6 @@ Bu eğitselde OpenGL'de nasıl kamera kuracağımızı anlatacağız. 3B sahnede
 
 ## Kamera/ Görünüm Uzayı
 
-When we're talking about camera/view space we're talking about all the vertex coordinates as seen from the camera's perspective as the origin of the scene: the view matrix transforms all the world coordinates into view coordinates that are relative to the camera's position and direction. To define a camera we need its position in world space, the direction it's looking at, a vector pointing to the right and a vector pointing upwards from the camera. A careful reader might notice that we're actually going to create a coordinate system with 3 perpendicular unit axes with the camera's position as the origin. 
-
 Kamera/Görünüm uzayı hakkında konuşurken, sahnenin orijini olarak kamera perspektifinden görüldüğü gibi tüm köşe koordinatlarından bahsediyoruz: görünüm matrisi tüm dünya koordinatlarını, kameranın konumuna ve yönüne göre görünüm koordinatlarına dönüştürür  Bir kamerayı tanımlamak için dünyadaki konumuna, baktığı yöne, sağa işaret eden bir vektöre ve kameradan yukarı işaret bir vektöre ihtiyacımız vardır. Dikkatli bir okuyucu, kameranın orijini olarak konumu ile 3 dikey ünite eksenine sahip bir koordinat sistemi oluşturacağımızı fark edebilir.
 
 <img src="https://learnopengl.com/img/getting-started/camera_axes.png">
@@ -52,7 +50,7 @@ Artık hem x-ekseni vektörüne hem de z-ekseni vektörüne sahip olduğumuza g�
 ```cpp
 glm::vec3 cameraUp = glm::cross(cameraDirection, cameraRight);
 ```
-Çapraz çarpım ve birkaç püf nokta yardımıyla Görünüm/ Kamera uzayını oluşturan tüm vektörleri elde ettik. Daha matematiksel eğilimli okuyucular için ifade edecek olursak, bu işlem doğrusal cebirdeki [Gram-Schmidt](en.wikipedia.org/wiki/Gram%E2%80%93Schmidt_process) işlemi olarak bilinir. Bu kamera vektörlerini kullanarak artık kamera oluşturmak için çok faydalı olduğunu kanıtlayan bir LookAt matrisi oluşturabiliriz.
+Çapraz çarpım ve birkaç püf nokta yardımıyla Görünüm/ Kamera uzayını oluşturan tüm vektörleri elde ettik. Daha matematiksel eğilimli okuyucular için ifade edecek olursak, bu işlem doğrusal cebirdeki [Gram-Schmidt](en.wikipedia.org/wiki/Gram%E2%80%93Schmidt_process) işlemi olarak bilinir. Bu kamera vektörlerini kullanarak bir LookAt matrisi oluşturabiliriz.
 
 ## Look At
 
