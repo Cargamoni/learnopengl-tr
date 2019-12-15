@@ -7,52 +7,56 @@ permalink: /getting_started/camera.html
 sidebar: main_sidebar
 ---
 
-Önceki eğitselde, görünüm matrisini ve sahnenin etrafında hareket etmek için görünüm matrisini nasıl kullanabileceğimizi tartıştık (biraz geçmişe doğru gittik). OpenGL tek başına bir kamera kavramına sahip değildir,
+Önceki eğitselde, görünüm matrisini(ing. view matrix) ve sahnenin etrafında hareket etmek için görünüm matrisini nasıl kullanabileceğimizi tartıştık. OpenGL tek başına bir kamera kavramına sahip değildir, ancak sahnede yer alan tüm nesneleri ters yönde hareket ettirerek, hareket ettiğimiz yanılsamasını verebiliriz.
 
-In this tutorial we'll discuss how we can set up a camera in OpenGL. We will discuss an FPS-style camera that allows you to freely move around in a 3D scene. In this tutorial we'll also discuss keyboard and mouse input and finish with a custom camera class.
+Bu eğitselde OpenGL'de nasıl kamera kuracağımızı anlatacağız. 3B sahnede serbestçe dolaşmanıza izin veren FPS-tarzı bir kameradan bahsedeceğiz. Bu eğitselde ayrıca klavye ve fare girişini anlatacak ve özel bir kamera sınıfı ile bitireceğiz.
 
-# Camera/View space
+## Kamera/ Görünüm Uzayı
 
 When we're talking about camera/view space we're talking about all the vertex coordinates as seen from the camera's perspective as the origin of the scene: the view matrix transforms all the world coordinates into view coordinates that are relative to the camera's position and direction. To define a camera we need its position in world space, the direction it's looking at, a vector pointing to the right and a vector pointing upwards from the camera. A careful reader might notice that we're actually going to create a coordinate system with 3 perpendicular unit axes with the camera's position as the origin. 
 
+Kamera/Görünüm uzayı hakkında konuşurken, sahnenin orijini olarak kamera perspektifinden görüldüğü gibi tüm köşe koordinatlarından bahsediyoruz: görünüm matrisi tüm dünya koordinatlarını, kameranın konumuna ve yönüne göre görünüm koordinatlarına dönüştürür  Bir kamerayı tanımlamak için dünyadaki konumuna, baktığı yöne, sağa işaret eden bir vektöre ve kameradan yukarı işaret bir vektöre ihtiyacımız vardır. Dikkatli bir okuyucu, kameranın orijini olarak konumu ile 3 dikey ünite eksenine sahip bir koordinat sistemi oluşturacağımızı fark edebilir.
+
 <img src="https://learnopengl.com/img/getting-started/camera_axes.png">
 
-1. Camera position
+1. Kamera Konumu
 
-Getting a camera position is easy. The camera position is basically a vector in world space that points to the camera's position. We set the camera at the same position we've set the camera in the previous tutorial:
+Kamera konumu temel olarak dünyadaki kameranın konumuna işaret eden bir vektördür. Kamerayı önceki derste ayarlamış olduğumuz konuma ayarladık:
 
 ```cpp
 glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);  
 ```
+Pozitif z-ekseninin, ekranınızdan kendinize doğru olduğunu unutmayın, bu nedenle kameranın geriye doğru hareket etmesini istiyorsak pozitif z-ekseni boyunca ilerleriz.
 
-Don't forget that the positive z-axis is going through your screen towards you so if we want the camera to move backwards, we move along the positive z-axis.
-2. Camera direction
+2. Kamera Yönü
 
-The next vector required is the camera's direction e.g. at what direction it is pointing at. For now we let the camera point to the origin of our scene: (0,0,0). Remember that if we subtract two vectors from each other we get a vector that's the difference of these two vectors? Subtracting the camera position vector from the scene's origin vector thus results in the direction vector. Since we know that the camera points towards the negative z direction we want the direction vector to point towards the camera's positive z-axis. If we switch the subtraction order around we now get a vector pointing towards the camera's positive z-axis:
+Gerekli olan bir sonraki vektör kameranın yönüdür. Şimdilik kameranın sahnemizin orijinine işaret etmesine izin verdik: (0,0,0). Birbirinden iki vektör çıkarırsak, bu iki vektörün farkı olan bir vektör aldığımızı hatırlayın. Kamera konum vektörünü, sahnenin orijin vektöründen çıkarırsak yön vektörünü elde ederiz. Kameranın negatif z-yönünü işaret ettiğini bildiğimizden, yön vektörünün kameranın pozitif z-eksenine işaret etmesini istiyoruz. Çıkarma sırasını değiştirirsek, şimdi kameranın pozitif z eksenine işaret eden bir vektör elde ediyoruz:
 
 ```cpp
 glm::vec3 cameraTarget = glm::vec3(0.0f, 0.0f, 0.0f);
 glm::vec3 cameraDirection = glm::normalize(cameraPos - cameraTarget);
 ```
+Yön vektörü aslında çok iyi bir isimlendirme değil, çünkü aslında hedeflediğinin tam tersini gösteriyor.
 
-The name direction vector is not the best chosen name, since it is actually pointing in the reverse direction of what it is targeting.
-3. Right axis
-
-The next vector that we need is a right vector that represents the positive x-axis of the camera space. To get the right vector we use a little trick by first specifying an up vector that points upwards (in world space). Then we do a cross product on the up vector and the direction vector from step 2. Since the result of a cross product is a vector perpendicular to both vectors, we will get a vector that points in the positive x-axis's direction (if we would switch the vectors we'd get a vector that points in the negative x-axis):
+3. Sağ Eksen
+İhtiyacımız olan bir sonraki vektör, kamera alanının pozitif x-eksenini temsil eden bir sağ vektördür. Sağ vektörü elde etmek için önce yukarı doğru işaret eden bir yukarı vektör belirtiriz (dünya uzayında). Sonra yukarı vektöre ve adım 2'deki yön vektörüne bir çapraz çarpım uygularız. Bir çapraz çarpım sonucu her iki vektöre dik bir vektör olduğundan, pozitif x-ekseni yönünde işaret eden bir vektör elde ederiz (eğer vektörleri değiş tokuş yaparsak, negatif x-eksenine işaret eden bir vektör elde ederiz):
 
 ```cpp
 glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f); 
 glm::vec3 cameraRight = glm::normalize(glm::cross(up, cameraDirection));
 ```
-4. Up axis
+4. Yukarı Eksen
 
-Now that we have both the x-axis vector and the z-axis vector, retrieving the vector that points in the camera's positive y-axis is relatively easy: we take the cross product of the right and direction vector:
+Artık hem x-ekseni vektörüne hem de z-ekseni vektörüne sahip olduğumuza göre, kameranın pozitif y-eksenine işaret eden vektörü elde etmek oldukça kolaydır: doğru ve yön vektörünün çapraz çarpımını alırız:
 
 ```cpp
 glm::vec3 cameraUp = glm::cross(cameraDirection, cameraRight);
 ```
 With the help of the cross product and a few tricks we were able to create all the vectors that form the view/camera space. For the more mathematically inclined readers, this process is known as the Gram-Schmidt process in linear algebra. Using these camera vectors we can now create a LookAt matrix that proves very useful for creating a camera.
-Look At
+
+Çapraz çarpım ve birkaç püf nokta yardımıyla Görünüm/ Kamera uzayını oluşturan tüm vektörleri elde ettik. Daha matematiksel eğilimli okuyucular için ifade edecek olursak, bu işlem doğrusal cebirdeki Gram-Schmidt işlemi olarak bilinir. Bu kamera vektörlerini kullanarak artık kamera oluşturmak için çok faydalı olduğunu kanıtlayan bir LookAt matrisi oluşturabiliriz.
+
+## Look At
 
 A great thing about matrices is that if you define a coordinate space using 3 perpendicular (or non-linear) axes you can create a matrix with those 3 axes plus a translation vector and you can transform any vector to that coordinate space by multiplying it with this matrix. This is exactly what the LookAt matrix does and now that we have 3 perpendiclar axes and a position vector to define the camera space we can create our own LookAt matrix: 
 
