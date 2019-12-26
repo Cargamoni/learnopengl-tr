@@ -46,8 +46,8 @@ Bu eğitseller, daha önceki derslerde tartışıldığı gibi çok sayıda kavr
 Ayrıca, bazı eğitsellerde kavramlar (örneğin Gelişmiş OpenGL bölümünden Framebuffers) gerekli olacaktır. Bu nedenle gerektiğinde bu eğitseller listelenir.
 
 > LearnOpenGL'de son yıllarda birkaç kod geliştirmesine sahip olduğunu, ancak hepsinin 2D Breakout koduna entegre olmadığını unutmayın. Dikkat edilmesi gereken iki nokta vardır:
-1. Breakout, GLAD yerine GLEW kullanır. Her ikisi de aynı şeyi yapar, bu yüzden Breakout kodu için GLAD kullanımında hiçbir sorun yoktur.
-2. Breakout, matrislerin varsayılan olarak Identity matrisi ile  başlatıldığı eski bir GLM sürümünü kullanır. Daha sonraki sürümlerde bu artık geçerli değildir ve varsayılan olarak sonraki tüm matris işlemlerini null matrisi başlatır. Bunu düzeltmek için glm :: mat4 matrix = glm :: mat4 (1.0f); kullanarak tüm GLM matrislerini başlatın.
+> 1. Breakout, GLAD yerine GLEW kullanır. Her ikisi de aynı şeyi yapar, bu yüzden Breakout kodu için GLAD kullanımında hiçbir sorun yoktur.
+> 2. Breakout, matrislerin varsayılan olarak Identity matrisi ile  başlatıldığı eski bir GLM sürümünü kullanır. Daha sonraki sürümlerde bu artık geçerli değildir ve varsayılan olarak sonraki tüm matris işlemlerini null matrisi başlatır. Bunu düzeltmek için glm :: mat4 matrix = glm :: mat4 (1.0f); kullanarak tüm GLM matrislerini başlatın.
 
 
 Hazır olduğunuzu düşünüyorsanız bir [sonraki](https://cg-translators.github.io/learnopengl-tr/in_practice/2d_game/setting_up.html) eğitsele geçiniz.
