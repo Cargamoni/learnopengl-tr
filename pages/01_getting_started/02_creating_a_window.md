@@ -143,8 +143,8 @@ Derleme düğmesine basmak size herhangi bir hata vermemelidir, bu noktada bir O
 * [Code::Blocks ile GLFW](http://wiki.codeblocks.org/index.php?title=Using_GLFW_with_Code::Blocks): Code::Blocks IDE üzerinde GLFW derlemek.
 * [CMake ile çalışmak](https://cmake.org/runningcmake/): CMake'in hem Windows hem de Linux'ta nasıl çalıştırılacağına kısa bir bakış.
 * [Linux üzerinde bir derleme sistemi yazmak](https://learnopengl.com/demo/autotools_tutorial.txt): Wouter Verholst'tan Linux'ta bir derleme sisteminin nasıl yazılacağı üzerine bir autotools eğitimi, özellikle bu eğitimleri hedefliyor.
-* [Polytonic/Glitter](https://github.com/Polytonic/Glitter): a simple boilerplate project that comes pre-configured with all relevant libraries; great for if you want a sample project for the LearnOpenGL tutorials without the hassle of having to compile all the libraries yourself.
+* [Polytonic/Glitter](https://github.com/Polytonic/Glitter): tüm ilgili kütüphanelerle önceden yapılandırılmış olarak gelen basit bir iskelet projesi; tüm kütüphaneleri kendiniz derlemek zorunda kalmadan LearnOpenGL eğitimleri için örnek bir proje istiyorsanız harika.
 
-tüm ilgili kütüphanelerle önceden yapılandırılmış olarak gelen basit bir iskelet projesi; tüm kütüphaneleri kendiniz derlemek zorunda kalmadan LearnOpenGL eğitimleri için örnek bir proje istiyorsanız harika.
+
 
 Çeviri: [Nezihe Sözen](https://github.com/NeziheSozen), [Barış Çelik](https://github.com/bariscelik)
