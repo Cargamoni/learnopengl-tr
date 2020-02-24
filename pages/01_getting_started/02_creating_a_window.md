@@ -122,29 +122,29 @@ Gördüğünüz gibi, kod karmaşık görünüyor ve henüz deklare edilmemiş, 
 
 ### GLAD'ın Ayarlanması
 
-GLAD is an open source library that manages all that cumbersome work we talked about. GLAD has a slightly different configuration setup than most common open source libraries. GLAD uses a web service where we can tell GLAD for which version of OpenGL we'd like to define and load all relevant OpenGL functions according to that version.
+GLAD, konuştuğumuz tüm bu hantal işleri yöneten açık kaynaklı bir kütüphanedir. GLAD, yaygın açık kaynaklı kütüphanelerden biraz farklı bir yapılandırma kurulumuna sahiptir. GLAD, OpenGL'in kullanacağımız sürümü için ilgili tüm OpenGL işlevlerini bu sürüme göre tanımlamak ve yüklemek istediğimizi söyleyebileceğimiz bir web hizmeti kullanır.
 
-GLAD, konuştuğumuz tüm bu hantal işleri yöneten açık kaynaklı bir kütüphanedir. GLAD, yaygın açık kaynaklı kütüphanelerden biraz farklı olarak bir yapılandırma kurulumuna sahiptir. GLAD, OpenGL'in kullanacağımız sürümü için ilgili tüm OpenGL işlevlerini bu sürüme göre tanımlamak ve yüklemek istediğimizi söyleyebileceğimiz bir Web hizmeti kullanır.
+Web hizmetine gidin, dilin C++ seçili olduğundan ve API bölümünde en azından 3.3 sürümünü (eğitimler boyunca bu sürümü kullanacağız, üst sürümler de olabilir) seçtiğinizden emin olun. Profil seçeneğini Core olarak seçtiğinizden ve "Generate a loader" seçeneğinin işaretli olduğundan da emin olun. (Şimdilik) Eklentileri yoksayın ve kütüphane dosyalarını üretmek için "Generate" butonuna basın.
 
-Go to the web service, make sure the language is set to C++ and in the API section, select an OpenGL version of at least 3.3 (which is what we'll be using for these tutorials; higher versions are fine as well). Also make sure the profile is set to Core and that the Generate a loader option is ticked. Ignore the extensions (for now) and click Generate to produce the resulting library files.
+GLAD, size içinde iki include klasörü ve bir glad.c dosyası olan bir zip dosyası sağlayacaktır. İki include klasörünü (glad ve KHR) de include dizininize kopyalayın (ya da bu klasörleri işaret eden ekstra bir eleman ekleyin) ve glad.c dosyasını projenize ekleyin.
 
-GLAD by now should have provided you a zip file containing two include folders, and a single glad.c file. Copy both include folders (glad and KHR) into your include(s) directoy (or add an extra item pointing to these folders), and add the glad.c file to your project.
-
-After the previous steps, you should be able to add the following include directive above your file:
+Yukarıdaki adımlardan sonra dosyanızın üzerine aşağıdaki include yönergesini ekleyebilmeniz gerekir:
 
 ```cpp
 #include <glad/glad.h>
 ```
- 
 
-Hitting the compile button shouldn't give you any errors, at which point we're set to go for the next tutorial where we'll discuss how we can actually use GLFW and GLAD to configure an OpenGL context and spawn a window. Be sure to check that all your include and library directories are correct and that the library names in the linker settings match with the corresponding libraries. If you're still stuck, check the comments, check any of the additional resources or ask your question below.
+Derleme düğmesine basmak size herhangi bir hata vermemelidir, bu noktada bir OpenGL içeriğini yapılandırmak ve bir pencere oluşturmak için GLFW ve GLAD'i nasıl kullanabileceğimizi tartışacağımız bir sonraki eğitime geçeceğiz. Tüm include ve kütüphane dizinlerinizin doğru olduğundan ve linker ayarlarındaki kitaplık adlarının ilgili kitaplıklarla eşleştiğinden emin olun. Hala takılmışsanız, yorumları inceleyin,ek kaynaklardan herhangi birini kontrol edin veya aşağıdan sorunuzu sorun.
+
 
 ### Ek Kaynaklar
-* [GLFW: Window Guide](https://www.glfw.org/docs/latest/window_guide.html): official GLFW guide on setting up and configuring a GLFW window.
-* [Building applications](http://www.opengl-tutorial.org/miscellaneous/building-your-own-c-application/): provides great info about the compilation/linking process of your application and a large list of possible errors (plus solutions) that might come up.
-* [GLFW with Code::Blocks](http://wiki.codeblocks.org/index.php?title=Using_GLFW_with_Code::Blocks): building GLFW in Code::Blocks IDE.
-* [Running CMake](https://cmake.org/runningcmake/): short overview of how to run CMake on both Windows and Linux.
-* [Writing a build system under Linux](https://learnopengl.com/demo/autotools_tutorial.txt): an autotools tutorial by Wouter Verholst on how to write a build system in Linux, specifically targeted for these tutorials.
+* [GLFW: Pencere Rehberi](https://www.glfw.org/docs/latest/window_guide.html): Bir GLFW penceresini oluşturmak ve yapılandırmak üzerine resmi GLFW rehberi.
+* [Uygulama derlemek](http://www.opengl-tutorial.org/miscellaneous/building-your-own-c-application/): uygulamanızın derleme/linkleme süreci ve ortaya çıkabilecek olası hataların geniş bir listesi (çözümleriyle) hakkında önemli bilgiler sağlar.
+* [Code::Blocks ile GLFW](http://wiki.codeblocks.org/index.php?title=Using_GLFW_with_Code::Blocks): Code::Blocks IDE üzerinde GLFW derlemek.
+* [CMake ile çalışmak](https://cmake.org/runningcmake/): CMake'in hem Windows hem de Linux'ta nasıl çalıştırılacağına kısa bir bakış.
+* [Linux üzerinde bir derleme sistemi yazmak](https://learnopengl.com/demo/autotools_tutorial.txt): Wouter Verholst'tan Linux'ta bir derleme sisteminin nasıl yazılacağı üzerine bir autotools eğitimi, özellikle bu eğitimleri hedefliyor.
 * [Polytonic/Glitter](https://github.com/Polytonic/Glitter): a simple boilerplate project that comes pre-configured with all relevant libraries; great for if you want a sample project for the LearnOpenGL tutorials without the hassle of having to compile all the libraries yourself.
 
-Çeviri: [Nezihe Sözen](https://github.com/NeziheSozen)
+tüm ilgili kütüphanelerle önceden yapılandırılmış olarak gelen basit bir iskelet projesi; tüm kütüphaneleri kendiniz derlemek zorunda kalmadan LearnOpenGL eğitimleri için örnek bir proje istiyorsanız harika.
+
+Çeviri: [Nezihe Sözen](https://github.com/NeziheSozen), [Barış Çelik](https://github.com/bariscelik)
